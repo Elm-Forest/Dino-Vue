@@ -4,16 +4,14 @@ import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
-    baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+    baseURL: 'http://127.0.0.1:8080', // url = base url + request url
     timeout: 5000 // request timeout
 })
 
 // request interceptor
-service.interceptors.request.use(
-    config => {
+service.interceptors.request.use(config => {
         // do something before request is sent
         let token = sessionStorage.getItem('token')
-
         if (token !== null || token !== '') {
             config.headers['token'] = token
         }
@@ -41,9 +39,11 @@ service.interceptors.response.use(
     response => {
         let res = response.data
         // 如果是返回的文件
-        if (response.config.responseType === 'blob') {
+        if (res.data.code !== 99000) {
+            console.log(666)
             return res
         }
+        this.$router.push('/admin');
         return res
     },
     error => {

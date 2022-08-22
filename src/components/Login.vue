@@ -76,9 +76,9 @@ export default {
     // 登录预验证
     login() {
       this.$refs.loginFormRef.validate((valid) => {
-        axios({
+        this.$axios({
           method: 'post',
-          url: axios.defaults.baseURL + '/login',
+          url: '/login',
           params: {
             'username': this.loginForm.username,
             'password': this.loginForm.password,
