@@ -417,17 +417,63 @@ export default {
         submitForm() {
             console.log("提交成功");
             this.handleClose();
+			this.setHoilDay();
         },
         //提交签到表单
         submitForm2() {
             console.log("提交成功");
             this.handleClose2();
+			this.signIn();
         },
         //提交签退表单
         submitForm3() {
             console.log("提交成功");
             this.handleClose3();
+			this.signOut();
         }
+		signIn(){
+			//用户签到
+			this.$axios({
+			    method: 'post',
+			    url: '/check/sign_in',
+			}).then(function (response) {
+				setToken(response.data.data);
+			    console.log(JSON.stringify(response.data));
+			}).catch(function (error) {
+			    console.log(localStorage.getItem('token'))
+			    console.log(error);
+			});
+		}
+		signOut(){
+			//用户签退
+			this.$axios({
+			    method: 'post',
+			    url: '/check/sign_out',
+			}).then(function (response) {
+				setToken(response.data.data);
+			    console.log(JSON.stringify(response.data));
+			}).catch(function (error) {
+			    console.log(localStorage.getItem('token'))
+			    console.log(error);
+			});
+		}
+		setHoilDay(){
+			//管理员设置用户假期时间
+			this.$axios({
+			    method: 'put',
+			    url: '/check/set_hoilday',
+				params: {
+					'beginTime':'Mon Aug 22 08:30:00 CST 2022',
+				    'endTime': 'Mon Aug 22 17:30:00 CST 2022'
+				},
+			}).then(function (response) {
+				setToken(response.data.data);
+			    console.log(JSON.stringify(response.data));
+			}).catch(function (error) {
+			    console.log(localStorage.getItem('token'))
+			    console.log(error);
+			});
+		}
     }
 }
 </script>

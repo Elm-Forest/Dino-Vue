@@ -699,9 +699,26 @@ export default {
                     this.tableData[i].status = this.newStatus;
                 }
             }
+			this.setHoilday();
             this.editHandleClose();
             console.log("");
         },
+		setHoilday(){
+		//管理员为指定用户授予放假权限
+		this.$axios({
+		    method: 'put',
+		    url: '/check/set_holidayById',
+			params: {
+				'userId':'1'
+			},
+		}).then(function (response) {
+			setToken(response.data.data);
+		    console.log(JSON.stringify(response.data));
+		}).catch(function (error) {
+		    console.log(localStorage.getItem('token'))
+		    console.log(error);
+		});
+		}
         //当打卡时间变化时，触发的事件
         handlePatchTime(item) {
            console.log(item);

@@ -107,7 +107,7 @@ import axios from "axios";
             },
             getScheduleList() 
             {
-                axios({
+                this.$axios({
                 method: 'get',
                 url: '/schedule/see_friends',
                 data: {
@@ -118,7 +118,7 @@ import axios from "axios";
               });
             },
             selectSchedule(){
-              axios({
+              this.$axios({
                 method: 'get',
                 url: '/schedule/see_friends',
                 data: {
