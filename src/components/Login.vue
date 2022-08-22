@@ -78,7 +78,7 @@ export default {
       this.$refs.loginFormRef.validate((valid) => {
         axios({
           method: 'post',
-          url: self.defaults.baseURL+'/login',
+          url: axios.defaults.baseURL + '/login',
           params: {
             'username': this.loginForm.username,
             'password': this.loginForm.password,
