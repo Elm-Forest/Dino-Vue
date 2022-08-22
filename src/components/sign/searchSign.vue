@@ -835,6 +835,35 @@ export default {
        handleCurrentChange() {
            console.log("跳转页数");
        }
+	   showAll(){
+		   //管理员查询所有用户考勤情况
+		   this.$axios({
+		       method: 'get',
+		       url: '/check/statistics',
+		   }).then(function (response) {
+		   	setToken(response.data.data);
+		       console.log(JSON.stringify(response.data));
+		   }).catch(function (error) {
+		       console.log(localStorage.getItem('token'))
+		       console.log(error);
+		   });
+	   }
+	   showOne(){
+		   //管理员根据userId查询考勤情况
+		   this.$axios({
+		       method: 'get',
+		       url: '/check/statistics',
+		   	params: {
+		   	    'userId': '1'
+		   	},
+		   }).then(function (response) {
+		   	setToken(response.data.data);
+		       console.log(JSON.stringify(response.data));
+		   }).catch(function (error) {
+		       console.log(localStorage.getItem('token'))
+		       console.log(error);
+		   });
+	   }
     }
 }
 </script>

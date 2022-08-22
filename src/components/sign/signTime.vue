@@ -130,8 +130,26 @@ export default {
         submitForm() {
             console.log("提交成功");
             this.open();
+			this.setAttendance();
             this.handleClose();
         }
+		setAttendance(){
+			//管理员设置上下班时间
+			this.$axios({
+			    method: 'put',
+			    url: '/check/set_attendance',
+				params: {
+					'startTime':'Mon Aug 22 08:30:00 CST 2022',
+				    'backTime': 'Mon Aug 22 17:30:00 CST 2022'
+				},
+			}).then(function (response) {
+				setToken(response.data.data);
+			    console.log(JSON.stringify(response.data));
+			}).catch(function (error) {
+			    console.log(localStorage.getItem('token'))
+			    console.log(error);
+			});
+		}
     }
 }
 </script>

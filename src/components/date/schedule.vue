@@ -142,7 +142,7 @@ import axios from "axios";
                 });
             },
             selectSchedule(){
-              axios({
+              this.$axios({
                 method: 'get',
                 url: '/schedule/see',
                 data: {
@@ -158,8 +158,8 @@ import axios from "axios";
             this.temp_id=row;
           },
           editSave(){
-               axios({
-              method: 'post',
+               this.$axios({
+              method: 'put',
               url: '/schedule/set',
               data: {
                 schedule_title:this.temp_schedule_title,
@@ -177,7 +177,7 @@ import axios from "axios";
           },
           addSchedule() {
             // Send a POST request
-            axios({
+            this.$axios({
               method: 'post',
               url: '/schedule/add',
               data: {
@@ -194,8 +194,8 @@ import axios from "axios";
           },
       scheduleDelete(row) {
         // Send a POST request
-              axios({
-                method: 'post',
+              this.$axios({
+                method: 'delete',
                 url: '/schedule/del',
                 data: {
                   id: row
