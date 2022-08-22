@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {MessageBox, Message} from 'element-ui'
-import router from '@/router'
+import router from '../router/index'
 
 // create an axios instance
 const service = axios.create({
@@ -39,11 +39,11 @@ service.interceptors.response.use(
      */
     response => {
         let res = response.data;
-        // 如果是返回的文件
         if (res.code !== 99000) {
             console.log(res.code)
             return res
         }
+        router.push('/register')
         return res
     },
     error => {
