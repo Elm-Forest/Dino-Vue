@@ -718,7 +718,7 @@ export default {
 		    console.log(localStorage.getItem('token'))
 		    console.log(error);
 		});
-		}
+		},
         //当打卡时间变化时，触发的事件
         handlePatchTime(item) {
            console.log(item);

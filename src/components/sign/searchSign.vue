@@ -834,7 +834,7 @@ export default {
        },
        handleCurrentChange() {
            console.log("跳转页数");
-       }
+       },
 	   showAll(){
 		   //管理员查询所有用户考勤情况
 		   this.$axios({
@@ -847,7 +847,7 @@ export default {
 		       console.log(localStorage.getItem('token'))
 		       console.log(error);
 		   });
-	   }
+	   },
 	   showOne(){
 		   //管理员根据userId查询考勤情况
 		   this.$axios({
