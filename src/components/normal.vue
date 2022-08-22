@@ -1,0 +1,235 @@
+<template>
+    <el-container class="home-container">
+        <!-- 头部 -->
+        <el-header style="height:90px">
+            <div>
+                <span id="title">OA自动化办公系统</span>
+            </div>
+            <div class="news">
+                <el-button type="primary" icon="el-icon-bell" size="mini" @click="shownews()">查看消息</el-button>
+                <el-button type="info" @click="logout">退出</el-button>
+            </div> 
+        </el-header>
+        <!-- 主体 -->
+        <el-container>
+            <!-- 侧边栏 -->
+            <el-aside width="200px">
+                <!-- 侧边栏菜单区域 -->
+                <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+                    <!-- 1.文档管理平台 -->
+                    <el-submenu index="1">
+                        <template slot="title">
+                        <i class="el-icon-document"></i>
+                        <span>文档管理平台</span>
+                        </template>
+                        <el-menu-item index="1-1">
+                            <i class="el-icon-folder-add"></i>
+                            <span @click="newFile">新建文档</span> 
+                        </el-menu-item>
+                        <el-menu-item index="1-2">
+                            <i class="el-icon-search"></i>
+                            <span @click="selectFile">查询文档</span>
+                        </el-menu-item>
+                        <el-menu-item index="1-3">
+                            <i class="el-icon-delete"></i>
+                            <span @click="recycle">回收站</span>
+                        </el-menu-item>
+                        <el-menu-item index="1-4">
+                            <i class="el-icon-s-order"></i>
+                            <span @click="record">文档日志</span>
+                        </el-menu-item>
+                    </el-submenu>
+                    <!-- 2.消息管理平台 -->
+                    <el-submenu index="2">
+                        <template slot="title">
+                        <i class="el-icon-chat-dot-square"></i>
+                        <span>消息管理平台</span>
+                        </template>
+                        <el-menu-item index="2-1">
+                            <i class="el-icon-right"></i>
+                            <span @click="add">发送邮件</span> 
+                        </el-menu-item>
+                        <el-menu-item index="2-2">
+                            <i class="el-icon-edit-outline"></i>
+                            <span @click="fjx">发件箱</span>
+                        </el-menu-item>
+                        <el-menu-item index="2-3">
+                            <i class="el-icon-chat-dot-square"></i>
+                            <span @click="sjx">收件箱</span>
+                        </el-menu-item>
+                        <el-menu-item index="2-4">
+                            <i class="el-icon-edit"></i>
+                            <span @click="cgx">草稿箱</span>
+                        </el-menu-item>
+                        <el-menu-item index="2-5">
+                            <i class="el-icon-delete"></i>
+                            <span @click="ljx">垃圾箱</span>
+                        </el-menu-item>
+                        <el-menu-item index="2-6">
+                            <i class="el-icon-user"></i>
+                            <span @click="bindMailbox">邮箱账户</span>
+                        </el-menu-item>
+                    </el-submenu>
+                    <!-- 3.考勤管理平台 -->
+                    <el-submenu index="3">
+                        <template slot="title">
+                        <i class="el-icon-circle-check"></i>
+                        <span>考勤管理平台</span>
+                        </template>        
+                        <el-menu-item index="3-1">
+                            <i class="el-icon-check"></i>
+                            <span @click="signIn">签到/签退</span> 
+                        </el-menu-item>  
+                        <el-menu-item index="3-2">
+                            <i class="el-icon-circle-check"></i>
+                            <span @click="addSign">补签申请</span> 
+                        </el-menu-item>            
+                    </el-submenu>
+
+                    <!-- 4.日程管理平台 -->
+                    <el-submenu index="4">
+                        <template slot="title">
+                        <i class="el-icon-date"></i>
+                        <span>日程管理平台</span>
+                        </template>        
+                        <el-menu-item index="4-1">
+                            <i class="el-icon-user"></i>
+                            <span @click="schedule">我的日程</span> 
+                        </el-menu-item>  
+                        <el-menu-item index="4-2">
+                            <i class="el-icon-user-solid"></i>
+                            <span @click="friendsSchedule">联系人日程</span> 
+                        </el-menu-item>
+                        <el-menu-item index="4-3">
+                            <i class="el-icon-more"></i>
+                            <span @click="deptSchedule">部门日程</span> 
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <!-- 右侧内容主体 -->
+            <el-main>
+                <router-view></router-view>
+            </el-main>
+        </el-container>
+    </el-container>
+</template>
+
+<script>
+export default{
+    // created(){
+    //     this.getMenuList()
+    // },
+    methods:{
+        // 返回登录界面
+        logout(){
+            //window.sessionStorage.clear()
+            this.$router.push('/login');
+        },
+        // 查看消息按钮
+        shownews() {
+            this.$router.push("/message/sjx");
+        },
+        // 新建文档界面
+        newFile(){
+            this.$router.push('/File/newFile');
+        },
+        // 查询文档界面
+        selectFile(){
+            this.$router.push('/File/selectFile');
+        },
+        // 文件回收站界面
+        recycle(){
+            this.$router.push('/File/recycle');
+        },
+        // 文档日志界面
+        record(){
+            this.$router.push('/File/record');
+        },
+        // 发送邮件界面
+        add(){
+            this.$router.push('/message/add');
+        },
+        // 发件箱界面
+        fjx(){
+            this.$router.push('/message/fjx');
+        },
+        // 收件箱界面
+        sjx(){
+            this.$router.push('/message/sjx');
+        },
+        // 草稿箱界面
+        cgx(){
+            this.$router.push('/message/cgx');
+        },
+        // 垃圾箱界面
+        ljx(){
+            this.$router.push('/message/ljx');
+        },
+        // 邮箱账户界面
+        bindMailbox(){
+            this.$router.push('/message/bindMailbox');
+        },
+        // 签到签退界面
+        signIn(){
+            this.$router.push('/sign/signIn');
+        },
+        // 补签申请界面
+        addSign(){
+            this.$router.push('/sign/addSign');
+        },
+        // 我的日程界面
+        schedule(){
+            this.$router.push('/date/schedule');
+        },
+        // 联系人日程界面
+        friendsSchedule(){
+            this.$router.push('/date/friendsSchedule');
+        },
+        // 部门日程界面
+        deptSchedule(){
+            this.$router.push('/date/deptSchedule');
+        }
+        // 获取所有的菜单
+        // getMenuList(){
+        //     this.$http.get('menus');
+        // }
+    }
+};
+</script>
+
+<style scoped>
+.home-container{
+    height: 100%;
+}
+.el-header{
+    background-image: url(../images/background.png);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#title{
+    color: aliceblue;
+    font-size: 45px;
+    position: absolute;
+    top: 14px;
+    left: 40px;
+}
+.el-aside{
+    background-color: #545c64;
+}
+.el-main{
+    background-color: white;
+}
+#logo{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    line-height: 90px;
+    position: absolute;
+    top: 4px;
+}
+.news {
+  float: right;
+}
+</style>
