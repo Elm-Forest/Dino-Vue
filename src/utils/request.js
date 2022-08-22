@@ -11,10 +11,11 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(config => {
         // do something before request is sent
-        let token = sessionStorage.getItem('token')
+        let token = localStorage.getItem('token')
         if (token !== null || token !== '') {
             config.headers['token'] = token
         }
+        console.log('token', token);
         return config
     },
     error => {
@@ -37,13 +38,12 @@ service.interceptors.response.use(
      * You can also judge the status by HTTP Status Code
      */
     response => {
-        let res = response.data
+        let res = response.data;
         // 如果是返回的文件
-        if (res.data.code !== 99000) {
-            console.log(666)
+        if (res.code !== 99000) {
+            console.log(res.code)
             return res
         }
-        this.$router.push('/admin');
         return res
     },
     error => {

@@ -76,6 +76,7 @@ export default {
     // 登录预验证
     login() {
       this.$refs.loginFormRef.validate((valid) => {
+        var this_vue = this;
         this.$axios({
           method: 'post',
           url: '/login',
@@ -84,21 +85,30 @@ export default {
             'password': this.loginForm.password,
           }
         }).then(function (response) {
-          setToken(response.data.data);
-          console.log(JSON.stringify(response.data));
+          if (response.flag === false) {
+            this_vue.$router.push('/login');
+          } else {
+            localStorage.setItem('token', response.data);
+            this_vue.$axios({
+              method: 'get',
+              url: '/user/entry',
+            }).then(function (response) {
+              if (response.data.status === 1) {
+                if (response.data.rights === 1) {
+                  this_vue.$router.push('/normal');
+                }
+                if (response.data.rights >= 2) {
+                  this_vue.$router.push('/admin');
+                }
+              }
+              console.log(JSON.stringify(response.data));
+            }).catch(function (error) {
+              console.log(error);
+            });
+          }
         }).catch(function (error) {
-          console.log(localStorage.getItem('token'))
           console.log(error);
         });
-        // CEO界面
-        // 部门管理员界面
-        if (this.loginForm.username === 'admin' && this.loginForm.password === '123456') {
-          this.$router.push('/admin');
-        }
-        // 普通成员界面
-        else {
-          this.$router.push('/normal');
-        }
       });
     },
     // 跳转注册

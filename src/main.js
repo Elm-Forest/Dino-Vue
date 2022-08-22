@@ -9,8 +9,6 @@ import './plugins/element.js'
 import './utils/tokenUtils.js'
 import './utils/request.js'
 import axios from './utils/request'
-axios.defaults.baseURL = 'http://127.0.0.1:8080'
-//Vue.prototype.$http = axios
 Vue.prototype.$axios=axios
 Vue.use(ElementUI)
 
