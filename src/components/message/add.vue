@@ -59,6 +59,7 @@ export default {
 
     };
   },
+
   computed: {},
   //监控data中的数据变化
   watch: {},
@@ -97,6 +98,11 @@ export default {
   created() { },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
+    this.$axios.get('/message/mail/account/check').then(response => {
+      if (response.data != null) {
+        this.$store.commit('SET_SHOW');
+      }
+    })
     this.show = this.$store.state.bindMailbox
   },
   beforeCreate() { }, //生命周期 - 创建之前

@@ -69,6 +69,7 @@ export default {
         if (response.flag) {
           this_vue.$store.commit('SET_SHOW');
           alert('邮箱绑定成功')
+
         } else {
           alert(response.message)
           console.log(JSON.stringify(response.data));
@@ -88,6 +89,7 @@ export default {
           'type': this.getType(this.mailAccountForm.email)
         }
       }).then(function (response) {
+
         console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(localStorage.getItem('token'))

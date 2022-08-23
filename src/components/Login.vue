@@ -96,10 +96,30 @@ export default {
               if (response.data.status === 1) {
                 if (response.data.rights === 1) {
                   this_vue.$router.push('/normal');
+                  this_vue.$message({
+                    message: '欢迎您，部门员工',
+                    type: 'success'
+                  });
                 }
                 if (response.data.rights >= 2) {
                   this_vue.$router.push('/admin');
+                  this_vue.$message({
+                    message: '欢迎您，部门管理员',
+                    type: 'success'
+                  });
                 }
+              } else if (response.data.status === 0) {
+                this_vue.$router.push('/dept');
+                this_vue.$message({
+                  message: '您尚未加入企业',
+                  type: 'warning'
+                })
+              }else if(response.data.status===2){
+                this_vue.$router.push('/dept');
+                this_vue.$message({
+                  message: '您已离职',
+                  type: 'warning'
+                })
               }
               console.log(JSON.stringify(response.data));
             }).catch(function (error) {

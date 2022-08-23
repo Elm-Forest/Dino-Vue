@@ -84,7 +84,7 @@ export default {
         ],
         yzcode: [
           {required: true, message: '请输入邮箱验证码', trigger: 'blur'},
-          {min: 4, max: 4, message: '长度应为 4 个字符', trigger: 'blur'}
+          {min: 6, max: 6, message: '长度应为 6 个字符', trigger: 'blur'}
         ],
         password: [
           {required: true, message: '请输入密码', trigger: 'blur'},
@@ -117,6 +117,7 @@ export default {
       });
     },
     register() {
+      var this_vue = this;
       this.$axios({
         method: 'post',
         url: '/register',
@@ -127,6 +128,18 @@ export default {
           'code': this.registerForm.yzcode,
         }
       }).then(function (response) {
+        if (response.flag) {
+          this_vue.$router.push({path: '/login'})
+          this_vue.$message({
+            message: response.message,
+            type: 'success'
+          });
+        } else {
+          this_vue.$message({
+            message: response.message,
+            type: 'warning'
+          });
+        }
         console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(localStorage.getItem('token'))

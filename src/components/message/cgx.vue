@@ -20,7 +20,7 @@
       @click="dialogFormVisible = true"
     >新建邮件</el-button> -->
       <el-table v-loading="listLoading" :data="tableData2" element-loading-text="Loading" border fit
-        highlight-current-row>
+                highlight-current-row>
         <el-table-column align="center" label="序号" width="120">
           <template slot-scope="scope">
             {{ scope.$index + 1 }}
@@ -53,7 +53,7 @@
         </el-table-column>
       </el-table>
       <el-pagination small layout="prev, pager, next" :total="tableData.length" :page-size="5"
-        @current-change="changepage">
+                     @current-change="changepage">
       </el-pagination>
       <el-dialog title="编辑" :visible.sync="dialogFormVisible">
         <el-form :model="form">
@@ -65,7 +65,7 @@
           </el-form-item>
           <el-form-item label="内容" :label-width="formLabelWidth">
             <el-input rows="4" v-model="form.description" autocomplete="off" type="textarea" maxlength="200"
-              show-word-limit></el-input>
+                      show-word-limit></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -83,7 +83,6 @@
     </div>
 
   </div>
-
 
 
 </template>
@@ -113,7 +112,7 @@ export default {
           title: "手抓羊肉",
           username: "ccc",
           description:
-            "手抓羊肉是西北地区的传统美味，手抓羊肉有近千年的历史，原来以手抓食用而闻名的。吃法有三种1热吃、2就是切片后上笼蒸热蘸三合油、3冷吃、切片后直接蘸精盐、煎吃，用平底锅煎热，边煎边吃。",
+              "手抓羊肉是西北地区的传统美味，手抓羊肉有近千年的历史，原来以手抓食用而闻名的。吃法有三种1热吃、2就是切片后上笼蒸热蘸三合油、3冷吃、切片后直接蘸精盐、煎吃，用平底锅煎热，边煎边吃。",
           date: 1660191002715,
         },
         {
@@ -138,21 +137,21 @@ export default {
           title: "搓鱼子",
           username: "ccc",
           description:
-            "搓鱼子呢，其实和外地的那个剪刀面有异曲同工之妙，搓鱼子是我们这边儿本地人的叫法，是甘肃张掖特有的面食小吃。不过甘肃这些大多数地方都有，将面粉用盐水和成面团，擀成5厘厚的面片，切成四棱面条，左手拿面条子，右手在面板上将面条子分段搓成一寸长的、两头尖的状态，就叫搓鱼子。因为它的最后造型中间粗、两头尖，酷似小鱼而得到的名字。",
+              "搓鱼子呢，其实和外地的那个剪刀面有异曲同工之妙，搓鱼子是我们这边儿本地人的叫法，是甘肃张掖特有的面食小吃。不过甘肃这些大多数地方都有，将面粉用盐水和成面团，擀成5厘厚的面片，切成四棱面条，左手拿面条子，右手在面板上将面条子分段搓成一寸长的、两头尖的状态，就叫搓鱼子。因为它的最后造型中间粗、两头尖，酷似小鱼而得到的名字。",
           date: 16601719002715,
         },
         {
           title: "藏包子",
           username: "ccc",
           description:
-            "甘南的藏包子是非常具有特色的面食，制作过程和方法都是非常精细，工艺是有自己的独到之处。甘南藏族人民大多都有一手捏制包子皮的高超手艺，可以捏出来大小均匀，薄厚相等，褶子数量一样的包子。藏包子因为体积比较小，一般放置在旺火上蒸制15分钟就可以熟了。用筷子把包子夹入盘内，将蒜泥、醋、酱油、辣子油、混起来的汁子，沾一下吃起来油而不腻，软嫩可口。",
+              "甘南的藏包子是非常具有特色的面食，制作过程和方法都是非常精细，工艺是有自己的独到之处。甘南藏族人民大多都有一手捏制包子皮的高超手艺，可以捏出来大小均匀，薄厚相等，褶子数量一样的包子。藏包子因为体积比较小，一般放置在旺火上蒸制15分钟就可以熟了。用筷子把包子夹入盘内，将蒜泥、醋、酱油、辣子油、混起来的汁子，沾一下吃起来油而不腻，软嫩可口。",
           date: 1660174002715,
         },
         {
           title: "天水浆水面",
           username: "ccc",
           description:
-            "我感觉它跟酸菜面其实有微相似。喜欢吃螺蛳粉的一定会喜欢吃。浆水既可以做饮料，也可以在吃面条时做汤。再加上葱花、香菜调味。更是脍炙人口。所以，兰州、定西、天水、临夏等地的小伙伴们，都喜欢吃浆水面。浆水有清热解暑的功效。在炎热的夏天，喝上一碗浆水，或者吃上一碗浆水面，立即会感到清凉爽快，还能解除疲劳，恢复体力。",
+              "我感觉它跟酸菜面其实有微相似。喜欢吃螺蛳粉的一定会喜欢吃。浆水既可以做饮料，也可以在吃面条时做汤。再加上葱花、香菜调味。更是脍炙人口。所以，兰州、定西、天水、临夏等地的小伙伴们，都喜欢吃浆水面。浆水有清热解暑的功效。在炎热的夏天，喝上一碗浆水，或者吃上一碗浆水面，立即会感到清凉爽快，还能解除疲劳，恢复体力。",
           date: 1660101002715,
         },
         {
@@ -208,14 +207,15 @@ export default {
     save() {
       var _this = this;
       if (
-        this.form.title == "" ||
-        this.form.description == "" ||
-        this.form.username == ""
+          this.form.title == "" ||
+          this.form.description == "" ||
+          this.form.username == ""
       ) {
         _this.$message({
           type: "warning",
           message: "请将内容填写完整",
-          onClose: function () { },
+          onClose: function () {
+          },
         });
         return false;
       } else {
@@ -234,14 +234,15 @@ export default {
     submit() {
       var _this = this;
       if (
-        this.form.title == "" ||
-        this.form.description == "" ||
-        this.form.username == ""
+          this.form.title == "" ||
+          this.form.description == "" ||
+          this.form.username == ""
       ) {
         _this.$message({
           type: "warning",
           message: "请将内容填写完整",
-          onClose: function () { },
+          onClose: function () {
+          },
         });
         return false;
       } else {
@@ -277,34 +278,45 @@ export default {
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() { },
+  created() {
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
+    this.$axios.get('/message/mail/account/check').then(response => {
+      if (response.data != null) {
+        this.$store.commit('SET_SHOW');
+      }
+    })
     // this.tableData2 = this.tableData;
-    let result = this.tableData.filter((ele, i) => {
+    this.tableData2 = this.tableData.filter((ele, i) => {
       return i < 5;
     });
-    this.tableData2 = result;
 
     // 
     this.show = this.$store.state.bindMailbox
 
   },
-  beforeCreate() { }, //生命周期 - 创建之前
-  beforeMount() { }, //生命周期 - 挂载之前
-  beforeUpdate() { }, //生命周期 - 更新之前
-  updated() { }, //生命周期 - 更新之后
-  beforeDestroy() { }, //生命周期 - 销毁之前
-  destroyed() { }, //生命周期 - 销毁完成
-  activated() { }, //如果页面有keep-alive缓存功能，这个函数会触发
+  beforeCreate() {
+  }, //生命周期 - 创建之前
+  beforeMount() {
+  }, //生命周期 - 挂载之前
+  beforeUpdate() {
+  }, //生命周期 - 更新之前
+  updated() {
+  }, //生命周期 - 更新之后
+  beforeDestroy() {
+  }, //生命周期 - 销毁之前
+  destroyed() {
+  }, //生命周期 - 销毁完成
+  activated() {
+  }, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
 
 
-
-// 
+//
 .remind {
   width: 100%;
   height: 100%;

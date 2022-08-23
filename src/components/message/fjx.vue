@@ -93,6 +93,11 @@ export default {
     this.list2 = result;
   },
   mounted() {
+    this.$axios.get('/message/mail/account/check').then(response => {
+      if (response.data != null) {
+        this.$store.commit('SET_SHOW');
+      }
+    })
     this.show = this.$store.state.bindMailbox
   },
   methods: {

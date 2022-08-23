@@ -86,34 +86,36 @@ export default {
       },
     ];
     // _this.list2 = _this.list;
-    let result = this.list.filter((ele, i) => {
+    this.list2 = this.list.filter((ele, i) => {
       return i < 5;
     });
-    this.list2 = result;
   },
   mounted() {
+    this.$axios.get('/message/mail/account/check').then(response => {
+      if (response.data != null) {
+        this.$store.commit('SET_SHOW');
+      }
+    })
     this.show = this.$store.state.bindMailbox
   },
   methods: {
     changepage(index) {
       console.log(index);
-      let result = this.list.filter((ele, i) => {
+      this.list2 = this.list.filter((ele, i) => {
         return i >= 5 * (index - 1) && i < 5 * index;
       });
-      this.list2 = result;
     },
     /* 搜索功能 */
     search() {
       console.log(this.list);
-      var result = this.list.filter((ele) => {
-        return ele.title.indexOf(this.searchtxt) != -1;
+      this.list2 = this.list.filter((ele) => {
+        return ele.title.indexOf(this.searchtxt) !== -1;
       });
-      this.list2 = result;
     },
     /* 查看详情 */
     order(index) {
       console.log(index);
-      this.$router.push({ name: "sjxDetail", params: { id: index } });
+      this.$router.push({name: "sjxDetail", params: {id: index}});
     },
     /* 删除功能 */
     /* id为对象id,index为数组中的索引 */

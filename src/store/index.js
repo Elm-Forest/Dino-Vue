@@ -11,7 +11,7 @@ export default new Vuex.Store({
     getters: {},
     mutations: {
         SET_SHOW(state, item) {
-            state.bindMailbox = !state.bindMailbox;
+            state.bindMailbox = true;
         },
     },
     actions: {},

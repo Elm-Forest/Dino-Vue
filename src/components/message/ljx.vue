@@ -21,7 +21,7 @@
       @click="dialogFormVisible = true"
     >新建邮件</el-button> -->
       <el-table v-loading="listLoading" :data="tableData2" element-loading-text="Loading" border fit
-        highlight-current-row>
+                highlight-current-row>
         <el-table-column align="center" label="序号" width="120">
           <template slot-scope="scope">
             {{ scope.$index + 1 }}
@@ -73,7 +73,7 @@
         </div>
       </el-dialog>
       <el-pagination small layout="prev, pager, next" :total="tableData.length" :page-size="5"
-        @current-change="changepage">
+                     @current-change="changepage">
       </el-pagination>
     </div>
 
@@ -108,7 +108,7 @@ export default {
           title: "手抓羊肉",
           fjr: "111" /* 发件人 */,
           description:
-            "手抓羊肉是西北地区的传统美味，手抓羊肉有近千年的历史，原来以手抓食用而闻名的。吃法有三种1热吃、2就是切片后上笼蒸热蘸三合油、3冷吃、切片后直接蘸精盐、煎吃，用平底锅煎热，边煎边吃。",
+              "手抓羊肉是西北地区的传统美味，手抓羊肉有近千年的历史，原来以手抓食用而闻名的。吃法有三种1热吃、2就是切片后上笼蒸热蘸三合油、3冷吃、切片后直接蘸精盐、煎吃，用平底锅煎热，边煎边吃。",
           date: 1660191002715,
         },
         {
@@ -190,25 +190,37 @@ export default {
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() { },
+  created() {
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    let result = this.tableData.filter((ele, i) => {
+    this.$axios.get('/message/mail/account/check').then(response => {
+      if (response.data != null) {
+        this.$store.commit('SET_SHOW');
+      }
+    })
+    this.tableData2 = this.tableData.filter((ele, i) => {
       return i < 5;
     });
-    this.tableData2 = result;
 
     // 
     this.show = this.$store.state.bindMailbox
 
   },
-  beforeCreate() { }, //生命周期 - 创建之前
-  beforeMount() { }, //生命周期 - 挂载之前
-  beforeUpdate() { }, //生命周期 - 更新之前
-  updated() { }, //生命周期 - 更新之后
-  beforeDestroy() { }, //生命周期 - 销毁之前
-  destroyed() { }, //生命周期 - 销毁完成
-  activated() { }, //如果页面有keep-alive缓存功能，这个函数会触发
+  beforeCreate() {
+  }, //生命周期 - 创建之前
+  beforeMount() {
+  }, //生命周期 - 挂载之前
+  beforeUpdate() {
+  }, //生命周期 - 更新之前
+  updated() {
+  }, //生命周期 - 更新之后
+  beforeDestroy() {
+  }, //生命周期 - 销毁之前
+  destroyed() {
+  }, //生命周期 - 销毁完成
+  activated() {
+  }, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
 <style lang='less' scoped>
