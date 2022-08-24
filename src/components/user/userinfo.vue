@@ -113,13 +113,13 @@ export default {
     },
     post() {
       const this_vue = this;
-      const sex = this.sex;
+      const this_sex = this.sex;
       this.$axios({
         method: 'put',
         url: '/user/userinfo',
         params: {
           'name': this.name,
-          'sex': [{'女': 0, '男': 1}][0].sex,
+          'sex': [{'女': 0, '男': 1}][0].this_sex,
           'phone': this.phone,
           'address': this.address,
         }

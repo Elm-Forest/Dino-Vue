@@ -24,7 +24,7 @@
                       show-password></el-input>
           </el-form-item>
           <el-link id="forgetPWD" @click="retrievePWD">忘记密码</el-link>
-          <el-button type="primary" style="flex: left;" @click="login">立即登录</el-button>
+          <el-button type="primary" @click="login">立即登录</el-button>
         </el-form>
       </el-card>
     </div>
@@ -95,48 +95,51 @@ export default {
               this_vue.$axios({
                 method: 'get',
                 url: '/user/userinfo',
-              }).then(function (response) {
-                if (response.data.name === null || response.data.name === '') {
+              }).then(function (e) {
+                if (e.data.name === null || e.data.name === '') {
                   this_vue.$router.push('/registerInfo');
                   this_vue.$message({
                     message: '您尚未填写资料',
                     type: 'warning'
                   })
                   return;
+                }else {
+                  console.log(666,response.data.status)
+                  if (response.data.status === 1) {
+                    if (response.data.rights === 1) {
+                      this_vue.$router.push('/normal');
+                      this_vue.$message({
+                        message: '欢迎您，部门员工',
+                        type: 'success'
+                      });
+                    }
+                    if (response.data.rights >= 2) {
+                      this_vue.$router.push('/admin');
+                      this_vue.$message({
+                        message: '欢迎您，部门管理员',
+                        type: 'success'
+                      });
+                    }
+                  } else if (response.data.status === 0) {
+                    this_vue.$router.push('/dept');
+                    this_vue.$message({
+                      message: '您尚未加入企业',
+                      type: 'warning'
+                    })
+                  } else if (response.data.status === 2) {
+                    this_vue.$router.push('/dept');
+                    this_vue.$message({
+                      message: '您已离职',
+                      type: 'warning'
+                    })
+                  }
                 }
-                console.log(JSON.stringify(response.data));
+                console.log(JSON.stringify(e.data));
               }).catch(function (error) {
                 console.log(localStorage.getItem('token'))
                 console.log(error);
               });
-              if (response.data.status === 1) {
-                if (response.data.rights === 1) {
-                  this_vue.$router.push('/normal');
-                  this_vue.$message({
-                    message: '欢迎您，部门员工',
-                    type: 'success'
-                  });
-                }
-                if (response.data.rights >= 2) {
-                  this_vue.$router.push('/admin');
-                  this_vue.$message({
-                    message: '欢迎您，部门管理员',
-                    type: 'success'
-                  });
-                }
-              } else if (response.data.status === 0) {
-                this_vue.$router.push('/dept');
-                this_vue.$message({
-                  message: '您尚未加入企业',
-                  type: 'warning'
-                })
-              } else if (response.data.status === 2) {
-                this_vue.$router.push('/dept');
-                this_vue.$message({
-                  message: '您已离职',
-                  type: 'warning'
-                })
-              }
+
               console.log(JSON.stringify(response.data));
             }).catch(function (error) {
               console.log(error);
