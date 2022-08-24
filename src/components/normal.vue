@@ -9,9 +9,9 @@
         <img src="../images/background.jpg" class="el-dropdown-link" @mouseover="showInfo" @mouseleave="hideInfo" alt=""
              id="headImg">
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click="shownews()">查看账户详细信息</el-dropdown-item>
+          <el-dropdown-item @click.native="userinfo">查看账户详细信息</el-dropdown-item>
           <el-dropdown-item
-              @click="logout">退出
+              @click.native="logout">退出
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -148,6 +148,9 @@ export default {
     }
   },
   methods: {
+    userinfo() {
+      this.$router.push('/userinfo');
+    },
     getUserHeadImg() {
       this.$axios({
         method: 'get',
@@ -172,8 +175,21 @@ export default {
     },
     // 返回登录界面
     logout() {
-      //window.sessionStorage.clear()
-      this.$router.push('/login');
+      var this_vue = this
+      this.$axios({
+        method: 'post',
+        url: '/user/logout',
+      }).then(function (response) {
+        localStorage.removeItem('token');
+        this_vue.$router.push('/login');
+        this_vue.$message({
+          message: '您已登出！',
+          type: 'warning'
+        })
+        console.log(JSON.stringify(response.data));
+      }).catch(function (error) {
+        console.log(error);
+      })
     },
     // 查看消息按钮
     shownews() {

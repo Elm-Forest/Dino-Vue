@@ -46,13 +46,14 @@ const routes = [
     {path: '/dept', component: deptRegister},
     {path: '/offer', component: requestOffer},
     {path: '/registerInfo', component: registerInfo},
-    {path: '/userinfo', component: userinfo},
+
     //普通成员界面
     {
         path: '/normal',
         component: normal,
         redirect: '/home',
         children: [
+            {path: '/userinfo', component: userinfo},
             {path: '/home', component: home},
             {path: '/File/newFile', component: newFile},
             {path: '/File/selectFile', component: selectFile},
@@ -80,6 +81,7 @@ const routes = [
         component: admin,
         redirect: '/admin/admUser',
         children: [
+            {path: '/admin/userinfo', component: userinfo},
             {path: '/admin/home', component: home},
             {path: '/admin/newFile', component: newFile},
             {path: '/admin/selectFile', component: selectFile},

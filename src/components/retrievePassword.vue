@@ -150,9 +150,9 @@ export default {
             method: 'post',
             url: '/password/back',
             params: {
-              'email': this.codeForm.email,
+              'email': this.Form.email,
               'code': this.codeForm.code,
-              'password': this.codeForm.password
+              'password': this.passwordForm.password
             },
           }).then(successResponse => {
             console.log(this.codeForm.email)

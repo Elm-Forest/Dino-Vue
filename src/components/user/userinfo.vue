@@ -1,7 +1,15 @@
 <template>
   <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>部门管理平台</el-breadcrumb-item>
+      <el-breadcrumb-item>用户信息</el-breadcrumb-item>
+    </el-breadcrumb>
     <div id="box">
       <el-card class="box-card box-card2">
+        <el-avatar :size="60" src="" id="headBox">
+          <img src="" alt="" id="headImg1" @click="dialogVisible = true"/>
+        </el-avatar>
         <el-form id="form" style="text-align: center;">
           <div class="text item">
             <el-descriptions title="用户资料信息" column="1">
@@ -17,8 +25,34 @@
           </div>
           <el-button type="primary" @click="dialogFormVisible = true">修改</el-button>
         </el-form>
-
       </el-card>
+    </div>
+    <div>
+      <el-dialog
+          title="上传头像"
+          :visible.sync="dialogVisible"
+          width="35%">
+        <el-form :model="form" style="text-align: center;">
+          <el-form-item :label-width="formLabelWidth">
+            <el-upload
+                action="#"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+                :on-change="fileOnChange"
+                :auto-upload="false"
+                name="file">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible2">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+          </el-form-item>
+          <span slot="footer" class="dialog-footer"></span>
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="upload">确 定</el-button>
+        </el-form>
+      </el-dialog>
     </div>
     <div>
       <el-dialog title="收货地址" :visible.sync="dialogFormVisible" width="35%">
@@ -40,14 +74,10 @@
             <el-button type="primary" @click="post">确 定</el-button>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-
-        </div>
       </el-dialog>
     </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -62,7 +92,12 @@ export default {
         resource: '',
         desc: ''
       },
+      fileList: [],
+      files: '',
+      dialogImageUrl: '',
       formLabelWidth: '80px',
+      dialogVisible2: false,
+      dialogVisible: false,
       dialogFormVisible: false,
       name: '',
       sex: '',
@@ -74,10 +109,68 @@ export default {
       roles: ['客服', '财务', '技术', '采购', '运营', 'HR', 'CEO'],
       right: ['企业员工', '部门管理员', '企业负责人']
     };
-  }, mounted() {
+  },
+  mounted: function () {
     this.getUserInfo();
+    this.getUserHeadImg();
+  },
+  created() {
+
   },
   methods: {
+    fileOnChange(file, fileList) {
+      this.fileList = fileList;
+    },
+    handleRemove(file, fileList) {
+      this.fileList = fileList;
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      console.log('handlePictureCardPreview', file.url)
+      this.dialogVisible = true;
+    },
+    handleClose2(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {
+          });
+    },
+    upload() {
+      var data = new FormData();
+      this.fileList.forEach(e => {
+        data.append("file", e.raw);
+      });
+      console.log('ok')
+      const this_vue = this;
+      this.$axios({
+        method: 'post',
+        url: '/user/img',
+        headers: {
+          'token': localStorage.getItem('token'),
+          'Content-type': 'multipart/form-data;charset=utf-8'
+        },
+        data: data
+      }).then(e => {
+        this_vue.dialogImageUrl = e.data
+        this_vue.getUserHeadImg();
+        console.log(data)
+      })
+      this.dialogVisible = false
+    },
+    getUserHeadImg() {
+      this.$axios({
+        method: 'get',
+        url: '/user/img',
+      }).then(function (response) {
+        document.getElementById('headImg1').src = response.data;
+        document.getElementById('headImg').src = response.data;
+        console.log(JSON.stringify(response.data));
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
     handleClose(done) {
       this.$confirm('确认关闭？')
           .then(_ => {
@@ -146,6 +239,33 @@ export default {
 }
 </script>
 <style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
 .text {
   font-size: 14px;
 }

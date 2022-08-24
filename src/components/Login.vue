@@ -102,9 +102,7 @@ export default {
                     message: '您尚未填写资料',
                     type: 'warning'
                   })
-                  return;
                 }else {
-                  console.log(666,response.data.status)
                   if (response.data.status === 1) {
                     if (response.data.rights === 1) {
                       this_vue.$router.push('/normal');
@@ -134,7 +132,6 @@ export default {
                     })
                   }
                 }
-                console.log(JSON.stringify(e.data));
               }).catch(function (error) {
                 console.log(localStorage.getItem('token'))
                 console.log(error);
@@ -207,7 +204,7 @@ export default {
   background: rgb(6, 169, 214);
   border-radius: 0 0 600px 0;
   position: absolute;
-  left: 0%;
+  left: 0;
 }
 
 #goto {
@@ -233,16 +230,8 @@ export default {
 
 #login-title {
   text-align: center;
-  margin-bottom: 0px;
-  margin-top: 0px;
-}
-
-.el-card {
-  width: 373px;
-  height: 260px;
-  /* 设置为透明 */
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 15px;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 #form {
