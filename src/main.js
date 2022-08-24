@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './plugins/element.js'
 import './utils/tokenUtils.js'
 import './utils/request.js'
+import JSONbig from 'json-bigint'
 import axios from './utils/request'
 Vue.prototype.$axios=axios
 Vue.use(ElementUI)

@@ -40,7 +40,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: 'Login',
@@ -93,6 +92,23 @@ export default {
               method: 'get',
               url: '/user/entry',
             }).then(function (response) {
+              this_vue.$axios({
+                method: 'get',
+                url: '/user/userinfo',
+              }).then(function (response) {
+                if (response.data.name === null || response.data.name === '') {
+                  this_vue.$router.push('/registerInfo');
+                  this_vue.$message({
+                    message: '您尚未填写资料',
+                    type: 'warning'
+                  })
+                  return;
+                }
+                console.log(JSON.stringify(response.data));
+              }).catch(function (error) {
+                console.log(localStorage.getItem('token'))
+                console.log(error);
+              });
               if (response.data.status === 1) {
                 if (response.data.rights === 1) {
                   this_vue.$router.push('/normal');
@@ -114,7 +130,7 @@ export default {
                   message: '您尚未加入企业',
                   type: 'warning'
                 })
-              }else if(response.data.status===2){
+              } else if (response.data.status === 2) {
                 this_vue.$router.push('/dept');
                 this_vue.$message({
                   message: '您已离职',

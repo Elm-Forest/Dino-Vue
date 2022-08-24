@@ -1,5 +1,7 @@
 <template>
-<div class="box">
+
+  <div class="box">
+
     <!-- <img src="D:\vscode项目\auto-office\src\images\background3.png" alt=""> -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
@@ -32,7 +34,7 @@ export default{
     width: 70%;
     height: 100%;
     /* margin: 0 auto; */
-    font-family: "楷体";
+    font-family: "微软雅黑 Light",serif;
 }
 .el-breadcrumb{
     margin-bottom: 30px;

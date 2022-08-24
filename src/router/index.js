@@ -32,6 +32,9 @@ import friendsSchedule from '../components/date/friendsSchedule.vue'
 import deptSchedule from '../components/date/deptSchedule.vue'
 import deptRegister from "@/components/deptRegister";
 import requestOffer from "@/components/requestOffer";
+import userinfo from "@/components/user/userinfo";
+import adminOffer from "@/components/dept/adminOffer";
+import registerInfo from "@/components/registerInfo";
 
 Vue.use(Router)
 
@@ -42,6 +45,8 @@ const routes = [
     {path: '/retrievePassword', component: retrievePassword},
     {path: '/dept', component: deptRegister},
     {path: '/offer', component: requestOffer},
+    {path: '/registerInfo', component: registerInfo},
+    {path: '/userinfo', component: userinfo},
     //普通成员界面
     {
         path: '/normal',
@@ -90,6 +95,7 @@ const routes = [
             {path: '/admin/schedule', component: schedule},
             {path: '/admin/friendsSchedule', component: friendsSchedule},
             {path: '/admin/deptSchedule', component: deptSchedule},
+            {path: '/admin/offer', component: adminOffer},
         ]
     }
 ]

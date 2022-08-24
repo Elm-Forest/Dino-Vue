@@ -4,7 +4,7 @@ import router from '../router/index'
 
 // create an axios instance
 const service = axios.create({
-    baseURL: 'http://120.25.3.27', // url = base url + request url
+    baseURL: 'http://127.0.0.1:8080', // url = base url + request url
     timeout: 5000 // request timeout
 })
 

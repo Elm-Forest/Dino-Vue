@@ -6,9 +6,10 @@
         <span id="title">OA自动化办公系统</span>
       </div>
       <el-dropdown>
-        <img src="../images/background.jpg" class="el-dropdown-link" @mouseover="showInfo" @mouseleave="hideInfo">
+        <img src="../images/background.jpg" class="el-dropdown-link" @mouseover="showInfo" @mouseleave="hideInfo" alt=""
+             id="headImg">
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click="shownews()">查看信息</el-dropdown-item>
+          <el-dropdown-item @click="shownews()">查看账户详细信息</el-dropdown-item>
           <el-dropdown-item
               @click="logout">退出
           </el-dropdown-item>
@@ -130,7 +131,34 @@ export default {
       userInfo: false
     }
   },
+  created() {
+    this.getUserHeadImg()
+  },
+  mounted: {
+    function() {
+      this.$axios({
+        method: 'get',
+        url: '/user/img',
+      }).then(function (response) {
+        console.log(JSON.stringify(response.data));
+      }).catch(function (error) {
+        console.log(localStorage.getItem('token'))
+        console.log(error);
+      });
+    }
+  },
   methods: {
+    getUserHeadImg() {
+      this.$axios({
+        method: 'get',
+        url: '/user/img',
+      }).then(function (response) {
+        document.getElementById('headImg').src = response.data;
+        console.log(JSON.stringify(response.data));
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
     hideInfo() {
       setTimeout(() => {
         this.userInfo = false

@@ -144,8 +144,8 @@ export default {
 
 #login-title {
   text-align: center;
-  margin-bottom: 0px;
-  margin-top: 0px;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 .el-card {

@@ -6,10 +6,13 @@
         <span id="title">OA自动化办公系统</span>
       </div>
       <el-dropdown>
-        <img src="../images/background.jpg" class="el-dropdown-link" @mouseover="showInfo" @mouseleave="hideInfo">
+        <img src="../images/background.jpg" class="el-dropdown-link" @mouseover="showInfo" @mouseleave="hideInfo" alt=""
+             id="headImg">
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click="shownews()">查看信息</el-dropdown-item>
-          <el-dropdown-item @click="logout">退出</el-dropdown-item>
+          <el-dropdown-item @click="shownews()">查看账户详细信息</el-dropdown-item>
+          <el-dropdown-item
+              @click="logout">退出
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
@@ -105,7 +108,11 @@
             </el-menu-item>
             <el-menu-item index="5-2">
               <i class="el-icon-office-building"></i>
-              <span @click="company">公司招牌</span>
+              <span @click="offer">offer管理</span>
+            </el-menu-item>
+            <el-menu-item index="5-3">
+              <i class="el-icon-office-building"></i>
+              <span @click="company">企业名片</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -125,10 +132,21 @@ export default {
       userInfo: false
     }
   },
-  // created(){
-  //     this.getMenuList()
-  // },
+  created() {
+    this.getUserHeadImg()
+  },
   methods: {
+    getUserHeadImg() {
+      this.$axios({
+        method: 'get',
+        url: '/user/img',
+      }).then(function (response) {
+        document.getElementById('headImg').src = response.data;
+        console.log(JSON.stringify(response.data));
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
     hideInfo() {
       setTimeout(() => {
         this.userInfo = false
@@ -201,6 +219,9 @@ export default {
     company() {
       this.$router.push('/admin/company');
     },
+    offer() {
+      this.$router.push('/admin/offer');
+    }
     // 获取所有的菜单
     // getMenuList(){
     //     this.$http.get('menus');
@@ -259,9 +280,11 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 :hover {
   cursor: pointer;
 }
+
 .box2 {
   position: absolute;
   bottom: -60px;
@@ -278,6 +301,7 @@ p {
   text-align: center;
   font-size: 12px;
 }
+
 :hover {
   cursor: pointer;
 }
