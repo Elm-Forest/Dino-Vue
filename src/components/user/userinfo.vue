@@ -142,7 +142,6 @@ export default {
       this.fileList.forEach(e => {
         data.append("file", e.raw);
       });
-      console.log('ok')
       const this_vue = this;
       this.$axios({
         method: 'post',

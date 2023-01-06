@@ -80,6 +80,7 @@ export default {
       })
     },
     send() {
+      const this_vue = this;
       this.$axios({
         method: 'post',
         url: '/message/mail/send',
@@ -89,9 +90,16 @@ export default {
           'type': this.getType(this.mailAccountForm.email)
         }
       }).then(function (response) {
-
+        this_vue.$message({
+          message: '发送成功！',
+          type: 'success'
+        });
         console.log(JSON.stringify(response.data));
       }).catch(function (error) {
+        this_vue.$message({
+          message: '发送失败！',
+          type: 'error'
+        });
         console.log(localStorage.getItem('token'))
         console.log(error);
       })

@@ -8,7 +8,7 @@
         <h3>加入我们</h3>
         <h5>加入我们，成为本站的一份子。</h5>
       </div>
-      <el-button round id="myButton" @click="gotolo">去注册</el-button>
+      <el-button round id="myButton" @click="toRegister">去注册</el-button>
     </div>
     <!-- 登录框区域 -->
     <div id="loginBox">
@@ -25,6 +25,7 @@
           </el-form-item>
           <el-link id="forgetPWD" @click="retrievePWD">忘记密码</el-link>
           <el-button type="primary" @click="login">立即登录</el-button>
+
         </el-form>
       </el-card>
     </div>
@@ -74,8 +75,8 @@ export default {
   methods: {
     // 登录预验证
     login() {
-      this.$refs.loginFormRef.validate((valid) => {
-        var this_vue = this;
+      this.$refs.loginFormRef.validate(() => {
+        const this_vue = this;
         this.$axios({
           method: 'post',
           url: '/login',
@@ -148,7 +149,7 @@ export default {
       });
     },
     // 跳转注册
-    gotolo() {
+    toRegister() {
       this.$router.push({path: '/Register'})
     },
     // 跳转忘记密码
@@ -234,6 +235,14 @@ export default {
   margin-top: 0;
 }
 
+.el-card {
+  width: 373px;
+  height: 260px;
+  /* 设置为透明 */
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 15px;
+}
+
 #form {
   line-height: 60px;
   padding-left: 15px;
@@ -274,4 +283,5 @@ export default {
 }
 
 </style>
+
 

@@ -182,7 +182,7 @@ export default {
 
     },
     // 查看消息按钮
-    shownews() {
+    showNews() {
       this.$router.push("/admin/adminList");
     },
     // 新建文档界面

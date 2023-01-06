@@ -11,6 +11,7 @@ import './utils/request.js'
 import JSONbig from 'json-bigint'
 import axios from './utils/request'
 Vue.prototype.$axios=axios
+Vue.prototype.$path=Vue.prototype.$axios
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
