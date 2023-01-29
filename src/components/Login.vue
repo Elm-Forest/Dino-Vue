@@ -25,7 +25,6 @@
           </el-form-item>
           <el-link id="forgetPWD" @click="retrievePWD">忘记密码</el-link>
           <el-button type="primary" @click="login">立即登录</el-button>
-
         </el-form>
       </el-card>
     </div>
@@ -35,7 +34,7 @@
       <div id="date">{{ date }}</div>
     </div>
     <!-- 版权区域 -->
-    <div id="copyright">copyright © 张晋铭 赵佳琪 李嘉超 李子涵 张良怡 李张弛</div>
+    <div id="copyright">Copyright © 2023 AutoOffice</div>
     <router-view></router-view>
   </div>
 </template>
@@ -87,6 +86,10 @@ export default {
         }).then(function (response) {
           if (response.flag === false) {
             this_vue.$router.push('/login');
+            this_vue.$message({
+              message: response.message,
+              type: 'warning'
+            })
           } else {
             localStorage.setItem('token', response.data);
             this_vue.$axios({
@@ -103,7 +106,7 @@ export default {
                     message: '您尚未填写资料',
                     type: 'warning'
                   })
-                }else {
+                } else {
                   if (response.data.status === 1) {
                     if (response.data.rights === 1) {
                       this_vue.$router.push('/normal');

@@ -12,7 +12,7 @@
         </el-avatar>
         <el-form id="form" style="text-align: center;">
           <div class="text item">
-            <el-descriptions title="用户资料信息" column="1">
+            <el-descriptions title="用户资料卡片" column="1">
               <el-descriptions-item label="姓名">{{ name }}</el-descriptions-item>
               <el-descriptions-item label="手机号">{{ phone }}</el-descriptions-item>
               <el-descriptions-item label="居住地">{{ address }}</el-descriptions-item>
@@ -138,7 +138,7 @@ export default {
           });
     },
     upload() {
-      var data = new FormData();
+      const data = new FormData();
       this.fileList.forEach(e => {
         data.append("file", e.raw);
       });
@@ -152,9 +152,19 @@ export default {
         },
         data: data
       }).then(e => {
-        this_vue.dialogImageUrl = e.data
-        this_vue.getUserHeadImg();
-        console.log(data)
+        if (e.flag) {
+          this_vue.dialogImageUrl = e.data
+          this_vue.$message({
+            message: e.message,
+            type: 'success'
+          })
+          this_vue.getUserHeadImg();
+        } else {
+          this_vue.$message({
+            message: e.message,
+            type: 'warning'
+          })
+        }
       })
       this.dialogVisible = false
     },
@@ -205,7 +215,6 @@ export default {
     },
     post() {
       const this_vue = this;
-      const this_sex = this.sex;
       this.$axios({
         method: 'put',
         url: '/user/userinfo',

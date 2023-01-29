@@ -175,7 +175,7 @@ export default {
       newFolderName: '',
       type: '',
       rename: '',
-      name:'',
+      name: '',
       form: {
         current: "",
         size: 5,
@@ -185,7 +185,7 @@ export default {
         operation: 0,
         beginTime: '',
         endTime: '',
-        operationTime: ['2020-01-01 00:00:00','2023-01-01 00:00:00'],
+        operationTime: ['2020-01-01 00:00:00', '2023-01-01 00:00:00'],
         total: 50,
         current_count: 0
       },
@@ -210,7 +210,7 @@ export default {
       this.form.current = val;
       this.selectCondition();
     },
-    selectCondition(){
+    selectCondition() {
       var this_vue = this;
       this.$axios({
         method: 'GET',
@@ -316,7 +316,7 @@ export default {
         url: '/doc/folder',
         params: {
           'filePath': this.path,
-          'name': "tests"
+          'name': this.newFolderName
         },
         headers: {
           'token': localStorage.getItem('token')
