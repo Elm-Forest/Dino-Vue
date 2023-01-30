@@ -1,27 +1,33 @@
 <template>
   <el-container class="home-container">
     <!-- 头部 -->
-    <el-header style="height:90px">
-      <div>
-        <span id="title">OA自动化办公系统</span>
+    <el-header>
+      <div class="head_img">
+        <el-avatar :src="headImg.dept" class="el-dropdown-link" id="headImg" alt="" :size="30"
+                   @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
       </div>
-      <el-dropdown>
-        <img src="../images/background.jpg" class="el-dropdown-link" @mouseover="showInfo" @mouseleave="hideInfo" alt=""
-             id="headImg">
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="userinfo">查看账户详细信息</el-dropdown-item>
-          <el-dropdown-item
-              @click.native="logout">退出
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <span id="title" style="position: absolute;display: block;margin-left: 20px;">OA办公自动化</span>
+      <span id="title" style="position: absolute;display: block;right: 60px">欢迎您，{{ name }}</span>
+      <div class="head_img">
+        <el-dropdown>
+          <el-avatar :src="headImg.user" class="el-dropdown-link" id="headImg" alt="" :size="30"
+                     @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="userinfo">账户详情</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
+
     </el-header>
+
     <!-- 主体 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px">
+      <el-aside width="250px">
         <!-- 侧边栏菜单区域 -->
-        <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <!--background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"-->
+        <el-menu background-color="#fafafa">
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
@@ -122,41 +128,38 @@
 </template>
 
 <script>
+import user_img from '../images/background.jpg'
+import dept_img from '../images/corp_default.png'
+
 export default {
   // created(){
   //     this.getMenuList()
   // },
   data() {
     return {
-      userInfo: false
+      headImg: {
+        user: user_img,
+        dept: dept_img
+      },
+      userInfo: false,
+      name: '路人甲'
     }
   },
   created() {
     this.getUserHeadImg()
   },
-  mounted: {
-    function() {
-      this.$axios({
-        method: 'get',
-        url: '/user/img',
-      }).then(function (response) {
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
-    }
-  },
+  mounted: {},
   methods: {
     userinfo() {
       this.$router.push('/userinfo');
     },
     getUserHeadImg() {
+      const this_vue = this;
       this.$axios({
         method: 'get',
         url: '/user/img',
       }).then(function (response) {
-        document.getElementById('headImg').src = response.data;
+        this_vue.headImg.user = response.data;
         console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(error);
@@ -264,28 +267,38 @@ export default {
 </script>
 
 <style scoped>
+el-aside {
+  border-right: 1px solid #e8e8e8;
+  box-shadow: 1px 1px 4px rgb(99 99 99 / 15%);
+}
+
 .home-container {
   height: 100%;
 }
 
 .el-header {
-  background-image: url(../images/background.png);
+  /*height: 70px;*/
+  background-color: #0b2342;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 #title {
+  padding: 0 30px;
   color: aliceblue;
-  font-size: 45px;
-  position: absolute;
-  top: 14px;
-  left: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
 .el-aside {
-  background-color: #545c64;
+  background-color: #fafafa;
 }
+
+/*.el-aside {*/
+/*  background-color: #545c64;*/
+/*}*/
 
 .el-main {
   background-color: white;
@@ -338,4 +351,7 @@ p {
   cursor: pointer;
 }
 
+.head_img {
+  padding: 5px 10px 0;
+}
 </style>

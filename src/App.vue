@@ -1,8 +1,8 @@
 <!-- 用于编写当前组件的结构代码 -->
 <template>
-    <div id="app">
-      <router-view></router-view>
-    </div>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </template>
 
 <!-- 用于编写当前组件的业务代码 -->
@@ -15,8 +15,7 @@ export default {
   name: 'App',
   data: function () {
   },
-  methods: {
-  },
+  methods: {},
   components: {
     Login: Login,
     Register: Register,
