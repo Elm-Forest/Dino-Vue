@@ -13,7 +13,9 @@
             <el-row>
               <el-col :span="12" class="tl"><span>待办事项</span></el-col>
               <el-col :span="12" class="tr">
-                <el-button type="text" @click="handleGoUrl('/personal/Todo')"><i>15</i></el-button>
+                <el-button type="text" @click="handleGoUrl('/personal/Todo')"
+                  ><i>15</i></el-button
+                >
               </el-col>
             </el-row>
           </div>
@@ -26,7 +28,11 @@
             <el-row>
               <el-col :span="12" class="tl"><span>日程安排</span></el-col>
               <el-col :span="12" class="tr">
-                <el-button type="text" @click="handleGoUrl('/personal/Timelist')"><i>30</i></el-button>
+                <el-button
+                  type="text"
+                  @click="handleGoUrl('/personal/Timelist')"
+                  ><i>30</i></el-button
+                >
               </el-col>
             </el-row>
           </div>
@@ -67,24 +73,65 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span class="title"><i class="iconfont icon-inquirytemplate"></i> 公开公文</span>
-            <el-tooltip class="item" effect="dark" content="查看更多" placement="top-start">
-              <i class="el-icon-more-outline" style="float: right; padding: 3px 0"></i>
+            <span class="title"
+              ><i class="iconfont icon-inquirytemplate"></i> 公开公文</span
+            >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看更多"
+              placement="top-start"
+            >
+              <i
+                class="el-icon-more-outline"
+                style="float: right; padding: 3px 0"
+              ></i>
             </el-tooltip>
           </div>
           <div>
             <!--table-->
             <el-table :data="tableData" stripe style="width: 100%">
-              <el-table-column fixed prop="id" label="编号" show-overflow-tooltip width="90"></el-table-column>
-              <el-table-column prop="type" label="公文类型" align="center" show-overflow-tooltip width="100">
+              <el-table-column
+                fixed
+                prop="id"
+                label="编号"
+                show-overflow-tooltip
+                width="90"
+              ></el-table-column>
+              <el-table-column
+                prop="type"
+                label="公文类型"
+                align="center"
+                show-overflow-tooltip
+                width="100"
+              >
               </el-table-column>
-              <el-table-column prop="name" align="center" min-width="150" show-overflow-tooltip label="标题">
+              <el-table-column
+                prop="name"
+                align="center"
+                min-width="150"
+                show-overflow-tooltip
+                label="标题"
+              >
               </el-table-column>
-              <el-table-column prop="date" align="center" label="发文日期" show-overflow-tooltip width="100">
+              <el-table-column
+                prop="date"
+                align="center"
+                label="发文日期"
+                show-overflow-tooltip
+                width="100"
+              >
               </el-table-column>
-              <el-table-column fixed="right" align="center" label="操作" width="60">
+              <el-table-column
+                fixed="right"
+                align="center"
+                label="操作"
+                width="60"
+              >
                 <template>
-                  <el-button type="text" size="small"><i class="el-icon-search"></i></el-button>
+                  <el-button type="text" size="small"
+                    ><i class="el-icon-search"></i
+                  ></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -94,24 +141,65 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span class="title"> <i class="iconfont icon-inquirytemplate"></i> 部门公文</span>
-            <el-tooltip class="item" effect="dark" content="查看更多" placement="top-start">
-              <i class="el-icon-more-outline" style="float: right; padding: 3px 0"></i>
+            <span class="title">
+              <i class="iconfont icon-inquirytemplate"></i> 部门公文</span
+            >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看更多"
+              placement="top-start"
+            >
+              <i
+                class="el-icon-more-outline"
+                style="float: right; padding: 3px 0"
+              ></i>
             </el-tooltip>
           </div>
           <div>
             <!--table-->
             <el-table :data="tableData" stripe style="width: 100%">
-              <el-table-column fixed prop="id" label="编号" show-overflow-tooltip width="90"></el-table-column>
-              <el-table-column prop="type" label="公文类型" show-overflow-tooltip align="center" width="100">
+              <el-table-column
+                fixed
+                prop="id"
+                label="编号"
+                show-overflow-tooltip
+                width="90"
+              ></el-table-column>
+              <el-table-column
+                prop="type"
+                label="公文类型"
+                show-overflow-tooltip
+                align="center"
+                width="100"
+              >
               </el-table-column>
-              <el-table-column prop="name" align="center" min-width="150" show-overflow-tooltip label="标题">
+              <el-table-column
+                prop="name"
+                align="center"
+                min-width="150"
+                show-overflow-tooltip
+                label="标题"
+              >
               </el-table-column>
-              <el-table-column prop="date" align="center" label="发文日期" show-overflow-tooltip width="100">
+              <el-table-column
+                prop="date"
+                align="center"
+                label="发文日期"
+                show-overflow-tooltip
+                width="100"
+              >
               </el-table-column>
-              <el-table-column fixed="right" align="center" label="操作" width="60">
+              <el-table-column
+                fixed="right"
+                align="center"
+                label="操作"
+                width="60"
+              >
                 <template>
-                  <el-button type="text" size="small"><i class="el-icon-search"></i></el-button>
+                  <el-button type="text" size="small"
+                    ><i class="el-icon-search"></i
+                  ></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -124,20 +212,48 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span class="title"><i class="iconfont icon-remind1"></i> 通知公告</span>
-            <el-tooltip class="item" effect="dark" content="查看更多" placement="top-start">
-              <i class="el-icon-more-outline" style="float: right; padding: 3px 0"></i>
+            <span class="title"
+              ><i class="iconfont icon-remind1"></i> 通知公告</span
+            >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看更多"
+              placement="top-start"
+            >
+              <i
+                class="el-icon-more-outline"
+                style="float: right; padding: 3px 0"
+              ></i>
             </el-tooltip>
           </div>
           <div>
             <!--table-->
             <el-table :data="tableData" stripe style="width: 100%">
-              <el-table-column prop="name" min-width="250" show-overflow-tooltip label="标题"></el-table-column>
-              <el-table-column prop="date" align="center" label="日期" show-overflow-tooltip width="120">
+              <el-table-column
+                prop="name"
+                min-width="250"
+                show-overflow-tooltip
+                label="标题"
+              ></el-table-column>
+              <el-table-column
+                prop="date"
+                align="center"
+                label="日期"
+                show-overflow-tooltip
+                width="120"
+              >
               </el-table-column>
-              <el-table-column fixed="right" align="center" label="操作" width="90">
+              <el-table-column
+                fixed="right"
+                align="center"
+                label="操作"
+                width="90"
+              >
                 <template>
-                  <el-button type="text" size="small"><i class="el-icon-search"></i></el-button>
+                  <el-button type="text" size="small"
+                    ><i class="el-icon-search"></i
+                  ></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -147,20 +263,48 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span class="title"> <i class="iconfont icon-attachment"></i> 部门文档</span>
-            <el-tooltip class="item" effect="dark" content="查看更多" placement="top-start">
-              <i class="el-icon-more-outline" style="float: right; padding: 3px 0"></i>
+            <span class="title">
+              <i class="iconfont icon-attachment"></i> 部门文档</span
+            >
+            <el-tooltip
+              class="item"
+              effect="dark"
+              content="查看更多"
+              placement="top-start"
+            >
+              <i
+                class="el-icon-more-outline"
+                style="float: right; padding: 3px 0"
+              ></i>
             </el-tooltip>
           </div>
           <div>
             <!--table-->
             <el-table :data="tableData2" stripe style="width: 100%">
-              <el-table-column prop="name" min-width="250" show-overflow-tooltip label="名称"></el-table-column>
-              <el-table-column prop="type" label="类型" align="center" show-overflow-tooltip width="120">
+              <el-table-column
+                prop="name"
+                min-width="250"
+                show-overflow-tooltip
+                label="名称"
+              ></el-table-column>
+              <el-table-column
+                prop="type"
+                label="类型"
+                align="center"
+                show-overflow-tooltip
+                width="120"
+              >
               </el-table-column>
-              <el-table-column fixed="right" align="center" label="操作" width="90">
+              <el-table-column
+                fixed="right"
+                align="center"
+                label="操作"
+                width="90"
+              >
                 <template>
-                  <el-button type="text" size="small"><i class="el-icon-download"></i></el-button>
+                  <el-button type="text" size="small"
+                    ><i class="el-icon-download"></i
+                  ></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -174,53 +318,60 @@
 export default {
   name: 'Main',
   mounted() {
-    this.showTime();
+    this.showTime()
   },
   data() {
     return {
-      show_day: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+      show_day: [
+        '星期日',
+        '星期一',
+        '星期二',
+        '星期三',
+        '星期四',
+        '星期五',
+        '星期六',
+      ],
       dateList: {
         date: '',
         weekday: '',
-        time: ''
+        time: '',
       },
       tableData: new Array(5).fill({
         id: 1001,
         type: '决议',
         name: '关于企业管理制度的改进',
-        date: '2021-2-10'
+        date: '2021-2-10',
       }),
       tableData2: new Array(5).fill({
         type: 'ZIP',
-        name: '各部门工作内容大纲'
-      })
-    };
+        name: '各部门工作内容大纲',
+      }),
+    }
   },
   methods: {
     // 显示当前时间
     showTime() {
-      let time = new Date();
-      let year = time.getFullYear();
-      let month = time.getMonth() + 1;
-      let date = time.getDate();
-      let day = time.getDay();
-      let hour = time.getHours();
-      let minutes = time.getMinutes();
-      let second = time.getSeconds();
-      month < 10 ? (month = '0' + month) : month;
-      hour < 10 ? (hour = '0' + hour) : hour;
-      minutes < 10 ? (minutes = '0' + minutes) : minutes;
-      this.dateList.date = year + '年' + month + '月' + date + '日';
-      this.dateList.weekday = this.show_day[day];
-      this.dateList.time = hour + ':' + minutes;
-      setTimeout(this.showTime, 3000);
+      let time = new Date()
+      let year = time.getFullYear()
+      let month = time.getMonth() + 1
+      let date = time.getDate()
+      let day = time.getDay()
+      let hour = time.getHours()
+      let minutes = time.getMinutes()
+      let second = time.getSeconds()
+      month < 10 ? (month = '0' + month) : month
+      hour < 10 ? (hour = '0' + hour) : hour
+      minutes < 10 ? (minutes = '0' + minutes) : minutes
+      this.dateList.date = year + '年' + month + '月' + date + '日'
+      this.dateList.weekday = this.show_day[day]
+      this.dateList.time = hour + ':' + minutes
+      setTimeout(this.showTime, 3000)
     },
     handleGoUrl(url) {
-      this.$router.push({path: url});
+      this.$router.push({ path: url })
     },
-
-  }
-};
+  },
+}
 </script>
 <style lang="scss" scoped>
 .el-breadcrumb {
@@ -280,7 +431,6 @@ export default {
       }
     }
   }
-
 }
 
 .oa_doc {
@@ -317,5 +467,4 @@ export default {
     height: 80px;
   }
 }
-
 </style>

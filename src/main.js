@@ -9,14 +9,14 @@ import './plugins/element.js'
 import './utils/tokenUtils.js'
 import './utils/request.js'
 import axios from './utils/request'
-Vue.prototype.$axios=axios
-Vue.prototype.$path=Vue.prototype.$axios
+Vue.prototype.$axios = axios
+Vue.prototype.$path = Vue.prototype.$axios
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
 new Vue({
-    router,
-    store,
-    render: h => h(App)
+  router,
+  store,
+  render: (h) => h(App),
 }).$mount('#app')

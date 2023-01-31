@@ -9,21 +9,34 @@
       <div class="mailBox">
         <div class="boxT">
           <div class="text">邮箱:</div>
-          <input type="text" name="" id="" v-model="mailAccountForm.email"
-                 placeholder="请输入邮箱,目前仅支持qq邮箱和网易邮箱">
+          <input
+            type="text"
+            name=""
+            id=""
+            v-model="mailAccountForm.email"
+            placeholder="请输入邮箱,目前仅支持qq邮箱和网易邮箱"
+          />
         </div>
         <div class="boxT">
           <div class="text">授权码:</div>
-          <input type="text" name="" id="" v-model="mailAccountForm.password" placeholder="请输入授权码">
+          <input
+            type="text"
+            name=""
+            id=""
+            v-model="mailAccountForm.password"
+            placeholder="请输入授权码"
+          />
         </div>
         <div class="boxT">
           <div class="text">验证码:</div>
-
-          <input type="text" name="" id="" v-model="mailAccountForm.code" placeholder="请输入验证码">
-
-          <div class="but" @click="send">
-            发送
-          </div>
+          <input
+            type="text"
+            name=""
+            id=""
+            v-model="mailAccountForm.code"
+            placeholder="请输入验证码"
+          />
+          <div class="but" @click="send">发送</div>
         </div>
         <div class="boxT">
           <el-button type="primary" size="mini" @click="checkS">绑定</el-button>
@@ -31,7 +44,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -41,83 +53,86 @@ export default {
       mailAccountForm: {
         email: '',
         password: '',
-        code: ''
+        code: '',
       },
     }
   },
   mounted() {
-    this.$axios.get('/message/mail/account/check').then(response => {
+    this.$axios.get('/message/mail/account/check').then((response) => {
       if (response.data != null) {
-        this.$store.commit('SET_SHOW');
-        this.mailAccountForm.email = response.data;
+        this.$store.commit('SET_SHOW')
+        this.mailAccountForm.email = response.data
       }
     })
   },
   methods: {
     checkS() {
-      var this_vue = this;
+      var this_vue = this
       this.$axios({
         method: 'post',
         url: '/message/mail/account',
         params: {
-          'email': this.mailAccountForm.email,
-          'password': this.mailAccountForm.password,
-          'type': this.getType(this.mailAccountForm.email),
-          'code': this.mailAccountForm.code
-        }
-      }).then(function (response) {
-        if (response.flag) {
-          this_vue.$store.commit('SET_SHOW');
-          alert('邮箱绑定成功')
-
-        } else {
-          alert(response.message)
-          console.log(JSON.stringify(response.data));
-        }
-      }).catch(function (error) {
-        alert('切换邮箱失败')
-        console.log(error);
+          email: this.mailAccountForm.email,
+          password: this.mailAccountForm.password,
+          type: this.getType(this.mailAccountForm.email),
+          code: this.mailAccountForm.code,
+        },
       })
+        .then(function (response) {
+          if (response.flag) {
+            this_vue.$store.commit('SET_SHOW')
+            alert('邮箱绑定成功')
+          } else {
+            alert(response.message)
+            console.log(JSON.stringify(response.data))
+          }
+        })
+        .catch(function (error) {
+          alert('切换邮箱失败')
+          console.log(error)
+        })
     },
     send() {
-      const this_vue = this;
+      const this_vue = this
       this.$axios({
         method: 'post',
         url: '/message/mail/send',
         params: {
-          'email': this.mailAccountForm.email,
-          'password': this.mailAccountForm.password,
-          'type': this.getType(this.mailAccountForm.email)
-        }
-      }).then(function (response) {
-        this_vue.$message({
-          message: '发送成功！',
-          type: 'success'
-        });
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        this_vue.$message({
-          message: '发送失败！',
-          type: 'error'
-        });
-        console.log(localStorage.getItem('token'))
-        console.log(error);
+          email: this.mailAccountForm.email,
+          password: this.mailAccountForm.password,
+          type: this.getType(this.mailAccountForm.email),
+        },
       })
+        .then(function (response) {
+          this_vue.$message({
+            message: '发送成功！',
+            type: 'success',
+          })
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          this_vue.$message({
+            message: '发送失败！',
+            type: 'error',
+          })
+          console.log(localStorage.getItem('token'))
+          console.log(error)
+        })
     },
     getType(email) {
-      if (email == null || email === "") {
-        return 0;
+      if (email == null || email === '') {
+        return 0
       }
       var str = email.substring(email.indexOf('@') + 1, email.length)
       if (str === 'qq.com') {
-        return 1;
+        return 1
       } else if (str === '163.com') {
         return 2
       } else {
-        return 0;
+        return 0
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

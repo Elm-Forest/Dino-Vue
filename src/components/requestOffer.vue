@@ -2,27 +2,28 @@
   <div id="loginBox">
     <el-card class="box-card">
       <h1 id="login-title">入职申请</h1>
-      <div style="height: 20px;"></div>
+      <div style="height: 20px"></div>
       <el-form id="form" ref="loginFormRef" :model="loginForm">
-
         <el-autocomplete
-            prefix-icon="el-icon-user-solid"
-            v-model="state"
-            :fetch-suggestions="querySearchAsync"
-            placeholder="企业名称"
-            @select="handleSelect"
-            clearable
+          prefix-icon="el-icon-user-solid"
+          v-model="state"
+          :fetch-suggestions="querySearchAsync"
+          placeholder="企业名称"
+          @select="handleSelect"
+          clearable
         ></el-autocomplete>
         <el-button @click="createDept">创建企业?</el-button>
         <!--        <el-link id="forgetPWD" @click="retrievePWD">加入企业</el-link>-->
-        <el-button type="primary" style="flex: left;" @click="requestOffer">投递</el-button>
+        <el-button type="primary" style="flex: left" @click="requestOffer"
+          >投递</el-button
+        >
       </el-form>
     </el-card>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
   name: 'Login',
@@ -36,79 +37,90 @@ export default {
         name: '',
         phone: '',
         address: '',
-        desc: ''
-      }
+        desc: '',
+      },
     }
   },
   mounted() {
-    this.loadAll();
+    this.loadAll()
   },
   methods: {
     // 登录预验证
     requestOffer() {
-      var this_vue = this;
+      var this_vue = this
       this.$axios({
         method: 'post',
         url: '/user/userinfo/dept',
         params: {
-          'deptId': this.loginForm.deptId
-        }
-      }).then(function (response) {
-        if (response.flag === false) {
-          this_vue.$message({
-            message: response.message,
-            type: 'warning'
-          });
-        } else {
-          this_vue.$router.push('/login');
-          this_vue.$message({
-            message: '您已成功提交入职请求，请等待企业负责人审核，您的权限发生变化，已自动登出！在审核通过之前，您无法使用本系统',
-            type: 'success'
-          });
-          this_vue.localStorage.removeItem('token');
-        }
-      }).catch(function (error) {
-        console.log(error);
-      });
+          deptId: this.loginForm.deptId,
+        },
+      })
+        .then(function (response) {
+          if (response.flag === false) {
+            this_vue.$message({
+              message: response.message,
+              type: 'warning',
+            })
+          } else {
+            this_vue.$router.push('/login')
+            this_vue.$message({
+              message:
+                '您已成功提交入职请求，请等待企业负责人审核，您的权限发生变化，已自动登出！在审核通过之前，您无法使用本系统',
+              type: 'success',
+            })
+            this_vue.localStorage.removeItem('token')
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // 跳转注册
     createDept() {
-      this.$router.push({path: '/dept'})
+      this.$router.push({ path: '/dept' })
     },
     loadAll() {
-      var this_vue = this;
+      var this_vue = this
       this.$axios({
         method: 'get',
         url: '/user/dept',
         params: {
-          'name': this.state,
-        }
-      }).then(function (response) {
-        this_vue.restaurants = JSON.parse(JSON.stringify(response.data).replace(/name/g, "value"));
-      }).catch(function (error) {
-        console.log(error);
-      });
+          name: this.state,
+        },
+      })
+        .then(function (response) {
+          this_vue.restaurants = JSON.parse(
+            JSON.stringify(response.data).replace(/name/g, 'value')
+          )
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
+      var restaurants = this.restaurants
+      var results = queryString
+        ? restaurants.filter(this.createStateFilter(queryString))
+        : restaurants
 
       console.log(restaurants)
-      clearTimeout(this.timeout);
+      clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {
-        cb(results);
-      }, 3000 * Math.random());
+        cb(results)
+      }, 3000 * Math.random())
     },
     createStateFilter(queryString) {
       return (state) => {
-        return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-      };
+        return (
+          state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+        )
+      }
     },
     handleSelect(item) {
-      this.loginForm.deptId = item.id;
-      console.log(item.id);
-    }
-  }
+      this.loginForm.deptId = item.id
+      console.log(item.id)
+    },
+  },
 }
 </script>
 

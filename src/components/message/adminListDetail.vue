@@ -1,36 +1,21 @@
 <!-- 发送邮件 -->
 <template>
-  <div class=''>
+  <div class="">
     <el-divider content-position="left"><b>消息-邮件详情</b></el-divider>
     <el-form :model="form">
-      <el-form-item
-          label="标题"
-          :label-width="formLabelWidth"
-      >
+      <el-form-item label="标题" :label-width="formLabelWidth">
         {{ form.title }}
       </el-form-item>
-      <el-form-item
-          label="发件人"
-          :label-width="formLabelWidth"
-      >
+      <el-form-item label="发件人" :label-width="formLabelWidth">
         {{ form.fjr }}
       </el-form-item>
-      <el-form-item
-          label="收件人"
-          :label-width="formLabelWidth"
-      >
+      <el-form-item label="收件人" :label-width="formLabelWidth">
         {{ form.sjr }}
       </el-form-item>
-      <el-form-item
-          label="内容"
-          :label-width="formLabelWidth"
-      >
+      <el-form-item label="内容" :label-width="formLabelWidth">
         {{ form.description }}
       </el-form-item>
-      <el-form-item
-          label="发件时间"
-          :label-width="formLabelWidth"
-      >
+      <el-form-item label="发件时间" :label-width="formLabelWidth">
         {{ timestampToTime(form.date) }}
       </el-form-item>
     </el-form>
@@ -48,15 +33,15 @@ export default {
   data() {
     //这里存放数据
     return {
-      formLabelWidth: "80px",
+      formLabelWidth: '80px',
       form: {
-        title: "邮件标题",
-        fjr: "发件人",
-        sjr: "收件人",
-        description: "收件内容",
+        title: '邮件标题',
+        fjr: '发件人',
+        sjr: '收件人',
+        description: '收件内容',
         date: 1660171002715,
       },
-    };
+    }
   },
 
   computed: {},
@@ -65,41 +50,33 @@ export default {
   //方法集合
   methods: {
     back() {
-      this.$router.push("/admin/adminList");
+      this.$router.push('/admin/adminList')
     },
     //时间戳转时间
     timestampToTime(nS) {
-      return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, " ");
+      return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, ' ')
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-  },
+  created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    this.$axios.get('/message/mail/account/check').then(response => {
+    this.$axios.get('/message/mail/account/check').then((response) => {
       if (response.data != null) {
-        this.$store.commit('SET_SHOW');
+        this.$store.commit('SET_SHOW')
       }
     })
     this.show = this.$store.state.bindMailbox
   },
-  beforeCreate() {
-  }, //生命周期 - 创建之前
-  beforeMount() {
-  }, //生命周期 - 挂载之前
-  beforeUpdate() {
-  }, //生命周期 - 更新之前
-  updated() {
-  }, //生命周期 - 更新之后
-  beforeDestroy() {
-  }, //生命周期 - 销毁之前
-  destroyed() {
-  }, //生命周期 - 销毁完成
-  activated() {
-  }, //如果页面有keep-alive缓存功能，这个函数会触发
-};
+  beforeCreate() {}, //生命周期 - 创建之前
+  beforeMount() {}, //生命周期 - 挂载之前
+  beforeUpdate() {}, //生命周期 - 更新之前
+  updated() {}, //生命周期 - 更新之后
+  beforeDestroy() {}, //生命周期 - 销毁之前
+  destroyed() {}, //生命周期 - 销毁完成
+  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+}
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 //@import url(); 引入公共css类
 </style>

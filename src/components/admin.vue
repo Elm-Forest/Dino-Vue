@@ -1,18 +1,24 @@
 <template>
   <el-container class="home-container">
     <!-- 头部 -->
-    <el-header style="height:90px">
+    <el-header style="height: 90px">
       <div>
         <span id="title">OA自动化办公系统</span>
       </div>
       <el-dropdown>
-        <img src="../images/background.jpg" class="el-dropdown-link" @mouseover="showInfo" @mouseleave="hideInfo" alt=""
-             id="headImg">
+        <img
+          src="../images/background.jpg"
+          class="el-dropdown-link"
+          @mouseover="showInfo"
+          @mouseleave="hideInfo"
+          alt=""
+          id="headImg"
+        />
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="userinfo">查看账户详细信息</el-dropdown-item>
-          <el-dropdown-item
-              @click.native="logout">退出
-          </el-dropdown-item>
+          <el-dropdown-item @click.native="userinfo"
+            >查看账户详细信息</el-dropdown-item
+          >
+          <el-dropdown-item @click.native="logout">退出 </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </el-header>
@@ -21,7 +27,11 @@
       <!-- 侧边栏 -->
       <el-aside width="200px">
         <!-- 侧边栏菜单区域 -->
-        <el-menu background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+        >
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
@@ -129,7 +139,7 @@
 export default {
   data() {
     return {
-      userInfo: false
+      userInfo: false,
     }
   },
   created() {
@@ -138,18 +148,20 @@ export default {
   methods: {
     userinfo() {
       console.log(666)
-      this.$router.push('/admin/userinfo');
+      this.$router.push('/admin/userinfo')
     },
     getUserHeadImg() {
       this.$axios({
         method: 'get',
         url: '/user/img',
-      }).then(function (response) {
-        document.getElementById('headImg').src = response.data;
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(error);
-      });
+      })
+        .then(function (response) {
+          document.getElementById('headImg').src = response.data
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     hideInfo() {
       setTimeout(() => {
@@ -157,7 +169,7 @@ export default {
       }, 3000)
       console.log(1)
     },
-//当触发mouseover时调用的方法       
+    //当触发mouseover时调用的方法
     showInfo() {
       this.userInfo = true
       console.log(1)
@@ -168,85 +180,85 @@ export default {
       this.$axios({
         method: 'post',
         url: '/user/logout',
-      }).then(function (response) {
-        localStorage.removeItem('token');
-        this_vue.$router.push('/login');
-        this_vue.$message({
-          message: '您已登出！',
-          type: 'warning'
+      })
+        .then(function (response) {
+          localStorage.removeItem('token')
+          this_vue.$router.push('/login')
+          this_vue.$message({
+            message: '您已登出！',
+            type: 'warning',
+          })
+          console.log(JSON.stringify(response.data))
         })
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(error);
-      });
-
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // 查看消息按钮
     showNews() {
-      this.$router.push("/admin/adminList");
+      this.$router.push('/admin/adminList')
     },
     // 新建文档界面
     newFile() {
-      this.$router.push('/admin/newFile');
+      this.$router.push('/admin/newFile')
     },
     // 查询文档界面
     selectFile() {
-      this.$router.push('/admin/selectFile');
+      this.$router.push('/admin/selectFile')
     },
     // 文件回收站界面
     recycle() {
-      this.$router.push('/admin/recycle');
+      this.$router.push('/admin/recycle')
     },
     // 文档日志界面
     record() {
-      this.$router.push('/admin/record');
+      this.$router.push('/admin/record')
     },
     // 消息列表界面
     adminList() {
-      this.$router.push('/admin/adminList');
+      this.$router.push('/admin/adminList')
     },
     // 考勤信息查询界面
     searchSign() {
-      this.$router.push('/admin/searchSign');
+      this.$router.push('/admin/searchSign')
     },
     // 考勤时间管理界面
     signTime() {
-      this.$router.push('/admin/signTime');
+      this.$router.push('/admin/signTime')
     },
     // 员工申请审批界面
     approve() {
-      this.$router.push('/admin/approve');
+      this.$router.push('/admin/approve')
     },
     // 我的日程界面
     schedule() {
-      this.$router.push('/admin/schedule');
+      this.$router.push('/admin/schedule')
     },
     // 联系人日程界面
     friendsSchedule() {
-      this.$router.push('/admin/friendsSchedule');
+      this.$router.push('/admin/friendsSchedule')
     },
     // 部门日程界面
     deptSchedule() {
-      this.$router.push('/admin/deptSchedule');
+      this.$router.push('/admin/deptSchedule')
     },
     // 成员管理界面
     admUser() {
-      this.$router.push('/admin/admUser');
+      this.$router.push('/admin/admUser')
     },
     // 公司招牌界面
     company() {
-      this.$router.push('/admin/company');
+      this.$router.push('/admin/company')
     },
     offer() {
-      this.$router.push('/admin/offer');
-    }
+      this.$router.push('/admin/offer')
+    },
     // 获取所有的菜单
     // getMenuList(){
     //     this.$http.get('menus');
     // }
-
-  }
-};
+  },
+}
 </script>
 
 <style scoped>
@@ -287,7 +299,6 @@ export default {
 }
 
 .el-dropdown-link {
-
   position: relative;
   width: 50px;
   height: 50px;
@@ -323,5 +334,4 @@ p {
 :hover {
   cursor: pointer;
 }
-
 </style>

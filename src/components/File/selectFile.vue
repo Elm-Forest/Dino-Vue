@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/home' }"
+        >首页</el-breadcrumb-item
+      >
       <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>查询文档</el-breadcrumb-item>
     </el-breadcrumb>
@@ -23,62 +25,89 @@
               </el-dropdown>
             </el-form-item>
             <el-form-item label="文档名称">
-              <el-input v-model="form.name" placeholder="请输入文档名称" style="width: 150px"></el-input>
+              <el-input
+                v-model="form.name"
+                placeholder="请输入文档名称"
+                style="width: 150px"
+              ></el-input>
             </el-form-item>
             <el-form-item label="修改人">
-              <el-input v-model="form.modifyName" placeholder="请输入修改人" style="width: 150px"></el-input>
+              <el-input
+                v-model="form.modifyName"
+                placeholder="请输入修改人"
+                style="width: 150px"
+              ></el-input>
             </el-form-item>
             <el-form-item label="上传时间">
               <el-date-picker
-                  v-model="form.operationTime"
-                  type="daterange"
-                  range-separator="至"
-                  valueFormat="yyyy-MM-dd HH:mm:ss"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  style="width: 250px"
+                v-model="form.operationTime"
+                type="daterange"
+                range-separator="至"
+                valueFormat="yyyy-MM-dd HH:mm:ss"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                style="width: 250px"
               >
               </el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="selectCondition">查询</el-button>
+              <el-button
+                type="primary"
+                icon="el-icon-search"
+                @click="selectCondition"
+                >查询</el-button
+              >
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="dialogVisible=true">点击上传</el-button>
+              <el-button type="primary" @click="dialogVisible = true"
+                >点击上传</el-button
+              >
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="dialogVisible3=true">新建文件夹</el-button>
+              <el-button type="primary" @click="dialogVisible3 = true"
+                >新建文件夹</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
         <el-dialog
-            title="上传文件"
-            :visible.sync="dialogVisible"
-            width="35%"
-            style="text-align: center">
+          title="上传文件"
+          :visible.sync="dialogVisible"
+          width="35%"
+          style="text-align: center"
+        >
           <el-upload
-              class="upload-demo"
-              drag
-              :on-remove="handleRemove"
-              :on-change="fileOnChange"
-              action="#"
-              :auto-upload="false"
-              multiple>
+            class="upload-demo"
+            drag
+            :on-remove="handleRemove"
+            :on-change="fileOnChange"
+            action="#"
+            :auto-upload="false"
+            multiple
+          >
             <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">只能单个上传文件，且不超过100mb</div>
+            <div class="el-upload__text">
+              将文件拖到此处，或<em>点击上传</em>
+            </div>
+            <div class="el-upload__tip" slot="tip">
+              只能单个上传文件，且不超过100mb
+            </div>
           </el-upload>
           <el-button type="primary" @click="upload">上传</el-button>
-
         </el-dialog>
         <el-dialog
-            title="新建文件夹"
-            :visible.sync="dialogVisible3"
-            width="35%"
-            style="text-align: center">
+          title="新建文件夹"
+          :visible.sync="dialogVisible3"
+          width="35%"
+          style="text-align: center"
+        >
           <el-form :inline="false" class="demo-form-inline">
             <el-form-item>
-              <el-input v-model="newFolderName" placeholder="请输入内容" label="文件夹名称"></el-input>
+              <el-input
+                v-model="newFolderName"
+                placeholder="请输入内容"
+                label="文件夹名称"
+              ></el-input>
             </el-form-item>
             <el-form-item>
               <el-button @click="dialogVisible3 = false">取 消</el-button>
@@ -87,10 +116,11 @@
           </el-form>
         </el-dialog>
         <el-dialog
-            title="新建文件夹"
-            :visible.sync="dialogVisible2"
-            width="35%"
-            style="text-align: center">
+          title="新建文件夹"
+          :visible.sync="dialogVisible2"
+          width="35%"
+          style="text-align: center"
+        >
           <el-form :inline="false" class="demo-form-inline">
             <el-form-item>
               <el-form-item>
@@ -98,40 +128,92 @@
               </el-form-item>
               <el-form-item>
                 <el-button @click="dialogVisible2 = false">取 消</el-button>
-                <el-button type="danger" @click="deleteDoc()">确认删除</el-button>
+                <el-button type="danger" @click="deleteDoc()"
+                  >确认删除</el-button
+                >
               </el-form-item>
             </el-form-item>
           </el-form>
         </el-dialog>
         <!-- 列表区域 -->
-        <el-table :data="tableData4" stripe style="width: 100%" :cell-class-name="addClass">
+        <el-table
+          :data="tableData4"
+          stripe
+          style="width: 100%"
+          :cell-class-name="addClass"
+        >
           <el-table-column prop="type" align="center" label="类型" width="120">
           </el-table-column>
-          <el-table-column prop="name" label="文档名称" align="center" min-width="220"></el-table-column>
-          <el-table-column prop="modifyTime" align="center" label="最近修改时间" width="150"
-                           :formatter="transform"></el-table-column>
-          <el-table-column prop="modifyName" align="center" label="最近修改者" width="150"></el-table-column>
-          <el-table-column prop="size" align="center" label="大小" width="200"
-                           :formatter="transformSize"></el-table-column>
-          <el-table-column prop="id" align="center" label="id" width="120" v-if="false"></el-table-column>
-          <el-table-column fixed="right" align="center" label="操作" width="300">
+          <el-table-column
+            prop="name"
+            label="文档名称"
+            align="center"
+            min-width="220"
+          ></el-table-column>
+          <el-table-column
+            prop="modifyTime"
+            align="center"
+            label="最近修改时间"
+            width="150"
+            :formatter="transform"
+          ></el-table-column>
+          <el-table-column
+            prop="modifyName"
+            align="center"
+            label="最近修改者"
+            width="150"
+          ></el-table-column>
+          <el-table-column
+            prop="size"
+            align="center"
+            label="大小"
+            width="200"
+            :formatter="transformSize"
+          ></el-table-column>
+          <el-table-column
+            prop="id"
+            align="center"
+            label="id"
+            width="120"
+            v-if="false"
+          ></el-table-column>
+          <el-table-column
+            fixed="right"
+            align="center"
+            label="操作"
+            width="300"
+          >
             <template slot-scope="scope">
               <!-- 查看按钮 -->
-              <el-button type="success" icon="el-icon-search" size="medium"
-                         @click="showFileDialog(scope.row.id)"></el-button>
+              <el-button
+                type="success"
+                icon="el-icon-search"
+                size="medium"
+                @click="showFileDialog(scope.row.id)"
+              ></el-button>
               <!-- 删除按钮 -->
-              <el-button type="danger" icon="el-icon-delete" size="medium"
-                         @click="removeFile(scope.row)"></el-button>
+              <el-button
+                type="danger"
+                icon="el-icon-delete"
+                size="medium"
+                @click="removeFile(scope.row)"
+              ></el-button>
               <!-- 重命名按钮 -->
-              <el-button type="warning" size="medium" @click="showModifyDialog(scope.row)">重命名</el-button>
+              <el-button
+                type="warning"
+                size="medium"
+                @click="showModifyDialog(scope.row)"
+                >重命名</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
         <!-- 重命名的对话框 -->
         <el-dialog
-            title="重命名"
-            :visible.sync="modifyDialogVisible"
-            width="50%">
+          title="重命名"
+          :visible.sync="modifyDialogVisible"
+          width="50%"
+        >
           <!-- 对话框主体区 -->
           <el-form ref="modifyFormRef" label-width="auto">
             <el-form-item label="文件名" prop="modifyName">
@@ -142,16 +224,16 @@
           <span slot="footer" class="dialog-footer"></span>
           <el-button @click="modifyDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="reName">确 定</el-button>
-
         </el-dialog>
       </div>
       <el-pagination
-          background
-          :page-size="form.size"
-          layout="prev, pager, next"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
-          :total="form.total">
+        background
+        :page-size="form.size"
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+        :total="form.total"
+      >
       </el-pagination>
     </el-card>
   </div>
@@ -160,7 +242,7 @@
 export default {
   data() {
     return {
-      current: "",
+      current: '',
       size: 10,
       total: 50,
       current_count: 0,
@@ -177,61 +259,63 @@ export default {
       rename: '',
       name: '',
       form: {
-        current: "",
+        current: '',
         size: 5,
-        name: "",
+        name: '',
         modifyName: '',
-        documentName: "",
+        documentName: '',
         operation: 0,
         beginTime: '',
         endTime: '',
         operationTime: ['2020-01-01 00:00:00', '2023-01-01 00:00:00'],
         total: 50,
-        current_count: 0
+        current_count: 0,
       },
       // 控制重命名对话框的显示与隐藏
       modifyDialogVisible: false,
       // 查询到的文件对象
       modifyForm: {},
-    };
+    }
   },
   created() {
-    this.getFileList();
+    this.getFileList()
   },
   methods: {
     handleCommand(command) {
       this.form.size = parseInt(command)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.form.current_count = val;
+      console.log(`每页 ${val} 条`)
+      this.form.current_count = val
     },
     handleCurrentChange(val) {
-      this.form.current = val;
-      this.selectCondition();
+      this.form.current = val
+      this.selectCondition()
     },
     selectCondition() {
-      var this_vue = this;
+      var this_vue = this
       this.$axios({
         method: 'GET',
         url: '/doc/list',
         params: {
-          'current': this.form.current,
-          'size': this.form.size,
-          'uName': this.form.modifyName,
-          'dName': this.form.name,
-          'beginTime': this.form.operationTime[0],
-          'endTime': this.form.operationTime[1],
-        }
-      }).then(function (response) {
-        this_vue.form.current_count = this_vue.form.size;
-        this_vue.tableData4 = response.data.recordList;
-        this_vue.form.total = response.data.count;
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+          current: this.form.current,
+          size: this.form.size,
+          uName: this.form.modifyName,
+          dName: this.form.name,
+          beginTime: this.form.operationTime[0],
+          endTime: this.form.operationTime[1],
+        },
+      })
+        .then(function (response) {
+          this_vue.form.current_count = this_vue.form.size
+          this_vue.tableData4 = response.data.recordList
+          this_vue.form.total = response.data.count
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(localStorage.getItem('token'))
+          console.log(error)
+        })
     },
     deleteDoc() {
       const this_vue = this
@@ -239,35 +323,37 @@ export default {
         method: 'DELETE',
         url: '/doc',
         params: {
-          'docId': this.docId,
+          docId: this.docId,
         },
         headers: {
-          'token': localStorage.getItem('token')
-        }
-      }).then(e => {
-        if (e.flag) {
-          this_vue.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          this_vue.getFileList();
-        } else {
-          this_vue.$message({
-            message: '删除成功',
-            type: 'warning'
-          })
-        }
-        this_vue.dialogVisible2 = false;
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+          token: localStorage.getItem('token'),
+        },
+      })
+        .then((e) => {
+          if (e.flag) {
+            this_vue.$message({
+              message: '删除成功',
+              type: 'success',
+            })
+            this_vue.getFileList()
+          } else {
+            this_vue.$message({
+              message: '删除成功',
+              type: 'warning',
+            })
+          }
+          this_vue.dialogVisible2 = false
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(localStorage.getItem('token'))
+          console.log(error)
+        })
     },
     transformSize(row, column, size) {
       return parseInt(size / 1024) + 'kb'
     },
-    addClass({row, column, rowIndex, columnIndex}) {
+    addClass({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {
         if (row.type === 1) {
           console.log('test', row.type)
@@ -278,131 +364,137 @@ export default {
       return operationTime.substring(0, operationTime.indexOf('T'))
     },
     upload() {
-      var data = new FormData();
-      this.fileList.forEach(e => {
-        data.append("file", e.raw);
-      });
+      var data = new FormData()
+      this.fileList.forEach((e) => {
+        data.append('file', e.raw)
+      })
       data.append('filePath', this.path)
-      const this_vue = this;
+      const this_vue = this
       this.$axios({
         method: 'post',
         url: '/doc',
         headers: {
-          'token': localStorage.getItem('token'),
-          'Content-type': 'multipart/form-data;charset=utf-8'
+          token: localStorage.getItem('token'),
+          'Content-type': 'multipart/form-data;charset=utf-8',
         },
-        data: data
-      }).then(e => {
-        this_vue.dialogImageUrl = e.data;
+        data: data,
+      }).then((e) => {
+        this_vue.dialogImageUrl = e.data
         if (e.flag) {
           this_vue.$message({
             message: '上传成功',
-            type: 'success'
+            type: 'success',
           })
-          this_vue.getFileList();
+          this_vue.getFileList()
         } else {
           this_vue.$message({
             message: '上传失败',
-            type: 'error'
+            type: 'error',
           })
         }
       })
       this.dialogVisible = false
     },
     createFolder() {
-      const this_vue = this;
+      const this_vue = this
       this.$axios({
         method: 'post',
         url: '/doc/folder',
         params: {
-          'filePath': this.path,
-          'name': this.newFolderName
+          filePath: this.path,
+          name: this.newFolderName,
         },
         headers: {
-          'token': localStorage.getItem('token')
-        }
-      }).then(function (e) {
-        if (e.flag) {
-          this_vue.$message({
-            message: '创建成功',
-            type: 'success'
-          })
-          this_vue.getFileList();
-        }
-        this_vue.dialogVisible3 = false;
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+          token: localStorage.getItem('token'),
+        },
+      })
+        .then(function (e) {
+          if (e.flag) {
+            this_vue.$message({
+              message: '创建成功',
+              type: 'success',
+            })
+            this_vue.getFileList()
+          }
+          this_vue.dialogVisible3 = false
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(localStorage.getItem('token'))
+          console.log(error)
+        })
     },
     fileOnChange(file, fileList) {
-      this.fileList = fileList;
+      this.fileList = fileList
     },
     handleRemove(file, fileList) {
-      this.fileList = fileList;
+      this.fileList = fileList
     },
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
+      this.dialogImageUrl = file.url
       console.log('handlePictureCardPreview', file.url)
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     getFileList() {
-      const this_vue = this;
+      const this_vue = this
       this.$axios({
         method: 'get',
         url: '/doc',
         params: {
-          'filePath': this.path
-        }
-      }).then(function (response) {
-        this_vue.tableData4 = response.data
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(error);
-      });
+          filePath: this.path,
+        },
+      })
+        .then(function (response) {
+          this_vue.tableData4 = response.data
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     showModifyDialog(row) {
       this.modifyDialogVisible = true
       this.type = row.type
-      this.docId = row.id;
+      this.docId = row.id
     },
     reName() {
-      const this_vue = this;
+      const this_vue = this
       this.$axios({
         method: 'put',
         url: '/doc/name',
         params: {
-          'rename': this.rename,
-          'type': this.type,
-          'docId': this.docId
-        }
-      }).then(e => {
-        if (e.flag) {
-          this_vue.$message({
-            message: '重命名成功',
-            type: 'success'
-          })
-          this_vue.getFileList();
-        } else {
-          this_vue.$message({
-            message: '重命名失败',
-            type: 'warning'
-          })
-        }
-        this_vue.modifyDialogVisible = false
-      }).catch(function (error) {
-        console.log(error);
-      });
+          rename: this.rename,
+          type: this.type,
+          docId: this.docId,
+        },
+      })
+        .then((e) => {
+          if (e.flag) {
+            this_vue.$message({
+              message: '重命名成功',
+              type: 'success',
+            })
+            this_vue.getFileList()
+          } else {
+            this_vue.$message({
+              message: '重命名失败',
+              type: 'warning',
+            })
+          }
+          this_vue.modifyDialogVisible = false
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // 根据文件id删除对应文件
     removeFile(row) {
-      this.docId = row.id;
+      this.docId = row.id
       console.log(this.docId)
-      this.dialogVisible2 = true;
-    }
+      this.dialogVisible2 = true
+    },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .box-card {

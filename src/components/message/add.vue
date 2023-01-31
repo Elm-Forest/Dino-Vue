@@ -1,6 +1,6 @@
 <!-- 发送邮件 -->
 <template>
-  <div class='box'>
+  <div class="box">
     <div class="sBox" v-if="show">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -16,8 +16,14 @@
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="内容" :label-width="formLabelWidth">
-          <el-input rows="4" v-model="form.description" autocomplete="off" type="textarea" maxlength="200"
-                    show-word-limit></el-input>
+          <el-input
+            rows="4"
+            v-model="form.description"
+            autocomplete="off"
+            type="textarea"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
         </el-form-item>
       </el-form>
       <el-button @click="back()">取 消</el-button>
@@ -25,15 +31,10 @@
       <el-button type="info" @click="submit">保存到草稿</el-button>
     </div>
 
-
     <div class="remind" v-if="!show">
       <h1>请绑定邮箱以查看详情</h1>
     </div>
-
-
   </div>
-
-
 </template>
 
 <script>
@@ -46,17 +47,15 @@ export default {
   data() {
     //这里存放数据
     return {
-      formLabelWidth: "80px",
+      formLabelWidth: '80px',
       form: {
-        title: "",
-        name: "",
-        description: "",
-
+        title: '',
+        name: '',
+        description: '',
       },
-      // 
+      //
       show: true,
-
-    };
+    }
   },
 
   computed: {},
@@ -66,64 +65,56 @@ export default {
   //方法集合
   methods: {
     back() {
-      this.$router.push("/normal/fjx");
+      this.$router.push('/normal/fjx')
     },
     /* 发送邮箱 */
     submit() {
-      let _this = this;
+      let _this = this
       _this.$message({
-        message: "发送成功",
-        type: "success",
-        duration: "1000",
+        message: '发送成功',
+        type: 'success',
+        duration: '1000',
         onClose: function () {
-          _this.$router.push("/normal/fjx");
+          _this.$router.push('/normal/fjx')
         },
-      });
+      })
     },
     /* 保存邮箱 */
     save() {
-      let _this = this;
+      let _this = this
       _this.$message({
-        message: "保存成功",
-        type: "success",
-        duration: "1000",
+        message: '保存成功',
+        type: 'success',
+        duration: '1000',
         onClose: function () {
-          _this.$router.push("/normal/cgx");
+          _this.$router.push('/normal/cgx')
         },
-      });
+      })
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {
-  },
+  created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    this.$axios.get('/message/mail/account/check').then(response => {
+    this.$axios.get('/message/mail/account/check').then((response) => {
       if (response.data != null) {
-        this.$store.commit('SET_SHOW');
+        this.$store.commit('SET_SHOW')
       }
     })
     this.show = this.$store.state.bindMailbox
   },
-  beforeCreate() {
-  }, //生命周期 - 创建之前
-  beforeMount() {
-  }, //生命周期 - 挂载之前
-  beforeUpdate() {
-  }, //生命周期 - 更新之前
-  updated() {
-  }, //生命周期 - 更新之后
-  beforeDestroy() {
-  }, //生命周期 - 销毁之前
-  destroyed() {
-  }, //生命周期 - 销毁完成
-  activated() {
-  }, //如果页面有keep-alive缓存功能，这个函数会触发
-};
+  beforeCreate() {}, //生命周期 - 创建之前
+  beforeMount() {}, //生命周期 - 挂载之前
+  beforeUpdate() {}, //生命周期 - 更新之前
+  updated() {}, //生命周期 - 更新之后
+  beforeDestroy() {}, //生命周期 - 销毁之前
+  destroyed() {}, //生命周期 - 销毁完成
+  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+}
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 //@import url(); 引入公共css类
-// 
+//
 .remind {
   width: 100%;
   height: 100%;
@@ -132,6 +123,5 @@ export default {
 
 .remind h1 {
   margin: 150px auto;
-
 }
 </style>

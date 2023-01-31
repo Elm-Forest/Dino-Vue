@@ -3,22 +3,43 @@
     <!-- 头部 -->
     <el-header>
       <div class="head_img">
-        <el-avatar :src="headImg.dept" class="el-dropdown-link" id="headImg" alt="" :size="30"
-                   @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
+        <el-avatar
+          :src="headImg.dept"
+          class="el-dropdown-link"
+          id="headImg"
+          alt=""
+          :size="30"
+          @mouseover="showInfo"
+          @mouseleave="hideInfo"
+        ></el-avatar>
       </div>
-      <span id="title" style="position: absolute;display: block;margin-left: 20px;">OA办公自动化</span>
-      <span id="title" style="position: absolute;display: block;right: 60px">欢迎您，{{ name }}</span>
+      <span
+        id="title"
+        style="position: absolute; display: block; margin-left: 20px"
+        >OA办公自动化</span
+      >
+      <span id="title" style="position: absolute; display: block; right: 60px"
+        >欢迎您，{{ name }}</span
+      >
       <div class="head_img">
         <el-dropdown>
-          <el-avatar :src="headImg.user" class="el-dropdown-link" id="headImg" alt="" :size="30"
-                     @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
+          <el-avatar
+            :src="headImg.user"
+            class="el-dropdown-link"
+            id="headImg"
+            alt=""
+            :size="30"
+            @mouseover="showInfo"
+            @mouseleave="hideInfo"
+          ></el-avatar>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="userinfo">账户详情</el-dropdown-item>
+            <el-dropdown-item @click.native="userinfo"
+              >账户详情</el-dropdown-item
+            >
             <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-
     </el-header>
 
     <!-- 主体 -->
@@ -38,9 +59,9 @@
               <i class="el-icon-folder-add"></i>
               <span @click="newFile">新建文档</span>
             </el-menu-item>
-            <el-menu-item index="1-2">
+            <el-menu-item index="1-2" @click="selectFile">
               <i class="el-icon-search"></i>
-              <span @click="selectFile">查询文档</span>
+              <span>查询文档</span>
             </el-menu-item>
             <el-menu-item index="1-3">
               <i class="el-icon-delete"></i>
@@ -139,10 +160,10 @@ export default {
     return {
       headImg: {
         user: user_img,
-        dept: dept_img
+        dept: dept_img,
       },
       userInfo: false,
-      name: '路人甲'
+      name: '路人甲',
     }
   },
   created() {
@@ -151,19 +172,21 @@ export default {
   mounted: {},
   methods: {
     userinfo() {
-      this.$router.push('/userinfo');
+      this.$router.push('/userinfo')
     },
     getUserHeadImg() {
-      const this_vue = this;
+      const this_vue = this
       this.$axios({
         method: 'get',
         url: '/user/img',
-      }).then(function (response) {
-        this_vue.headImg.user = response.data;
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(error);
-      });
+      })
+        .then(function (response) {
+          this_vue.headImg.user = response.data
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     hideInfo() {
       setTimeout(() => {
@@ -171,99 +194,101 @@ export default {
       }, 3000)
       console.log(1)
     },
-//当触发mouseover时调用的方法       
+    //当触发mouseover时调用的方法
     showInfo() {
       this.userInfo = true
       console.log(1)
     },
     // 返回登录界面
     logout() {
-      var this_vue = this
+      let this_vue = this
       this.$axios({
         method: 'post',
         url: '/user/logout',
-      }).then(function (response) {
-        localStorage.removeItem('token');
-        this_vue.$router.push('/login');
-        this_vue.$message({
-          message: '您已登出！',
-          type: 'warning'
-        })
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(error);
       })
+        .then(function (response) {
+          localStorage.removeItem('token')
+          this_vue.$router.push('/login')
+          this_vue.$message({
+            message: '您已登出！',
+            type: 'warning',
+          })
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // 查看消息按钮
     shownews() {
-      this.$router.push("/message/sjx");
+      this.$router.push('/message/sjx')
     },
     // 新建文档界面
     newFile() {
-      this.$router.push('/File/newFile');
+      this.$router.push('/File/newFile')
     },
     // 查询文档界面
     selectFile() {
-      this.$router.push('/File/selectFile');
+      this.$router.push('/File/selectFile')
     },
     // 文件回收站界面
     recycle() {
-      this.$router.push('/File/recycle');
+      this.$router.push('/File/recycle')
     },
     // 文档日志界面
     record() {
-      this.$router.push('/File/record');
+      this.$router.push('/File/record')
     },
     // 发送邮件界面
     add() {
-      this.$router.push('/message/add');
+      this.$router.push('/message/add')
     },
     // 发件箱界面
     fjx() {
-      this.$router.push('/message/fjx');
+      this.$router.push('/message/fjx')
     },
     // 收件箱界面
     sjx() {
-      this.$router.push('/message/sjx');
+      this.$router.push('/message/sjx')
     },
     // 草稿箱界面
     cgx() {
-      this.$router.push('/message/cgx');
+      this.$router.push('/message/cgx')
     },
     // 垃圾箱界面
     ljx() {
-      this.$router.push('/message/ljx');
+      this.$router.push('/message/ljx')
     },
     // 邮箱账户界面
     bindMailbox() {
-      this.$router.push('/message/bindMailbox');
+      this.$router.push('/message/bindMailbox')
     },
     // 签到签退界面
     signIn() {
-      this.$router.push('/sign/signIn');
+      this.$router.push('/sign/signIn')
     },
     // 补签申请界面
     addSign() {
-      this.$router.push('/sign/addSign');
+      this.$router.push('/sign/addSign')
     },
     // 我的日程界面
     schedule() {
-      this.$router.push('/date/schedule');
+      this.$router.push('/date/schedule')
     },
     // 联系人日程界面
     friendsSchedule() {
-      this.$router.push('/date/friendsSchedule');
+      this.$router.push('/date/friendsSchedule')
     },
     // 部门日程界面
     deptSchedule() {
-      this.$router.push('/date/deptSchedule');
-    }
+      this.$router.push('/date/deptSchedule')
+    },
     // 获取所有的菜单
     // getMenuList(){
     //     this.$http.get('menus');
     // }
-  }
-};
+  },
+}
 </script>
 
 <style scoped>
@@ -289,7 +314,9 @@ el-aside {
   color: aliceblue;
   font-size: 16px;
   font-weight: 400;
-  font-family: Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  font-family: Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI,
+    PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica,
+    Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
 .el-aside {
@@ -314,7 +341,6 @@ el-aside {
 }
 
 .el-dropdown-link {
-
   position: relative;
   width: 50px;
   height: 50px;

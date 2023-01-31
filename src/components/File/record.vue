@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/admin/home' }"
+        >首页</el-breadcrumb-item
+      >
       <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>文档日志</el-breadcrumb-item>
     </el-breadcrumb>
@@ -37,51 +39,107 @@
               </el-dropdown>
             </el-form-item>
             <el-form-item label="修改者">
-              <el-input v-model="form.modifyName" placeholder="请输入修改人姓名" size="small"></el-input>
+              <el-input
+                v-model="form.modifyName"
+                placeholder="请输入修改人姓名"
+                size="small"
+              ></el-input>
             </el-form-item>
             <el-form-item label="文档名称">
-              <el-input v-model="form.documentName" placeholder="请输入文档名称"  size="small"></el-input>
+              <el-input
+                v-model="form.documentName"
+                placeholder="请输入文档名称"
+                size="small"
+              ></el-input>
             </el-form-item>
             <el-form-item label="操作时间">
               <el-date-picker
-                  v-model="form.operationTime"
-                  type="daterange"
-                  valueFormat="yyyy-MM-dd HH:mm:ss"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  size="small"
+                v-model="form.operationTime"
+                type="daterange"
+                valueFormat="yyyy-MM-dd HH:mm:ss"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                size="small"
               >
               </el-date-picker>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="search">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="search"
+                >查询</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
         <el-table :data="tableData4" stripe style="width: 100%">
-          <el-table-column type="index" align="center" label="#" width="50"></el-table-column>
-          <el-table-column prop="name" align="center" label="文档名称" width="150"></el-table-column>
-          <el-table-column prop="modifyName" align="center" label="修改者" width="150"></el-table-column>
-          <el-table-column prop="operation" align="center" label="修改类型" width="150"
-                           :formatter="formatStateOperator"></el-table-column>
-          <el-table-column prop="extension" align="center" label="扩展名" width="150"></el-table-column>
-          <el-table-column prop="type" align="center" label="类型" width="150"
-                           :formatter="formatStateType"></el-table-column>
-          <el-table-column prop="filePath" align="center" label="路径" min-width="150"></el-table-column>
-          <el-table-column prop="size" align="center" label="大小" width="150"></el-table-column>
-          <el-table-column prop="operationTime" align="center" label="操作时间" width="150"
-                           :formatter="transform"></el-table-column>
+          <el-table-column
+            type="index"
+            align="center"
+            label="#"
+            width="50"
+          ></el-table-column>
+          <el-table-column
+            prop="name"
+            align="center"
+            label="文档名称"
+            width="150"
+          ></el-table-column>
+          <el-table-column
+            prop="modifyName"
+            align="center"
+            label="修改者"
+            width="150"
+          ></el-table-column>
+          <el-table-column
+            prop="operation"
+            align="center"
+            label="修改类型"
+            width="150"
+            :formatter="formatStateOperator"
+          ></el-table-column>
+          <el-table-column
+            prop="extension"
+            align="center"
+            label="扩展名"
+            width="150"
+          ></el-table-column>
+          <el-table-column
+            prop="type"
+            align="center"
+            label="类型"
+            width="150"
+            :formatter="formatStateType"
+          ></el-table-column>
+          <el-table-column
+            prop="filePath"
+            align="center"
+            label="路径"
+            min-width="150"
+          ></el-table-column>
+          <el-table-column
+            prop="size"
+            align="center"
+            label="大小"
+            width="150"
+          ></el-table-column>
+          <el-table-column
+            prop="operationTime"
+            align="center"
+            label="操作时间"
+            width="150"
+            :formatter="transform"
+          ></el-table-column>
         </el-table>
       </div>
       <el-pagination
-          background
-          :page-size="form.size"
-          layout="prev, pager, next"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
-          :total="form.total">
+        background
+        :page-size="form.size"
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+        :total="form.total"
+      >
       </el-pagination>
     </el-card>
   </div>
@@ -92,22 +150,22 @@ export default {
     return {
       tableData4: '',
       form: {
-        current: "",
+        current: '',
         size: 5,
-        name: "",
+        name: '',
         modifyName: '',
-        documentName: "",
+        documentName: '',
         operation: 0,
         beginTime: '',
         endTime: '',
         operationTime: '',
         total: 50,
-        current_count: 0
+        current_count: 0,
       },
-    };
+    }
   },
   mounted() {
-    this.search();
+    this.search()
   },
   methods: {
     transform(row, column, operationTime) {
@@ -115,75 +173,78 @@ export default {
     },
     formatStateType(row, column, type) {
       if (type === '1') {
-        return '文件';
+        return '文件'
       } else if (type === '2') {
-        return '文件夹';
+        return '文件夹'
       }
-    }, formatStateOperator(row, column, operation) {
+    },
+    formatStateOperator(row, column, operation) {
       if (operation === 1) {
-        return '添加';
+        return '添加'
       }
       if (operation === 2) {
-        return '修改';
+        return '修改'
       }
       if (operation === 3) {
-        return '删除';
+        return '删除'
       }
       if (operation === 4) {
-        return '恢复';
+        return '恢复'
       }
       if (operation === 5) {
-        return '彻底删除';
+        return '彻底删除'
       }
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-      this.form.current_count = val;
+      console.log(`每页 ${val} 条`)
+      this.form.current_count = val
     },
     handleCurrentChange(val) {
-      this.form.current = val;
-      this.getList();
+      this.form.current = val
+      this.getList()
     },
     handleCommand(command) {
       this.form.size = parseInt(command)
     },
     handleCommand2(command) {
-      this.form.operation = parseInt(command);
+      this.form.operation = parseInt(command)
     },
 
     search() {
-      this.form.current = 1;
-      this.getList();
+      this.form.current = 1
+      this.getList()
     },
     getList() {
-      var this_vue = this;
+      var this_vue = this
       this.$axios({
         method: 'GET',
         url: '/doc/log',
         params: {
-          'current': this.form.current,
-          'size': this.form.size,
-          'name': this.form.modifyName,
-          'documentName': this.form.documentName,
-          'operation': this.form.operation,
-          'beginTime': this.form.operationTime[0],
-          'endTime': this.form.operationTime[1],
-        }
-      }).then(function (response) {
-        this_vue.form.current_count = this_vue.form.size;
-        this_vue.tableData4 = response.data.recordList;
-        this_vue.form.total = response.data.count;
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+          current: this.form.current,
+          size: this.form.size,
+          name: this.form.modifyName,
+          documentName: this.form.documentName,
+          operation: this.form.operation,
+          beginTime: this.form.operationTime[0],
+          endTime: this.form.operationTime[1],
+        },
+      })
+        .then(function (response) {
+          this_vue.form.current_count = this_vue.form.size
+          this_vue.tableData4 = response.data.recordList
+          this_vue.form.total = response.data.count
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(function (error) {
+          console.log(localStorage.getItem('token'))
+          console.log(error)
+        })
     },
     getType(num) {
-      return num === 1 ? '文件' : '文件夹';
-    }
+      return num === 1 ? '文件' : '文件夹'
+    },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 .box-card {
@@ -198,7 +259,7 @@ export default {
 <style>
 .el-dropdown-link {
   cursor: pointer;
-  color: #409EFF;
+  color: #409eff;
 }
 
 .el-icon-arrow-down {
