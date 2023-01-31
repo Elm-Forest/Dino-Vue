@@ -7,7 +7,7 @@
         <el-form-item prop="name">
           <el-input
             prefix-icon="el-icon-user-solid"
-            v-model="loginForm.name"
+            v-model:value="loginForm.name"
             placeholder="姓名"
             clearable
           ></el-input>
@@ -15,7 +15,7 @@
         <el-form-item prop="sex">
           <el-input
             prefix-icon="el-icon-data-board"
-            v-model="loginForm.sex"
+            v-model:value="loginForm.sex"
             placeholder="性别"
             clearable
           ></el-input>
@@ -23,7 +23,7 @@
         <el-form-item prop="phone">
           <el-input
             prefix-icon="el-icon-phone"
-            v-model="loginForm.phone"
+            v-model:value="loginForm.phone"
             placeholder="联系方式"
             clearable
           ></el-input>
@@ -31,7 +31,7 @@
         <el-form-item prop="address">
           <el-input
             prefix-icon="el-icon-s-cooperation"
-            v-model="loginForm.address"
+            v-model:value="loginForm.address"
             placeholder="常住地地址"
             clearable
           ></el-input>
@@ -128,13 +128,11 @@ export default {
   top: 25%;
   left: 37%;
 }
-
 #login-title {
   text-align: center;
   margin-bottom: 0;
   margin-top: 0;
 }
-
 #form {
   line-height: 60px;
   padding-left: 15px;

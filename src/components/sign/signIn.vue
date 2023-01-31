@@ -31,14 +31,14 @@
       <el-table-column prop="attendance_date" label="日期" align="center">
       </el-table-column>
       <el-table-column label="打卡记录" align="center">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <span>{{ scope.row.updated_start_time }}</span>
           <span>--</span>
           <span>{{ scope.row.updated_end_time }}</span>
         </template>
       </el-table-column>
       <el-table-column label="工作时长" align="center">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           {{ (scope.row.updated_duration / 3600).toFixed(1) }}
         </template>
       </el-table-column>
@@ -56,14 +56,14 @@
     <!-- 请假申请对话框 -->
     <el-dialog
       title="出差请假申请单"
-      :visible.sync="dialogFormVisible"
+      v-model:visible="dialogFormVisible"
       :before-close="handleClose"
     >
       <!-- 主体区 -->
       <el-form :model="timeoffForm" label-position="right" label-width="140px">
         <el-form-item label="出差起止日期">
           <el-date-picker
-            v-model="timeoffForm.timeoff_date"
+            v-model:value="timeoffForm.timeoff_date"
             type="daterange"
             align="right"
             unlink-panels
@@ -76,7 +76,7 @@
         </el-form-item>
         <el-form-item label="出差天数">
           <el-input-number
-            v-model="timeoffForm.timeoff_day"
+            v-model:value="timeoffForm.timeoff_day"
             size="small"
             :min="1"
             class="inputForm"
@@ -87,7 +87,7 @@
           <el-input
             type="textarea"
             :rows="5"
-            v-model="timeoffForm.decs"
+            v-model:value="timeoffForm.decs"
             size="small"
             class="textareaDecs"
           >
@@ -95,17 +95,19 @@
         </el-form-item>
       </el-form>
       <!-- 底部区 -->
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="handleClose" size="small"> 取 消 </el-button>
-        <el-button type="primary" @click="submitForm" size="small">
-          确 定
-        </el-button>
-      </div>
+      <template v-slot:footer>
+        <div class="dialog-footer">
+          <el-button @click="handleClose" size="small"> 取 消 </el-button>
+          <el-button type="primary" @click="submitForm" size="small">
+            确 定
+          </el-button>
+        </div>
+      </template>
     </el-dialog>
     <!-- 签到按钮对话框 -->
     <el-dialog
       title="签到"
-      :visible.sync="dialogFormVisible2"
+      v-model:visible="dialogFormVisible2"
       :before-close="handleClose2"
     >
       <!-- 主体区 -->
@@ -114,7 +116,7 @@
           <el-input
             type="textarea"
             :rows="5"
-            v-model="signInForm.message"
+            v-model:value="signInForm.message"
             size="small"
             class="textareaDecs"
           >
@@ -122,17 +124,19 @@
         </el-form-item>
       </el-form>
       <!-- 底部区 -->
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="handleClose2" size="small"> 取 消 </el-button>
-        <el-button type="primary" @click="submitForm2" size="small">
-          提 交
-        </el-button>
-      </div>
+      <template v-slot:footer>
+        <div class="dialog-footer">
+          <el-button @click="handleClose2" size="small"> 取 消 </el-button>
+          <el-button type="primary" @click="submitForm2" size="small">
+            提 交
+          </el-button>
+        </div>
+      </template>
     </el-dialog>
     <!-- 签退按钮对话框 -->
     <el-dialog
       title="签退"
-      :visible.sync="dialogFormVisible3"
+      v-model:visible="dialogFormVisible3"
       :before-close="handleClose3"
     >
       <!-- 主体区 -->
@@ -141,7 +145,7 @@
           <el-input
             type="textarea"
             :rows="5"
-            v-model="signOutForm.message"
+            v-model:value="signOutForm.message"
             size="small"
             class="textareaDecs"
           >
@@ -149,12 +153,14 @@
         </el-form-item>
       </el-form>
       <!-- 底部区 -->
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="handleClose3" size="small"> 取 消 </el-button>
-        <el-button type="primary" @click="submitForm3" size="small">
-          提 交
-        </el-button>
-      </div>
+      <template v-slot:footer>
+        <div class="dialog-footer">
+          <el-button @click="handleClose3" size="small"> 取 消 </el-button>
+          <el-button type="primary" @click="submitForm3" size="small">
+            提 交
+          </el-button>
+        </div>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -453,27 +459,21 @@ export default {
 .el-breadcrumb {
   margin-bottom: 15px;
 }
-
 .myButton {
   float: left;
 }
-
 .submitButton {
   float: right;
 }
-
 .personalTable {
   margin-bottom: 40px;
 }
-
 .textareaDecs {
   width: 350px;
 }
-
 .inputForm {
   width: 220px;
 }
-
 /deep/ .el-dialog__footer {
   padding-bottom: 40px;
 }

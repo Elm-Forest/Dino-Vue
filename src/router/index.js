@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import * as Vue from 'vue'
+import * as VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import retrievePassword from '../components/retrievePassword.vue'
@@ -35,8 +35,6 @@ import requestOffer from '@/components/requestOffer'
 import userinfo from '@/components/user/userinfo'
 import adminOffer from '@/components/dept/adminOffer'
 import registerInfo from '@/components/registerInfo'
-
-Vue.use(Router)
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -114,9 +112,9 @@ const routes = [
   },
 ]
 
-const router = new Router({
-  // mode: 'history',
-  routes,
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHashHistory(),
+  routes: routes,
 })
 
 export default router

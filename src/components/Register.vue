@@ -23,7 +23,7 @@
           <el-form-item prop="username">
             <el-input
               prefix-icon="el-icon-user-solid"
-              v-model="registerForm.username"
+              v-model:value="registerForm.username"
               placeholder="请输入用户名"
               clearable
             ></el-input>
@@ -31,7 +31,7 @@
           <el-form-item prop="email">
             <el-input
               prefix-icon="el-icon-message"
-              v-model="registerForm.email"
+              v-model:value="registerForm.email"
               placeholder="请输入邮箱"
               clearable
             ></el-input>
@@ -47,7 +47,7 @@
             <el-input
               style="width: 190px"
               prefix-icon="el-icon-edit"
-              v-model="registerForm.yzcode"
+              v-model:value="registerForm.yzcode"
               placeholder="请输入验证码"
               clearable
             ></el-input>
@@ -57,7 +57,7 @@
             <el-input
               prefix-icon="el-icon-lock"
               placeholder="请输入密码"
-              v-model="registerForm.password"
+              v-model:value="registerForm.password"
               show-password
             ></el-input>
           </el-form-item>
@@ -249,7 +249,6 @@ export default {
   top: 0;
   left: 0;
 }
-
 #circle {
   width: 600px;
   height: 600px;
@@ -258,7 +257,6 @@ export default {
   position: absolute;
   right: 0%;
 }
-
 #goto {
   color: aliceblue;
   position: absolute;
@@ -267,50 +265,41 @@ export default {
   text-align: center;
   line-height: 2.5;
 }
-
 #myButton {
   background-color: rgba(255, 255, 255, 0.4);
   width: 100px;
   color: aliceblue;
 }
-
 #login {
   position: absolute;
   top: 32%;
   right: 55%;
 }
-
 #login-title {
   text-align: center;
   margin-bottom: 0px;
   margin-top: 0px;
 }
-
 .el-card {
   width: 373px;
   height: 350px;
-  /* 设置为透明 */
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 15px;
 }
-
 #form {
   line-height: 60px;
   padding-left: 15px;
   padding-right: 15px;
   text-align: center;
 }
-
 #sendBtn {
   position: absolute;
   left: 0;
 }
-
 .myYzcode .el-form-item__error {
   position: absolute;
   left: 20px;
 }
-
 #clock {
   color: aliceblue;
   position: absolute;
@@ -318,15 +307,12 @@ export default {
   right: 5%;
   text-align: right;
 }
-
 #time {
   font-size: 80px;
 }
-
 #date {
   font-size: 35px;
 }
-
 #copyright {
   color: aliceblue;
   position: absolute;

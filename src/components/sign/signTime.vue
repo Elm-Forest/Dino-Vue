@@ -12,7 +12,7 @@
       <!-- 日期 -->
       <el-form-item label="考勤起止日期">
         <el-date-picker
-          v-model="timeForm.date"
+          v-model:value="timeForm.date"
           type="daterange"
           align="right"
           unlink-panels
@@ -27,7 +27,7 @@
       <el-form-item label="上班打卡时间">
         <el-time-select
           placeholder="起始时间"
-          v-model="timeForm.startTime1"
+          v-model:value="timeForm.startTime1"
           :picker-options="{
             start: '08:30',
             step: '00:15',
@@ -37,7 +37,7 @@
         </el-time-select>
         <el-time-select
           placeholder="结束时间"
-          v-model="timeForm.endTime1"
+          v-model:value="timeForm.endTime1"
           :picker-options="{
             start: '08:30',
             step: '00:15',
@@ -51,7 +51,7 @@
       <el-form-item label="下班打卡时间">
         <el-time-select
           placeholder="起始时间"
-          v-model="timeForm.startTime2"
+          v-model:value="timeForm.startTime2"
           :picker-options="{
             start: '08:30',
             step: '00:15',
@@ -61,7 +61,7 @@
         </el-time-select>
         <el-time-select
           placeholder="结束时间"
-          v-model="timeForm.endTime2"
+          v-model:value="timeForm.endTime2"
           :picker-options="{
             start: '08:30',
             step: '00:15',
@@ -73,12 +73,14 @@
       </el-form-item>
     </el-form>
     <!-- 底部区 -->
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="handleClose" size="small"> 重置 </el-button>
-      <el-button type="primary" @click="submitForm" size="small">
-        确定
-      </el-button>
-    </div>
+    <template v-slot:footer>
+      <div class="dialog-footer">
+        <el-button @click="handleClose" size="small"> 重置 </el-button>
+        <el-button type="primary" @click="submitForm" size="small">
+          确定
+        </el-button>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -152,27 +154,21 @@ export default {
 .el-breadcrumb {
   margin-bottom: 30px;
 }
-
 .myButton {
   float: left;
 }
-
 .submitButton {
   float: right;
 }
-
 .personalTable {
   margin-bottom: 40px;
 }
-
 .textareaDecs {
   width: 350px;
 }
-
 .inputForm {
   width: 220px;
 }
-
 .dialog-footer {
   float: left;
   padding-left: 43px;

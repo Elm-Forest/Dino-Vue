@@ -1,4 +1,4 @@
-<template xmlns="">
+<template xmlns>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/admin/home' }"
@@ -13,14 +13,12 @@
         <el-col :span="8">
           <el-input
             placeholder="请输入内容"
-            v-model="queryInfo.query"
+            v-model:value="queryInfo.query"
             clearable
           >
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="getUserList"
-            ></el-button>
+            <template v-slot:append>
+              <el-button icon="el-icon-search" @click="getUserList"></el-button>
+            </template>
           </el-input>
         </el-col>
       </el-row>
@@ -52,7 +50,7 @@
           prop="address"
         ></el-table-column>
         <el-table-column label="操作" align="center" width="225">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <!-- 修改按钮 -->
             <el-button
               type="primary"
@@ -84,7 +82,7 @@
       <!-- 添加用户的对话框 -->
       <el-dialog
         title="添加用户"
-        :visible.sync="addDialogVisible"
+        v-model:visible="addDialogVisible"
         width="50%"
         @close="addDialogClosed"
       >
@@ -96,11 +94,14 @@
           label-width="auto"
         >
           <el-form-item label="用户名" prop="name">
-            <el-input v-model="addForm.username"></el-input>
+            <el-input v-model:value="addForm.username"></el-input>
           </el-form-item>
           <el-form-item label="角色" prop="role">
             <template>
-              <el-select v-model="optionRoles.value" placeholder="请选择角色">
+              <el-select
+                v-model:value="optionRoles.value"
+                placeholder="请选择角色"
+              >
                 <el-option
                   v-for="item in optionRoles"
                   :key="item.value"
@@ -113,7 +114,10 @@
           </el-form-item>
           <el-form-item label="权限" prop="rights">
             <template>
-              <el-select v-model="optionRights.value" placeholder="请选择权限">
+              <el-select
+                v-model:value="optionRights.value"
+                placeholder="请选择权限"
+              >
                 <el-option
                   v-for="item in optionRights"
                   :key="item.value"
@@ -127,7 +131,7 @@
           <el-form-item label="就职情况" prop="status">
             <template>
               <el-select
-                v-model="optionStatus.value"
+                v-model:value="optionStatus.value"
                 placeholder="请选择就职情况"
               >
                 <el-option
@@ -142,30 +146,32 @@
           </el-form-item>
           <el-form-item label="性别:" prop="sex">
             <template>
-              <el-radio v-model="addForm.radio" label="1">男</el-radio>
-              <el-radio v-model="addForm.radio" label="2">女</el-radio>
+              <el-radio v-model:value="addForm.radio" label="1">男</el-radio>
+              <el-radio v-model:value="addForm.radio" label="2">女</el-radio>
             </template>
           </el-form-item>
           <el-form-item label="地址:" prop="address">
-            <el-input v-model="addForm.address"></el-input>
+            <el-input v-model:value="addForm.address"></el-input>
           </el-form-item>
           <el-form-item label="手机号:" prop="phone">
-            <el-input v-model="addForm.phone"></el-input>
+            <el-input v-model:value="addForm.phone"></el-input>
           </el-form-item>
           <el-form-item label="邮箱:" prop="email">
-            <el-input v-model="addForm.email"></el-input>
+            <el-input v-model:value="addForm.email"></el-input>
           </el-form-item>
         </el-form>
         <!-- 底部区 -->
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addUser">确 定</el-button>
-        </span>
+        <template v-slot:footer>
+          <span class="dialog-footer">
+            <el-button @click="addDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="addUser">确 定</el-button>
+          </span>
+        </template>
       </el-dialog>
       <!-- 修改用户的对话框 -->
       <el-dialog
         title="筛选offer"
-        :visible.sync="editDialogVisible"
+        v-model:visible="editDialogVisible"
         width="50%"
         @close="editDialogClosed"
       >
@@ -177,7 +183,7 @@
           label-width="auto"
         >
           <el-form-item label="角色安排">
-            <el-select v-model="editForm.role" placeholder="角色">
+            <el-select v-model:value="editForm.role" placeholder="角色">
               <el-option
                 v-for="(item, index) in optionRoles"
                 :label="item.label"
@@ -187,7 +193,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="权限安排">
-            <el-select v-model="editForm.rights" placeholder="权限">
+            <el-select v-model:value="editForm.rights" placeholder="权限">
               <el-option
                 v-for="(item, index) in optionRights"
                 :label="item.label"
@@ -198,34 +204,36 @@
           </el-form-item>
         </el-form>
         <!-- 底部区 -->
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="editDialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="offerPass()">确 定</el-button>
-        </span>
+        <template v-slot:footer>
+          <span class="dialog-footer">
+            <el-button @click="editDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="offerPass()">确 定</el-button>
+          </span>
+        </template>
       </el-dialog>
       <!-- 查看名片的对话框 -->
       <el-dialog
         title="名片"
-        :visible.sync="showDialogVisible"
+        v-model:visible="showDialogVisible"
         width="30%"
         @close="showDialogClosed"
       >
         <!-- 对话框主体区 -->
         <el-form :model="tableData" ref="showFormRef" label-width="auto">
           <el-form-item label="姓名" prop="name">
-            <el-lable v-model="tableData.name"></el-lable>
+            <el-lable v-model:value="tableData.name"></el-lable>
           </el-form-item>
           <el-form-item label="性别:" prop="sex">
-            <el-lable v-model="tableData.sex"></el-lable>
+            <el-lable v-model:value="tableData.sex"></el-lable>
           </el-form-item>
           <el-form-item label="地址:" prop="address">
-            <el-lable v-model="tableData.address"></el-lable>
+            <el-lable v-model:value="tableData.address"></el-lable>
           </el-form-item>
           <el-form-item label="手机号:" prop="phone">
-            <el-lable v-model="tableData.phone"></el-lable>
+            <el-lable v-model:value="tableData.phone"></el-lable>
           </el-form-item>
           <el-form-item label="邮箱:" prop="email">
-            <el-lable v-model="tableData.email"></el-lable>
+            <el-lable v-model:value="tableData.email"></el-lable>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -529,19 +537,15 @@ export default {
 .el-breadcrumb {
   margin-bottom: 15px;
 }
-
 .el-card {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
 }
-
 .el-table {
   margin-top: 15px;
 }
-
 .el-pagination {
   margin-top: 15px;
 }
-
 /deep/ .el-dialog__footer {
   padding-bottom: 50px;
 }

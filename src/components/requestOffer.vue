@@ -6,7 +6,7 @@
       <el-form id="form" ref="loginFormRef" :model="loginForm">
         <el-autocomplete
           prefix-icon="el-icon-user-solid"
-          v-model="state"
+          v-model:value="state"
           :fetch-suggestions="querySearchAsync"
           placeholder="企业名称"
           @select="handleSelect"
@@ -132,7 +132,6 @@ export default {
   top: 0;
   left: 0;
 }
-
 #forgetPWD {
   float: left;
   color: black;
@@ -141,33 +140,27 @@ export default {
   top: 84%;
   height: 30px;
 }
-
 #myButton {
   background-color: rgba(255, 255, 255, 0.4);
   width: 100px;
   color: aliceblue;
 }
-
 #loginBox {
   position: absolute;
   top: 25%;
   left: 37%;
 }
-
 #login-title {
   text-align: center;
   margin-bottom: 0;
   margin-top: 0;
 }
-
 .el-card {
   width: 373px;
   height: 45%;
-  /* 设置为透明 */
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 15px;
 }
-
 #form {
   line-height: 60px;
   padding-left: 15px;

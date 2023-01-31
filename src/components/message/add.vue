@@ -1,4 +1,3 @@
-<!-- 发送邮件 -->
 <template>
   <div class="box">
     <div class="sBox" v-if="show">
@@ -10,15 +9,15 @@
       <el-divider content-position="left"><b>发送邮件</b></el-divider>
       <el-form :model="form">
         <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model="form.title" autocomplete="off"></el-input>
+          <el-input v-model:value="form.title" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="收件人" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model:value="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="内容" :label-width="formLabelWidth">
           <el-input
             rows="4"
-            v-model="form.description"
+            v-model:value="form.description"
             autocomplete="off"
             type="textarea"
             maxlength="200"
@@ -107,21 +106,14 @@ export default {
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
   updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {}, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
+  beforeUnmount() {}, //生命周期 - 销毁之前
+  unmounted() {}, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
-<style lang="less" scoped>
-//@import url(); 引入公共css类
-//
-.remind {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
 
-.remind h1 {
-  margin: 150px auto;
-}
+<style lang="less" scoped>
+/*//@import url(); 引入公共css类*/
+//
+.remind{width:100%;height:100%;display:flex}.remind h1{margin:150px auto}
 </style>

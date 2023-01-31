@@ -14,12 +14,14 @@
           alt=""
           id="headImg"
         />
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="userinfo"
-            >查看账户详细信息</el-dropdown-item
-          >
-          <el-dropdown-item @click.native="logout">退出 </el-dropdown-item>
-        </el-dropdown-menu>
+        <template v-slot:dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item @click="userinfo"
+              >查看账户详细信息</el-dropdown-item
+            >
+            <el-dropdown-item @click="logout">退出 </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
     </el-header>
     <!-- 主体 -->
@@ -34,7 +36,7 @@
         >
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-document"></i>
               <span>文档管理平台</span>
             </template>
@@ -57,7 +59,7 @@
           </el-submenu>
           <!-- 2.消息管理平台 -->
           <el-submenu index="2">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-chat-dot-square"></i>
               <span>消息管理平台</span>
             </template>
@@ -68,7 +70,7 @@
           </el-submenu>
           <!-- 3.考勤管理平台 -->
           <el-submenu index="3">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-circle-check"></i>
               <span>考勤管理平台</span>
             </template>
@@ -88,7 +90,7 @@
 
           <!-- 4.日程管理平台 -->
           <el-submenu index="4">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-date"></i>
               <span>日程管理平台</span>
             </template>
@@ -108,7 +110,7 @@
 
           <!-- 5.部门管理平台 -->
           <el-submenu index="5">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-s-grid"></i>
               <span>部门管理平台</span>
             </template>
@@ -265,14 +267,12 @@ export default {
 .home-container {
   height: 100%;
 }
-
 .el-header {
   background-image: url(../images/background.png);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 #title {
   color: aliceblue;
   font-size: 45px;
@@ -280,15 +280,12 @@ export default {
   top: 14px;
   left: 40px;
 }
-
 .el-aside {
   background-color: #545c64;
 }
-
 .el-main {
   background-color: white;
 }
-
 #logo {
   width: 80px;
   height: 80px;
@@ -297,23 +294,19 @@ export default {
   position: absolute;
   top: 4px;
 }
-
 .el-dropdown-link {
   position: relative;
   width: 50px;
   height: 50px;
   margin-right: 45px;
 }
-
 .userMessage {
   width: 100%;
   height: 100%;
 }
-
 :hover {
   cursor: pointer;
 }
-
 .box2 {
   position: absolute;
   bottom: -60px;
@@ -324,13 +317,11 @@ export default {
   background-color: #fff;
   box-sizing: border-box;
 }
-
 p {
   margin-top: 6px;
   text-align: center;
   font-size: 12px;
 }
-
 :hover {
   cursor: pointer;
 }

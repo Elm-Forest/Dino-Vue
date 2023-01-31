@@ -142,7 +142,6 @@ export default {
   height: 100%;
   display: flex;
 }
-
 .mailBox {
   width: 480px;
   height: 260px;
@@ -152,7 +151,6 @@ export default {
   flex-wrap: wrap;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 .boxT {
   width: 80%;
   height: 40px;
@@ -162,14 +160,10 @@ export default {
   align-items: center;
   position: relative;
 }
-
 .text {
-  /* font-size: 18px;
-  font-weight: 550; */
   color: black;
   display: block;
 }
-
 .boxT input {
   display: block;
   width: 70%;
@@ -180,7 +174,6 @@ export default {
   padding-left: 12px;
   border: 0.5px solid #666;
 }
-
 .but {
   position: absolute;
   right: -35px;
@@ -193,7 +186,6 @@ export default {
   color: white;
   border-radius: 12px;
 }
-
 .el-breadcrumb {
   margin-bottom: 180px;
 }

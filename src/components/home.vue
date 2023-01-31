@@ -1,4 +1,3 @@
-// 登录后的首页
 <template>
   <div class="oa_main">
     <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -72,22 +71,24 @@
     <el-row class="oa_doc">
       <el-col :span="12">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span class="title"
-              ><i class="iconfont icon-inquirytemplate"></i> 公开公文</span
-            >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看更多"
-              placement="top-start"
-            >
-              <i
-                class="el-icon-more-outline"
-                style="float: right; padding: 3px 0"
-              ></i>
-            </el-tooltip>
-          </div>
+          <template v-slot:header>
+            <div class="clearfix">
+              <span class="title"
+                ><i class="iconfont icon-inquirytemplate"></i> 公开公文</span
+              >
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="查看更多"
+                placement="top-start"
+              >
+                <i
+                  class="el-icon-more-outline"
+                  style="float: right; padding: 3px 0"
+                ></i>
+              </el-tooltip>
+            </div>
+          </template>
           <div>
             <!--table-->
             <el-table :data="tableData" stripe style="width: 100%">
@@ -140,22 +141,24 @@
       </el-col>
       <el-col :span="12">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span class="title">
-              <i class="iconfont icon-inquirytemplate"></i> 部门公文</span
-            >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看更多"
-              placement="top-start"
-            >
-              <i
-                class="el-icon-more-outline"
-                style="float: right; padding: 3px 0"
-              ></i>
-            </el-tooltip>
-          </div>
+          <template v-slot:header>
+            <div class="clearfix">
+              <span class="title">
+                <i class="iconfont icon-inquirytemplate"></i> 部门公文</span
+              >
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="查看更多"
+                placement="top-start"
+              >
+                <i
+                  class="el-icon-more-outline"
+                  style="float: right; padding: 3px 0"
+                ></i>
+              </el-tooltip>
+            </div>
+          </template>
           <div>
             <!--table-->
             <el-table :data="tableData" stripe style="width: 100%">
@@ -211,22 +214,24 @@
     <el-row class="oa_doc">
       <el-col :span="12">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span class="title"
-              ><i class="iconfont icon-remind1"></i> 通知公告</span
-            >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看更多"
-              placement="top-start"
-            >
-              <i
-                class="el-icon-more-outline"
-                style="float: right; padding: 3px 0"
-              ></i>
-            </el-tooltip>
-          </div>
+          <template v-slot:header>
+            <div class="clearfix">
+              <span class="title"
+                ><i class="iconfont icon-remind1"></i> 通知公告</span
+              >
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="查看更多"
+                placement="top-start"
+              >
+                <i
+                  class="el-icon-more-outline"
+                  style="float: right; padding: 3px 0"
+                ></i>
+              </el-tooltip>
+            </div>
+          </template>
           <div>
             <!--table-->
             <el-table :data="tableData" stripe style="width: 100%">
@@ -262,22 +267,24 @@
       </el-col>
       <el-col :span="12">
         <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span class="title">
-              <i class="iconfont icon-attachment"></i> 部门文档</span
-            >
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="查看更多"
-              placement="top-start"
-            >
-              <i
-                class="el-icon-more-outline"
-                style="float: right; padding: 3px 0"
-              ></i>
-            </el-tooltip>
-          </div>
+          <template v-slot:header>
+            <div class="clearfix">
+              <span class="title">
+                <i class="iconfont icon-attachment"></i> 部门文档</span
+              >
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="查看更多"
+                placement="top-start"
+              >
+                <i
+                  class="el-icon-more-outline"
+                  style="float: right; padding: 3px 0"
+                ></i>
+              </el-tooltip>
+            </div>
+          </template>
           <div>
             <!--table-->
             <el-table :data="tableData2" stripe style="width: 100%">
@@ -314,6 +321,7 @@
     </el-row>
   </div>
 </template>
+
 <script>
 export default {
   name: 'Main',
@@ -373,14 +381,13 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .el-breadcrumb {
   margin-bottom: 15px;
 }
-
 .oa_main_card {
   margin-top: 18px;
-
   .el-card {
     margin: 6px;
     height: 100%;
@@ -432,10 +439,8 @@ export default {
     }
   }
 }
-
 .oa_doc {
   margin: 25px 0;
-
   .el-card {
     margin: 0 6px;
 
@@ -461,6 +466,7 @@ export default {
   }
 }
 </style>
+
 <style lang="scss">
 .oa_main_card {
   .el-card__body {

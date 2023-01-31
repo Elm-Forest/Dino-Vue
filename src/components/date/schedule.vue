@@ -3,7 +3,7 @@
     <el-col :span="10">
       <div class="grid-content bg-purple">
         <el-calendar>
-          <template slot="dateCell" slot-scope="{ data }">
+          <template v-slot:dateCell="{ data }">
             <p>
               {{ data.day.split('-').slice(1).join('-') }}
               <br />
@@ -16,24 +16,24 @@
     <el-col :span="14">
       <div class="grid-content">
         <div class="el-select">
-          <el-input v-model="temp_schedule_title" placeholder="标题" />
+          <el-input v-model:value="temp_schedule_title" placeholder="标题" />
         </div>
         <div class="el-select">
-          <el-input v-model="temp_schedule_content" placeholder="内容" />
+          <el-input v-model:value="temp_schedule_content" placeholder="内容" />
         </div>
         <div class="el-select">
-          <el-input v-model="temp_user_id" placeholder="提交人ID" />
+          <el-input v-model:value="temp_user_id" placeholder="提交人ID" />
         </div>
         <el-date-picker
           style="width: 234px"
-          v-model="temp_begin_time"
+          v-model:value="temp_begin_time"
           type="date"
           placeholder="开始时间"
           value-format="yyyy-MM-dd"
         />
         <el-date-picker
           style="width: 234px"
-          v-model="temp_end_time"
+          v-model:value="temp_end_time"
           type="date"
           placeholder="结束时间"
           value-format="yyyy-MM-dd"
@@ -57,29 +57,33 @@
           >
           </el-table-column>
           <el-table-column label="结束时间" width="180">
-            <template slot-scope="scope">
+            <template v-slot="scope">
               <i class="el-icon-time"></i>
               <span style="margin-left: 10px">{{ scope.row.end_time }}</span>
             </template>
           </el-table-column>
           <el-table-column label="创建人id" width="180">
-            <template slot-scope="scope">
+            <template v-slot="scope">
               <i class="el-icon-time"></i>
               <span style="margin-left: 10px">{{ scope.row.user_id }}</span>
             </template>
           </el-table-column>
           <el-table-column label="日程" width="180">
-            <template slot-scope="scope">
+            <template v-slot="scope">
               <el-popover trigger="hover" placement="top">
                 <p>内容: {{ scope.row.schedule_content }}</p>
-                <div slot="reference" class="name-wrapper">
-                  <el-tag size="medium">{{ scope.row.schedule_title }}</el-tag>
-                </div>
+                <template v-slot:reference>
+                  <div class="name-wrapper">
+                    <el-tag size="medium">{{
+                      scope.row.schedule_title
+                    }}</el-tag>
+                  </div>
+                </template>
               </el-popover>
             </template>
           </el-table-column>
           <el-table-column label="操作">
-            <template slot-scope="scope">
+            <template v-slot="scope">
               <el-button size="mini" @click="scheduleEdit(scope.row.id)"
                 >编辑</el-button
               >
@@ -92,7 +96,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="post" id="postContent" :visible.sync="editVisible">
+        <div class="post" id="postContent" v-model:visible="editVisible">
           <input
             class="title"
             v-model="temp_schedule_title"
@@ -123,6 +127,7 @@
     >
   </el-row>
 </template>
+
 <script>
 import axios from 'axios'
 // import Cookies from "js-cookie";

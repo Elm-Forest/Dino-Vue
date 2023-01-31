@@ -23,7 +23,7 @@
           <el-form-item prop="username">
             <el-input
               prefix-icon="el-icon-user-solid"
-              v-model="loginForm.username"
+              v-model:value="loginForm.username"
               placeholder="请输入用户名"
               clearable
             ></el-input>
@@ -31,7 +31,7 @@
           <el-form-item prop="password">
             <el-input
               prefix-icon="el-icon-lock"
-              v-model="loginForm.password"
+              v-model:value="loginForm.password"
               placeholder="请输入密码"
               show-password
             ></el-input>
@@ -231,7 +231,6 @@ export default {
   top: 0;
   left: 0;
 }
-
 #circle {
   width: 600px;
   height: 600px;
@@ -240,7 +239,6 @@ export default {
   position: absolute;
   left: 0;
 }
-
 #goto {
   color: aliceblue;
   position: absolute;
@@ -249,40 +247,33 @@ export default {
   text-align: center;
   line-height: 2.5;
 }
-
 #myButton {
   background-color: rgba(255, 255, 255, 0.4);
   width: 100px;
   color: aliceblue;
 }
-
 #loginBox {
   position: absolute;
   top: 40%;
   left: 55%;
 }
-
 #login-title {
   text-align: center;
   margin-bottom: 0;
   margin-top: 0;
 }
-
 .el-card {
   width: 373px;
   height: 260px;
-  /* 设置为透明 */
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 15px;
 }
-
 #form {
   line-height: 60px;
   padding-left: 15px;
   padding-right: 15px;
   text-align: center;
 }
-
 #forgetPWD {
   float: left;
   color: black;
@@ -291,7 +282,6 @@ export default {
   top: 72%;
   height: 30px;
 }
-
 #clock {
   color: aliceblue;
   position: absolute;
@@ -299,15 +289,12 @@ export default {
   left: 5%;
   text-align: left;
 }
-
 #time {
   font-size: 80px;
 }
-
 #date {
   font-size: 35px;
 }
-
 #copyright {
   color: aliceblue;
   position: absolute;

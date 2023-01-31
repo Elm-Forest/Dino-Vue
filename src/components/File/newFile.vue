@@ -20,7 +20,7 @@
       >
         <!-- min-width100%能实现header拉长，name独大 -->
         <el-table-column prop="name" label="文件名" min-width="100%">
-          <template slot="header">
+          <template v-slot:header>
             <i class="el-icon-document hidden-xs-only"></i>
             <span>文件名</span>
             <el-upload
@@ -41,17 +41,17 @@
           sortable
           width="180"
         >
-          <template slot="header">
+          <template v-slot:header>
             <span>修改时间</span>
           </template>
         </el-table-column>
         <el-table-column prop="size" label="大小" sortable width="180">
-          <template slot="header">
+          <template v-slot:header>
             <span>大小</span>
           </template>
         </el-table-column>
         <el-table-column prop="operation" label="操作" width="180">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button type="text" icon="el-icon-download"></el-button>
             <el-button
               type="text"

@@ -14,13 +14,13 @@
           <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="文档名称">
               <el-input
-                v-model="form.name"
+                v-model:value="form.name"
                 placeholder="请输入文档名称"
               ></el-input>
             </el-form-item>
             <el-form-item label="上传时间">
               <el-date-picker
-                v-model="form.time"
+                v-model:value="form.time"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -67,7 +67,7 @@
             label="操作"
             width="200"
           >
-            <template slot-scope="scope">
+            <template v-slot="scope">
               <!-- 查看按钮 -->
               <el-button
                 type="success"
@@ -89,6 +89,7 @@
     </el-card>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -136,6 +137,7 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .box-card {
   margin: 20px;

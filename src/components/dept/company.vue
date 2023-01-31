@@ -37,7 +37,6 @@ export default {}
 .mainBox {
   width: 70%;
   height: 100%;
-  /* margin: 0 auto; */
   font-family: '微软雅黑 Light', serif;
 }
 .el-breadcrumb {
@@ -46,11 +45,9 @@ export default {}
 .text {
   font-size: 14px;
 }
-
 .item {
   margin-bottom: 18px;
 }
-
 .clearfix:before,
 .clearfix:after {
   display: table;

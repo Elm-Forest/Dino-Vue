@@ -14,7 +14,7 @@
           <el-input
             placeholder="请输入姓名"
             suffix-icon="el-icon-search"
-            v-model="userName"
+            v-model:value="userName"
             size="small"
             @change="searchUserName"
           >
@@ -24,7 +24,7 @@
       <el-col :span="17">
         <div class="">
           <el-date-picker
-            v-model="userDateRange"
+            v-model:value="userDateRange"
             type="daterange"
             align="right"
             unlink-panels
@@ -76,7 +76,7 @@
       >
       </el-table-column>
       <el-table-column label="打卡记录" align="center">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <div
             :class="{
               red: scope.row.status === '异常',
@@ -91,7 +91,7 @@
         </template>
       </el-table-column>
       <el-table-column label="工作时长(h)" align="center">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <span
             :class="{
               red: scope.row.status === '异常',
@@ -110,7 +110,7 @@
         :filters="tableStatus"
         align="center"
       >
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <span
             :class="{
               red: scope.row.status === '异常',
@@ -123,7 +123,7 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" fixed="right">
-        <template slot-scope="scope">
+        <template v-slot="scope">
           <el-button
             type="success"
             icon="el-icon-check"
@@ -147,20 +147,23 @@
     <!-- 通过审批对话框 -->
     <el-dialog
       title="通过审批"
-      :visible.sync="editDialogVisible"
+      v-model:visible="editDialogVisible"
       width="30%"
       :before-close="editHandleClose"
     >
       <div>确定通过该申请吗？</div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editHandleClose">取 消</el-button>
-        <el-button type="primary" @click="submitEditDialog">确 定</el-button>
-      </span>
+      <template v-slot:footer>
+        <span class="dialog-footer">
+          <el-button @click="editHandleClose">取 消</el-button>
+          <el-button type="primary" @click="submitEditDialog">确 定</el-button>
+        </span>
+      </template>
     </el-dialog>
   </div>
 </template>
 
 <script>
+import { $on, $off, $once, $emit } from '../../utils/gogocodeTransfer'
 export default {
   data() {
     return {
@@ -215,7 +218,7 @@ export default {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              picker.$emit('pick', [start, end])
+              $emit(picker, 'pick', [start, end])
             },
           },
           {
@@ -224,7 +227,7 @@ export default {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end])
+              $emit(picker, 'pick', [start, end])
             },
           },
           {
@@ -233,7 +236,7 @@ export default {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              picker.$emit('pick', [start, end])
+              $emit(picker, 'pick', [start, end])
             },
           },
         ],
@@ -779,6 +782,7 @@ export default {
       console.log('跳转页数')
     },
   },
+  emits: ['pick'],
 }
 </script>
 

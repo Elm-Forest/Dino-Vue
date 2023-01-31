@@ -16,11 +16,13 @@
                 <span class="el-dropdown-link">
                   每页展示<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="5">5</el-dropdown-item>
-                  <el-dropdown-item command="10">10</el-dropdown-item>
-                  <el-dropdown-item command="20">20</el-dropdown-item>
-                </el-dropdown-menu>
+                <template v-slot:dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="5">5</el-dropdown-item>
+                    <el-dropdown-item command="10">10</el-dropdown-item>
+                    <el-dropdown-item command="20">20</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
               </el-dropdown>
             </el-form-item>
             <el-form-item>
@@ -28,33 +30,35 @@
                 <span class="el-dropdown-link">
                   操作<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="0">任意</el-dropdown-item>
-                  <el-dropdown-item command="1">查询</el-dropdown-item>
-                  <el-dropdown-item command="2">修改</el-dropdown-item>
-                  <el-dropdown-item command="3">删除</el-dropdown-item>
-                  <el-dropdown-item command="4">恢复</el-dropdown-item>
-                  <el-dropdown-item command="5">彻底删除</el-dropdown-item>
-                </el-dropdown-menu>
+                <template v-slot:dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="0">任意</el-dropdown-item>
+                    <el-dropdown-item command="1">查询</el-dropdown-item>
+                    <el-dropdown-item command="2">修改</el-dropdown-item>
+                    <el-dropdown-item command="3">删除</el-dropdown-item>
+                    <el-dropdown-item command="4">恢复</el-dropdown-item>
+                    <el-dropdown-item command="5">彻底删除</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
               </el-dropdown>
             </el-form-item>
             <el-form-item label="修改者">
               <el-input
-                v-model="form.modifyName"
+                v-model:value="form.modifyName"
                 placeholder="请输入修改人姓名"
                 size="small"
               ></el-input>
             </el-form-item>
             <el-form-item label="文档名称">
               <el-input
-                v-model="form.documentName"
+                v-model:value="form.documentName"
                 placeholder="请输入文档名称"
                 size="small"
               ></el-input>
             </el-form-item>
             <el-form-item label="操作时间">
               <el-date-picker
-                v-model="form.operationTime"
+                v-model:value="form.operationTime"
                 type="daterange"
                 valueFormat="yyyy-MM-dd HH:mm:ss"
                 range-separator="至"
@@ -144,6 +148,7 @@
     </el-card>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -246,16 +251,17 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .box-card {
   margin: 20px;
   background-color: rgba(255, 255, 255, 0.5);
-
   .el-icon-search {
     color: blue;
   }
 }
 </style>
+
 <style>
 .el-dropdown-link {
   cursor: pointer;

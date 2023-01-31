@@ -32,12 +32,12 @@
             @mouseover="showInfo"
             @mouseleave="hideInfo"
           ></el-avatar>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="userinfo"
-              >账户详情</el-dropdown-item
-            >
-            <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
-          </el-dropdown-menu>
+          <template v-slot:dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item @click="userinfo">账户详情</el-dropdown-item>
+              <el-dropdown-item @click="logout">退出</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
         </el-dropdown>
       </div>
     </el-header>
@@ -51,7 +51,7 @@
         <el-menu background-color="#fafafa">
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-document"></i>
               <span>文档管理平台</span>
             </template>
@@ -74,7 +74,7 @@
           </el-submenu>
           <!-- 2.消息管理平台 -->
           <el-submenu index="2">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-chat-dot-square"></i>
               <span>消息管理平台</span>
             </template>
@@ -105,7 +105,7 @@
           </el-submenu>
           <!-- 3.考勤管理平台 -->
           <el-submenu index="3">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-circle-check"></i>
               <span>考勤管理平台</span>
             </template>
@@ -121,7 +121,7 @@
 
           <!-- 4.日程管理平台 -->
           <el-submenu index="4">
-            <template slot="title">
+            <template v-slot:title>
               <i class="el-icon-date"></i>
               <span>日程管理平台</span>
             </template>
@@ -296,19 +296,15 @@ el-aside {
   border-right: 1px solid #e8e8e8;
   box-shadow: 1px 1px 4px rgb(99 99 99 / 15%);
 }
-
 .home-container {
   height: 100%;
 }
-
 .el-header {
-  /*height: 70px;*/
   background-color: #0b2342;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 #title {
   padding: 0 30px;
   color: aliceblue;
@@ -318,19 +314,12 @@ el-aside {
     PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica,
     Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
-
 .el-aside {
   background-color: #fafafa;
 }
-
-/*.el-aside {*/
-/*  background-color: #545c64;*/
-/*}*/
-
 .el-main {
   background-color: white;
 }
-
 #logo {
   width: 80px;
   height: 80px;
@@ -339,23 +328,19 @@ el-aside {
   position: absolute;
   top: 4px;
 }
-
 .el-dropdown-link {
   position: relative;
   width: 50px;
   height: 50px;
   margin-right: 10px;
 }
-
 .userMessage {
   width: 100%;
   height: 100%;
 }
-
 :hover {
   cursor: pointer;
 }
-
 .box2 {
   position: absolute;
   bottom: -60px;
@@ -366,17 +351,14 @@ el-aside {
   background-color: #fff;
   box-sizing: border-box;
 }
-
 p {
   margin-top: 6px;
   text-align: center;
   font-size: 12px;
 }
-
 :hover {
   cursor: pointer;
 }
-
 .head_img {
   padding: 5px 10px 0;
 }

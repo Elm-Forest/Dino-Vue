@@ -34,7 +34,7 @@
           <el-form-item style="float: right; width: 80%" label="邮箱号">
             <el-input
               type="text"
-              v-model="Form.email"
+              v-model:value="Form.email"
               autofocus
               ref="email"
               auto-complete="off"
@@ -58,7 +58,7 @@
           <el-form-item style="float: right; width: 80%" label="验证码">
             <el-input
               type="text"
-              v-model="codeForm.code"
+              v-model:value="codeForm.code"
               autofocus
               ref="code"
               auto-complete="off"
@@ -82,7 +82,7 @@
           <el-form-item style="float: right; width: 80%" label="新密码">
             <el-input
               type="password"
-              v-model="passwordForm.password"
+              v-model:value="passwordForm.password"
               autofocus
               ref="password"
               auto-complete="off"
@@ -272,7 +272,6 @@ export default {
   top: 0;
   left: 0;
 }
-
 #title {
   font-size: 80px;
   color: #999;
@@ -280,7 +279,6 @@ export default {
   height: 200px;
   line-height: 170%;
 }
-
 .container {
   border-radius: 15px;
   background-clip: padding-box;
@@ -292,16 +290,13 @@ export default {
   box-shadow: 0 0 200px #929288;
   opacity: 0.7;
 }
-
 .common_div {
   margin-top: 5%;
 }
-
 .user-container {
   width: 80%;
   background: #fff;
 }
-
 .action_button {
   width: 20%;
   margin-top: 3%;

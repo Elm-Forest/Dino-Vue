@@ -9,7 +9,7 @@
     <el-form :model="addSignForm" label-position="right" label-width="140px">
       <el-form-item label="补签起止日期">
         <el-date-picker
-          v-model="addSignForm.addSign_date"
+          v-model:value="addSignForm.addSign_date"
           type="daterange"
           align="right"
           unlink-panels
@@ -22,7 +22,7 @@
       </el-form-item>
       <el-form-item label="补签天数">
         <el-input-number
-          v-model="addSignForm.addSign_day"
+          v-model:value="addSignForm.addSign_day"
           size="small"
           :min="1"
           class="inputForm"
@@ -33,7 +33,7 @@
         <el-input
           type="textarea"
           :rows="5"
-          v-model="addSignForm.decs"
+          v-model:value="addSignForm.decs"
           size="small"
           class="textareaDecs"
         >
@@ -41,12 +41,14 @@
       </el-form-item>
     </el-form>
     <!-- 底部区 -->
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="handleClose" size="small"> 重置 </el-button>
-      <el-button type="primary" @click="submitForm" size="small">
-        确定
-      </el-button>
-    </div>
+    <template v-slot:footer>
+      <div class="dialog-footer">
+        <el-button @click="handleClose" size="small"> 重置 </el-button>
+        <el-button type="primary" @click="submitForm" size="small">
+          确定
+        </el-button>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -96,27 +98,21 @@ export default {
 .el-breadcrumb {
   margin-bottom: 15px;
 }
-
 .myButton {
   float: left;
 }
-
 .submitButton {
   float: right;
 }
-
 .personalTable {
   margin-bottom: 40px;
 }
-
 .textareaDecs {
   width: 350px;
 }
-
 .inputForm {
   width: 220px;
 }
-
 .dialog-footer {
   float: right;
 }

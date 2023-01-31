@@ -11,14 +11,12 @@
         <el-col :span="20">
           <el-input
             placeholder="请输入标题名称"
-            v-model="searchtxt"
+            v-model:value="searchtxt"
             class="input-with-select"
           >
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="search"
-            ></el-button>
+            <template v-slot:append>
+              <el-button icon="el-icon-search" @click="search"></el-button>
+            </template>
           </el-input>
         </el-col>
       </el-row>
@@ -32,27 +30,27 @@
         highlight-current-row
       >
         <el-table-column align="center" label="序号" width="120">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ scope.$index + 1 }}
           </template>
         </el-table-column>
         <el-table-column label="邮件标题">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ scope.row.title }}
           </template>
         </el-table-column>
         <el-table-column label="发件人">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ scope.row.username }}
           </template>
         </el-table-column>
         <el-table-column label="收件时间">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ timestampToTime(scope.row.date) }}
           </template>
         </el-table-column>
         <el-table-column label="操作" width="210" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button type="primary" size="mini" @click="order(scope.row.id)">
               查看详情
             </el-button>
@@ -163,6 +161,7 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .title {
   background: #f4f4f4;
@@ -173,13 +172,11 @@ export default {
   font-weight: bold;
   color: #333;
 }
-
 .remind {
   width: 100%;
   height: 100%;
   display: flex;
 }
-
 .remind h1 {
   margin: 150px auto;
 }

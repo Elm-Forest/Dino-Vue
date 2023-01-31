@@ -1,4 +1,3 @@
-<!-- 垃圾箱 -->
 <template>
   <div class="box">
     <div class="sBox" v-if="show">
@@ -12,22 +11,20 @@
         <el-col :span="20">
           <el-input
             placeholder="请输入标题名称"
-            v-model="searchtxt"
+            v-model:value="searchtxt"
             class="input-with-select"
           >
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="search"
-            ></el-button>
+            <template v-slot:append>
+              <el-button icon="el-icon-search" @click="search"></el-button>
+            </template>
           </el-input>
         </el-col>
       </el-row>
       <br />
       <!-- <el-button
-      type="text"
-      @click="dialogFormVisible = true"
-    >新建邮件</el-button> -->
+        type="text"
+        @click="dialogFormVisible = true"
+      >新建邮件</el-button> -->
       <el-table
         v-loading="listLoading"
         :data="tableData2"
@@ -37,27 +34,27 @@
         highlight-current-row
       >
         <el-table-column align="center" label="序号" width="120">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ scope.$index + 1 }}
           </template>
         </el-table-column>
         <el-table-column label="邮件标题">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ scope.row.title }}
           </template>
         </el-table-column>
         <el-table-column label="发件人">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ scope.row.fjr }}
           </template>
         </el-table-column>
         <el-table-column label="保存时间">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ timestampToTime(scope.row.date) }}
           </template>
         </el-table-column>
         <el-table-column label="操作" width="210" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button type="primary" size="mini" @click="change(scope.$index)">
               查看详情
             </el-button>
@@ -71,7 +68,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog title="查看详情" :visible.sync="dialogFormVisible">
+      <el-dialog title="查看详情" v-model:visible="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="标题" :label-width="formLabelWidth">
             {{ form.title }}
@@ -86,11 +83,13 @@
             {{ form.description }}
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="dialogFormVisible = false"
-            >确定</el-button
-          >
-        </div>
+        <template v-slot:footer>
+          <div class="dialog-footer">
+            <el-button type="primary" @click="dialogFormVisible = false"
+              >确定</el-button
+            >
+          </div>
+        </template>
       </el-dialog>
       <el-pagination
         small
@@ -232,21 +231,14 @@ export default {
   beforeMount() {}, //生命周期 - 挂载之前
   beforeUpdate() {}, //生命周期 - 更新之前
   updated() {}, //生命周期 - 更新之后
-  beforeDestroy() {}, //生命周期 - 销毁之前
-  destroyed() {}, //生命周期 - 销毁完成
+  beforeUnmount() {}, //生命周期 - 销毁之前
+  unmounted() {}, //生命周期 - 销毁完成
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
+
 <style lang="less" scoped>
-//@import url(); 引入公共css类
+/*//@import url(); 引入公共css类*/
 
-.remind {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
-
-.remind h1 {
-  margin: 150px auto;
-}
+.remind{width:100%;height:100%;display:flex}.remind h1{margin:150px auto}
 </style>

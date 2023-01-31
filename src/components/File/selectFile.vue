@@ -17,30 +17,32 @@
                 <span class="el-dropdown-link">
                   每页展示<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="5">5</el-dropdown-item>
-                  <el-dropdown-item command="10">10</el-dropdown-item>
-                  <el-dropdown-item command="20">20</el-dropdown-item>
-                </el-dropdown-menu>
+                <template v-slot:dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="5">5</el-dropdown-item>
+                    <el-dropdown-item command="10">10</el-dropdown-item>
+                    <el-dropdown-item command="20">20</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
               </el-dropdown>
             </el-form-item>
             <el-form-item label="文档名称">
               <el-input
-                v-model="form.name"
+                v-model:value="form.name"
                 placeholder="请输入文档名称"
                 style="width: 150px"
               ></el-input>
             </el-form-item>
             <el-form-item label="修改人">
               <el-input
-                v-model="form.modifyName"
+                v-model:value="form.modifyName"
                 placeholder="请输入修改人"
                 style="width: 150px"
               ></el-input>
             </el-form-item>
             <el-form-item label="上传时间">
               <el-date-picker
-                v-model="form.operationTime"
+                v-model:value="form.operationTime"
                 type="daterange"
                 range-separator="至"
                 valueFormat="yyyy-MM-dd HH:mm:ss"
@@ -72,7 +74,7 @@
         </div>
         <el-dialog
           title="上传文件"
-          :visible.sync="dialogVisible"
+          v-model:visible="dialogVisible"
           width="35%"
           style="text-align: center"
         >
@@ -89,22 +91,22 @@
             <div class="el-upload__text">
               将文件拖到此处，或<em>点击上传</em>
             </div>
-            <div class="el-upload__tip" slot="tip">
-              只能单个上传文件，且不超过100mb
-            </div>
+            <template v-slot:tip>
+              <div class="el-upload__tip">只能单个上传文件，且不超过100mb</div>
+            </template>
           </el-upload>
           <el-button type="primary" @click="upload">上传</el-button>
         </el-dialog>
         <el-dialog
           title="新建文件夹"
-          :visible.sync="dialogVisible3"
+          v-model:visible="dialogVisible3"
           width="35%"
           style="text-align: center"
         >
           <el-form :inline="false" class="demo-form-inline">
             <el-form-item>
               <el-input
-                v-model="newFolderName"
+                v-model:value="newFolderName"
                 placeholder="请输入内容"
                 label="文件夹名称"
               ></el-input>
@@ -117,7 +119,7 @@
         </el-dialog>
         <el-dialog
           title="新建文件夹"
-          :visible.sync="dialogVisible2"
+          v-model:visible="dialogVisible2"
           width="35%"
           style="text-align: center"
         >
@@ -183,7 +185,7 @@
             label="操作"
             width="300"
           >
-            <template slot-scope="scope">
+            <template v-slot="scope">
               <!-- 查看按钮 -->
               <el-button
                 type="success"
@@ -211,17 +213,19 @@
         <!-- 重命名的对话框 -->
         <el-dialog
           title="重命名"
-          :visible.sync="modifyDialogVisible"
+          v-model:visible="modifyDialogVisible"
           width="50%"
         >
           <!-- 对话框主体区 -->
           <el-form ref="modifyFormRef" label-width="auto">
             <el-form-item label="文件名" prop="modifyName">
-              <el-input v-model="rename"></el-input>
+              <el-input v-model:value="rename"></el-input>
             </el-form-item>
           </el-form>
           <!-- 底部区 -->
-          <span slot="footer" class="dialog-footer"></span>
+          <template v-slot:footer>
+            <span class="dialog-footer"></span>
+          </template>
           <el-button @click="modifyDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="reName">确 定</el-button>
         </el-dialog>
@@ -238,6 +242,7 @@
     </el-card>
   </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -496,11 +501,11 @@ export default {
   },
 }
 </script>
+
 <style lang="scss" scoped>
 .box-card {
   margin: 20px;
   background-color: rgba(255, 255, 255, 0.5);
-
   .el-icon-search {
     color: blue;
   }
