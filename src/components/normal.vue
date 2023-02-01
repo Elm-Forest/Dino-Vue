@@ -6,8 +6,8 @@
         <el-avatar :src="headImg.dept" class="el-dropdown-link" id="headImg" alt="" :size="30"
                    @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
       </div>
-      <span id="title" style="position: absolute;display: block;margin-left: 20px;">OA办公自动化</span>
-      <span id="title" style="position: absolute;display: block;right: 60px">欢迎您，{{ name }}</span>
+      <span id="title" style="position: absolute;display: block;margin-left: 20px;">{{ name.dept }} | {{ role }}</span>
+      <span id="title" style="position: absolute;display: block;right: 60px">欢迎您，{{ name.user }}</span>
       <div class="head_img">
         <el-dropdown>
           <el-avatar :src="headImg.user" class="el-dropdown-link" id="headImg" alt="" :size="30"
@@ -32,15 +32,11 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
-              <span>文档管理平台</span>
+              <span>企业网盘</span>
             </template>
-            <el-menu-item index="1-1">
-              <i class="el-icon-folder-add"></i>
-              <span @click="newFile">新建文档</span>
-            </el-menu-item>
             <el-menu-item index="1-2" @click="selectFile">
               <i class="el-icon-search"></i>
-              <span>查询文档</span>
+              <span>文件管理</span>
             </el-menu-item>
             <el-menu-item index="1-3">
               <i class="el-icon-delete"></i>
@@ -51,15 +47,15 @@
               <span @click="record">文档日志</span>
             </el-menu-item>
           </el-submenu>
-          <!-- 2.消息管理平台 -->
+          <!-- 2.企业邮箱平台 -->
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-chat-dot-square"></i>
-              <span>消息管理平台</span>
+              <span>企业邮箱</span>
             </template>
             <el-menu-item index="2-1">
               <i class="el-icon-right"></i>
-              <span @click="add">发送邮件</span>
+              <span @click="add">发邮件</span>
             </el-menu-item>
             <el-menu-item index="2-2">
               <i class="el-icon-edit-outline"></i>
@@ -86,7 +82,7 @@
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-circle-check"></i>
-              <span>考勤管理平台</span>
+              <span>考勤</span>
             </template>
             <el-menu-item index="3-1">
               <i class="el-icon-check"></i>
@@ -102,7 +98,7 @@
           <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-date"></i>
-              <span>日程管理平台</span>
+              <span>日程</span>
             </template>
             <el-menu-item index="4-1">
               <i class="el-icon-user"></i>
@@ -130,6 +126,7 @@
 <script>
 import user_img from '../images/background.jpg'
 import dept_img from '../images/corp_default.png'
+import '../utils/role.js'
 
 export default {
   // created(){
@@ -142,11 +139,16 @@ export default {
         dept: dept_img
       },
       userInfo: false,
-      name: '路人甲'
+      name: {
+        user: '路人甲',
+        dept: 'OA办公自动化'
+      },
+      role: '未指定部门'
     }
   },
   created() {
-    this.getUserHeadImg()
+    this.getUserHeadImg();
+    this.getBaseInfo();
   },
   mounted: {},
   methods: {
@@ -164,6 +166,38 @@ export default {
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    getBaseInfo() {
+      const this_vue = this;
+      this.$axios({
+        method: 'GET',
+        url: '/user/userinfo/base',
+      }).then(res => {
+        let userName = res.data.userName;
+        let deptName = res.data.deptName;
+        let role = res.data.role;
+        let deptImg = res.data.deptUrl;
+        if (userName === null || userName === '') {
+          userName = '普通用户(未命名)';
+        }
+        this_vue.name.user = userName;
+        if (deptName === null || deptName === '') {
+          deptName = '未命名企业'
+        }
+        this_vue.name.dept = deptName;
+        if (deptImg === null || deptImg === '') {
+          deptImg = dept_img
+        }
+        this_vue.headImg.dept = deptImg;
+        console.log(roles)
+        if (role === null || role === '') {
+          role = '未指定部门'
+        } else {
+          role = roles[role - 1]
+        }
+        console.log(role)
+        this_vue.role = role;
+      })
     },
     hideInfo() {
       setTimeout(() => {
@@ -267,11 +301,29 @@ export default {
 </script>
 
 <style scoped>
-el-aside {
+.el-aside {
   border-right: 1px solid #e8e8e8;
   box-shadow: 1px 1px 4px rgb(99 99 99 / 15%);
+  display: block;
 }
-
+.el-aside {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 60px;
+  bottom: 0;
+}
+.el-main {
+  position: absolute;
+  left: 300px;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  overflow-y: scroll;
+}
+.el-menu{
+  border-right: solid 0;
+}
 .home-container {
   height: 100%;
 }

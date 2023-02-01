@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import {createPinia, PiniaVuePlugin} from 'pinia'
 import App from './App.vue'
 import router from './router'
 import '../src/assets/css/global.css'
@@ -9,14 +10,16 @@ import './plugins/element.js'
 import './utils/tokenUtils.js'
 import './utils/request.js'
 import axios from './utils/request'
-Vue.prototype.$axios=axios
-Vue.prototype.$path=Vue.prototype.$axios
+
+Vue.prototype.$axios = axios
+Vue.prototype.$path = Vue.prototype.$axios
 Vue.use(ElementUI)
-
 Vue.config.productionTip = false
-
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
 new Vue({
     router,
     store,
-    render: h => h(App)
+    render: h => h(App),
+    pinia
 }).$mount('#app')
