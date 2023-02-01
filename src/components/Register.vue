@@ -22,16 +22,16 @@
         >
           <el-form-item prop="username">
             <el-input
-              prefix-icon="el-icon-user-solid"
-              v-model:value="registerForm.username"
+              :prefix-icon="ElIconUserSolid"
+              v-model="registerForm.username"
               placeholder="请输入用户名"
               clearable
             ></el-input>
           </el-form-item>
           <el-form-item prop="email">
             <el-input
-              prefix-icon="el-icon-message"
-              v-model:value="registerForm.email"
+              :prefix-icon="ElIconMessage"
+              v-model="registerForm.email"
               placeholder="请输入邮箱"
               clearable
             ></el-input>
@@ -46,8 +46,8 @@
           >
             <el-input
               style="width: 190px"
-              prefix-icon="el-icon-edit"
-              v-model:value="registerForm.yzcode"
+              :prefix-icon="ElIconEdit"
+              v-model="registerForm.yzcode"
               placeholder="请输入验证码"
               clearable
             ></el-input>
@@ -55,9 +55,9 @@
           </el-form-item>
           <el-form-item prop="password">
             <el-input
-              prefix-icon="el-icon-lock"
+              :prefix-icon="ElIconLock"
               placeholder="请输入密码"
-              v-model:value="registerForm.password"
+              v-model="registerForm.password"
               show-password
             ></el-input>
           </el-form-item>
@@ -83,8 +83,13 @@
 </template>
 
 <script>
+import {
+  UserSolid as ElIconUserSolid,
+  Message as ElIconMessage,
+  Edit as ElIconEdit,
+  Lock as ElIconLock,
+} from '@element-plus/icons'
 export default {
-  name: 'Register',
   data() {
     return {
       // 注册表单的数据绑定对象
@@ -146,8 +151,13 @@ export default {
       },
       time: '',
       date: '',
+      ElIconUserSolid,
+      ElIconMessage,
+      ElIconEdit,
+      ElIconLock,
     }
   },
+  name: 'Register',
   // 时间更新
   mounted() {
     this.$nextTick(() => {

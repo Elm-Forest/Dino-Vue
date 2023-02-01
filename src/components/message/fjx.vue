@@ -11,11 +11,11 @@
         <el-col :span="20">
           <el-input
             placeholder="请输入标题名称"
-            v-model:value="searchtxt"
+            v-model="searchtxt"
             class="input-with-select"
           >
             <template v-slot:append>
-              <el-button icon="el-icon-search" @click="search"></el-button>
+              <el-button :icon="ElIconSearch" @click="search"></el-button>
             </template>
           </el-input>
         </el-col>
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { Search as ElIconSearch } from '@element-plus/icons'
 export default {
   data() {
     return {
@@ -88,9 +89,9 @@ export default {
       list: null,
       list2: [],
       listLoading: false,
-
       // 显示
       show: true,
+      ElIconSearch,
     }
   },
   created() {

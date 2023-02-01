@@ -14,13 +14,13 @@
           <el-form :inline="true" :model="form" class="demo-form-inline">
             <el-form-item label="文档名称">
               <el-input
-                v-model:value="form.name"
+                v-model="form.name"
                 placeholder="请输入文档名称"
               ></el-input>
             </el-form-item>
             <el-form-item label="上传时间">
               <el-date-picker
-                v-model:value="form.time"
+                v-model="form.time"
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
@@ -29,7 +29,7 @@
               </el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="onSubmit"
+              <el-button type="primary" :icon="ElIconSearch" @click="onSubmit"
                 >查询</el-button
               >
             </el-form-item>
@@ -71,14 +71,14 @@
               <!-- 查看按钮 -->
               <el-button
                 type="success"
-                icon="el-icon-search"
+                :icon="ElIconSearch"
                 size="medium"
                 @click="showFileDialog(scope.row.id)"
               ></el-button>
               <!-- 恢复按钮 -->
               <el-button
                 type="primary"
-                icon="el-icon-check"
+                :icon="ElIconCheck"
                 size="medium"
                 @click="recoverFile(scope.row.id)"
               ></el-button>
@@ -91,6 +91,10 @@
 </template>
 
 <script>
+import {
+  Search as ElIconSearch,
+  Check as ElIconCheck,
+} from '@element-plus/icons'
 export default {
   data() {
     return {
@@ -103,6 +107,8 @@ export default {
         name: '',
         time: [],
       },
+      ElIconSearch,
+      ElIconCheck,
     }
   },
   methods: {

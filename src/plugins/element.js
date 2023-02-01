@@ -1,5 +1,5 @@
 import * as Vue from 'vue'
-import Element from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import Element from 'element-plus'
+import 'element-plus/theme-chalk/index.css'
 
 window.$vueApp.use(Element)

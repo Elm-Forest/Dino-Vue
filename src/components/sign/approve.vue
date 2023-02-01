@@ -13,8 +13,8 @@
         <div class="">
           <el-input
             placeholder="请输入姓名"
-            suffix-icon="el-icon-search"
-            v-model:value="userName"
+            :suffix-icon="ElIconSearch"
+            v-model="userName"
             size="small"
             @change="searchUserName"
           >
@@ -24,7 +24,10 @@
       <el-col :span="17">
         <div class="">
           <el-date-picker
-            v-model:value="userDateRange"
+            :shortcuts="pickerOptions && pickerOptions.shortcuts"
+            :disabled-date="pickerOptions && pickerOptions.disabledDate"
+            :cell-class-name="pickerOptions && pickerOptions.cellClassName"
+            v-model="userDateRange"
             type="daterange"
             align="right"
             unlink-panels
@@ -35,7 +38,6 @@
             value-format="yyyy-MM-dd"
             @change="searchUserDate"
             size="small"
-            :picker-options="pickerOptions"
           >
           </el-date-picker>
         </div>
@@ -44,7 +46,7 @@
         <div class="">
           <el-button
             type="primary"
-            icon="el-icon-bell"
+            :icon="ElIconBell"
             size="small"
             @click="infoNotify"
             :disabled="selectionItem.length === 0 ? true : false"
@@ -126,7 +128,7 @@
         <template v-slot="scope">
           <el-button
             type="success"
-            icon="el-icon-check"
+            :icon="ElIconCheck"
             size="small"
             @click="openEditDialog(scope.row)"
           >
@@ -147,7 +149,7 @@
     <!-- 通过审批对话框 -->
     <el-dialog
       title="通过审批"
-      v-model:visible="editDialogVisible"
+      v-model="editDialogVisible"
       width="30%"
       :before-close="editHandleClose"
     >
@@ -163,6 +165,11 @@
 </template>
 
 <script>
+import {
+  Search as ElIconSearch,
+  Bell as ElIconBell,
+  Check as ElIconCheck,
+} from '@element-plus/icons'
 import { $on, $off, $once, $emit } from '../../utils/gogocodeTransfer'
 export default {
   data() {
@@ -214,29 +221,29 @@ export default {
         shortcuts: [
           {
             text: '最近一周',
-            onClick(picker) {
+            value() {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              $emit(picker, 'pick', [start, end])
+              return [start, end]
             },
           },
           {
             text: '最近一个月',
-            onClick(picker) {
+            value() {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              $emit(picker, 'pick', [start, end])
+              return [start, end]
             },
           },
           {
             text: '最近三个月',
-            onClick(picker) {
+            value() {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              $emit(picker, 'pick', [start, end])
+              return [start, end]
             },
           },
         ],
@@ -505,6 +512,9 @@ export default {
           workday: 1,
         },
       ],
+      ElIconSearch,
+      ElIconBell,
+      ElIconCheck,
     }
   },
   methods: {

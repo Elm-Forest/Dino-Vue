@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { ElMessageBox as MessageBox, ElMessage as Message } from 'element-plus'
 import router from '../router/index'
 
 // create an axios instance

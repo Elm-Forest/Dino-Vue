@@ -16,24 +16,24 @@
     <el-col :span="14">
       <div class="grid-content">
         <div class="el-select">
-          <el-input v-model:value="temp_schedule_title" placeholder="标题" />
+          <el-input v-model="temp_schedule_title" placeholder="标题" />
         </div>
         <div class="el-select">
-          <el-input v-model:value="temp_schedule_content" placeholder="内容" />
+          <el-input v-model="temp_schedule_content" placeholder="内容" />
         </div>
         <div class="el-select">
-          <el-input v-model:value="temp_user_id" placeholder="提交人ID" />
+          <el-input v-model="temp_user_id" placeholder="提交人ID" />
         </div>
         <el-date-picker
           style="width: 234px"
-          v-model:value="temp_begin_time"
+          v-model="temp_begin_time"
           type="date"
           placeholder="开始时间"
           value-format="yyyy-MM-dd"
         />
         <el-date-picker
           style="width: 234px"
-          v-model:value="temp_end_time"
+          v-model="temp_end_time"
           type="date"
           placeholder="结束时间"
           value-format="yyyy-MM-dd"
@@ -58,13 +58,13 @@
           </el-table-column>
           <el-table-column label="结束时间" width="180">
             <template v-slot="scope">
-              <i class="el-icon-time"></i>
+              <el-icon><el-icon-time /></el-icon>
               <span style="margin-left: 10px">{{ scope.row.end_time }}</span>
             </template>
           </el-table-column>
           <el-table-column label="创建人id" width="180">
             <template v-slot="scope">
-              <i class="el-icon-time"></i>
+              <el-icon><el-icon-time /></el-icon>
               <span style="margin-left: 10px">{{ scope.row.user_id }}</span>
             </template>
           </el-table-column>
@@ -129,11 +129,13 @@
 </template>
 
 <script>
+import { Time as ElIconTime } from '@element-plus/icons'
 import axios from 'axios'
-// import Cookies from "js-cookie";
 export default {
+  components: {
+    ElIconTime,
+  },
   name: 'schedule',
-  components: {},
   data() {
     return {
       resData: [

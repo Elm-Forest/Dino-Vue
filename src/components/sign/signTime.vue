@@ -1,18 +1,18 @@
 <template>
-  <div>
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/admin/home' }"
-        >首页</el-breadcrumb-item
-      >
-      <el-breadcrumb-item>考勤管理平台</el-breadcrumb-item>
-      <el-breadcrumb-item>考勤时间管理</el-breadcrumb-item>
-    </el-breadcrumb>
-    <!-- 主体区 -->
-    <el-form :model="timeForm" label-position="right" label-width="140px">
-      <!-- 日期 -->
-      <el-form-item label="考勤起止日期">
-        <el-date-picker
-          v-model:value="timeForm.date"
+  <el-breadcrumb separator-class="el-icon-arrow-right">
+    <el-breadcrumb-item :to="{ path: '/admin/home' }"
+    >首页
+    </el-breadcrumb-item
+    >
+    <el-breadcrumb-item>考勤管理平台</el-breadcrumb-item>
+    <el-breadcrumb-item>考勤时间管理</el-breadcrumb-item>
+  </el-breadcrumb>
+  <!-- 主体区 -->
+  <el-form :model="timeForm" label-position="right" label-width="140px">
+    <!-- 日期 -->
+    <el-form-item label="考勤起止日期">
+      <el-date-picker
+          v-model="timeForm.date"
           type="daterange"
           align="right"
           unlink-panels
@@ -20,68 +20,305 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
           size="small"
-        >
-        </el-date-picker>
-      </el-form-item>
-      <!-- 上班时间 -->
-      <el-form-item label="上班打卡时间">
-        <el-time-select
+      >
+      </el-date-picker>
+    </el-form-item>
+    <!-- 上班时间 -->
+    <el-form-item label="上班打卡时间">
+      <el-time-select
+          :start="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.start
+          "
+          :end="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.end
+          "
+          :step="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.step
+          "
+          :min-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.minTime
+          "
+          :max-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.maxTime
+          "
           placeholder="起始时间"
-          v-model:value="timeForm.startTime1"
-          :picker-options="{
-            start: '08:30',
-            step: '00:15',
-            end: '18:30',
-          }"
-        >
-        </el-time-select>
-        <el-time-select
+          v-model="timeForm.startTime1"
+      >
+      </el-time-select>
+      <el-time-select
+          :start="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            }.start
+          "
+          :end="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            }.end
+          "
+          :step="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            }.step
+          "
+          :min-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            }.minTime
+          "
+          :max-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime1,
+            }.maxTime
+          "
           placeholder="结束时间"
-          v-model:value="timeForm.endTime1"
-          :picker-options="{
-            start: '08:30',
-            step: '00:15',
-            end: '18:30',
-            minTime: timeForm.startTime1,
-          }"
-        >
-        </el-time-select>
-      </el-form-item>
-      <!-- 下班时间 -->
-      <el-form-item label="下班打卡时间">
-        <el-time-select
+          v-model="timeForm.endTime1"
+      >
+      </el-time-select>
+    </el-form-item>
+    <!-- 下班时间 -->
+    <el-form-item label="下班打卡时间">
+      <el-time-select
+          :start="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.start
+          "
+          :end="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.end
+          "
+          :step="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.step
+          "
+          :min-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.minTime
+          "
+          :max-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+            }.maxTime
+          "
           placeholder="起始时间"
-          v-model:value="timeForm.startTime2"
-          :picker-options="{
-            start: '08:30',
-            step: '00:15',
-            end: '18:30',
-          }"
-        >
-        </el-time-select>
-        <el-time-select
+          v-model="timeForm.startTime2"
+      >
+      </el-time-select>
+      <el-time-select
+          :start="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            }.start
+          "
+          :end="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            }.end
+          "
+          :step="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            }.step
+          "
+          :min-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            }.minTime
+          "
+          :max-time="
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            } &&
+            {
+              start: '08:30',
+              step: '00:15',
+              end: '18:30',
+              minTime: timeForm.startTime2,
+            }.maxTime
+          "
           placeholder="结束时间"
-          v-model:value="timeForm.endTime2"
-          :picker-options="{
-            start: '08:30',
-            step: '00:15',
-            end: '18:30',
-            minTime: timeForm.startTime2,
-          }"
-        >
-        </el-time-select>
-      </el-form-item>
-    </el-form>
-    <!-- 底部区 -->
-    <template v-slot:footer>
-      <div class="dialog-footer">
-        <el-button @click="handleClose" size="small"> 重置 </el-button>
-        <el-button type="primary" @click="submitForm" size="small">
-          确定
-        </el-button>
-      </div>
-    </template>
-  </div>
+          v-model="timeForm.endTime2"
+      >
+      </el-time-select>
+    </el-form-item>
+  </el-form>
+  <!-- 底部区 -->
+  <template v-slot:footer>
+    <div class="dialog-footer">
+      <el-button @click="handleClose" size="small"> 重置</el-button>
+      <el-button type="primary" @click="submitForm" size="small">
+        确定
+      </el-button>
+    </div>
+  </template>
 </template>
 
 <script>
@@ -137,14 +374,14 @@ export default {
           backTime: 'Mon Aug 22 17:30:00 CST 2022',
         },
       })
-        .then(function (response) {
-          setToken(response.data.data)
-          console.log(JSON.stringify(response.data))
-        })
-        .catch(function (error) {
-          console.log(localStorage.getItem('token'))
-          console.log(error)
-        })
+          .then(function (response) {
+            setToken(response.data.data)
+            console.log(JSON.stringify(response.data))
+          })
+          .catch(function (error) {
+            console.log(localStorage.getItem('token'))
+            console.log(error)
+          })
     },
   },
 }
@@ -154,21 +391,27 @@ export default {
 .el-breadcrumb {
   margin-bottom: 30px;
 }
+
 .myButton {
   float: left;
 }
+
 .submitButton {
   float: right;
 }
+
 .personalTable {
   margin-bottom: 40px;
 }
+
 .textareaDecs {
   width: 350px;
 }
+
 .inputForm {
   width: 220px;
 }
+
 .dialog-footer {
   float: left;
   padding-left: 43px;

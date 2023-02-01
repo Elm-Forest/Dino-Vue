@@ -40,7 +40,7 @@
       </el-card>
     </div>
     <div>
-      <el-dialog title="上传头像" v-model:visible="dialogVisible" width="35%">
+      <el-dialog title="上传头像" v-model="dialogVisible" width="35%">
         <el-form :model="form" style="text-align: center">
           <el-form-item :label-width="formLabelWidth">
             <el-upload
@@ -52,9 +52,9 @@
               :auto-upload="false"
               name="file"
             >
-              <i class="el-icon-plus"></i>
+              <el-icon><el-icon-plus /></el-icon>
             </el-upload>
-            <el-dialog v-model:visible="dialogVisible2">
+            <el-dialog v-model="dialogVisible2">
               <img width="100%" :src="dialogImageUrl" alt="" />
             </el-dialog>
           </el-form-item>
@@ -67,23 +67,19 @@
       </el-dialog>
     </div>
     <div>
-      <el-dialog
-        title="收货地址"
-        v-model:visible="dialogFormVisible"
-        width="35%"
-      >
+      <el-dialog title="收货地址" v-model="dialogFormVisible" width="35%">
         <el-form :model="form" style="text-align: center">
           <el-form-item label="姓名" :label-width="formLabelWidth">
-            <el-input v-model:value="name" autocomplete="off"></el-input>
+            <el-input v-model="name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="手机号" :label-width="formLabelWidth">
-            <el-input v-model:value="phone" autocomplete="off"></el-input>
+            <el-input v-model="phone" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="居住地" :label-width="formLabelWidth">
-            <el-input v-model:value="address" autocomplete="off"></el-input>
+            <el-input v-model="address" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="性别" :label-width="formLabelWidth">
-            <el-input v-model:value="sex" autocomplete="off"></el-input>
+          <el-form-item label="性别 " :label-width="formLabelWidth">
+            <el-input v-model="sex" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -96,7 +92,11 @@
 </template>
 
 <script>
+import { Plus as ElIconPlus } from '@element-plus/icons'
 export default {
+  components: {
+    ElIconPlus,
+  },
   data() {
     return {
       form: {

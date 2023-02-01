@@ -9,15 +9,15 @@
       <el-divider content-position="left"><b>发送邮件</b></el-divider>
       <el-form :model="form">
         <el-form-item label="标题" :label-width="formLabelWidth">
-          <el-input v-model:value="form.title" autocomplete="off"></el-input>
+          <el-input v-model="form.title" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="收件人" :label-width="formLabelWidth">
-          <el-input v-model:value="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="内容" :label-width="formLabelWidth">
           <el-input
             rows="4"
-            v-model:value="form.description"
+            v-model="form.description"
             autocomplete="off"
             type="textarea"
             maxlength="200"

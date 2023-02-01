@@ -13,11 +13,11 @@
         <el-col :span="8">
           <el-input
             placeholder="请输入内容"
-            v-model:value="queryInfo.query"
+            v-model="queryInfo.query"
             clearable
           >
             <template v-slot:append>
-              <el-button icon="el-icon-search" @click="getUserList"></el-button>
+              <el-button :icon="ElIconSearch" @click="getUserList"></el-button>
             </template>
           </el-input>
         </el-col>
@@ -59,7 +59,7 @@
             <!-- 修改按钮 -->
             <el-button
               type="primary"
-              icon="el-icon-edit"
+              :icon="ElIconEdit"
               size="medium"
               @click="showEditDialog(scope.row.id)"
             ></el-button>
@@ -87,7 +87,7 @@
       <!-- 添加用户的对话框 -->
       <el-dialog
         title="添加用户"
-        v-model:visible="addDialogVisible"
+        v-model="addDialogVisible"
         width="50%"
         @close="addDialogClosed"
       >
@@ -99,14 +99,11 @@
           label-width="auto"
         >
           <el-form-item label="用户名" prop="name">
-            <el-input v-model:value="addForm.username"></el-input>
+            <el-input v-model="addForm.username"></el-input>
           </el-form-item>
           <el-form-item label="角色" prop="role">
             <template>
-              <el-select
-                v-model:value="optionRoles.value"
-                placeholder="请选择角色"
-              >
+              <el-select v-model="optionRoles.value" placeholder="请选择角色">
                 <el-option
                   v-for="item in optionRoles"
                   :key="item.value"
@@ -119,10 +116,7 @@
           </el-form-item>
           <el-form-item label="权限" prop="rights">
             <template>
-              <el-select
-                v-model:value="optionRights.value"
-                placeholder="请选择权限"
-              >
+              <el-select v-model="optionRights.value" placeholder="请选择权限">
                 <el-option
                   v-for="item in optionRights"
                   :key="item.value"
@@ -136,7 +130,7 @@
           <el-form-item label="就职情况" prop="status">
             <template>
               <el-select
-                v-model:value="optionStatus.value"
+                v-model="optionStatus.value"
                 placeholder="请选择就职情况"
               >
                 <el-option
@@ -151,18 +145,18 @@
           </el-form-item>
           <el-form-item label="性别:" prop="sex">
             <template>
-              <el-radio v-model:value="addForm.radio" label="1">男</el-radio>
-              <el-radio v-model:value="addForm.radio" label="2">女</el-radio>
+              <el-radio v-model="addForm.radio" label="1">男</el-radio>
+              <el-radio v-model="addForm.radio" label="2">女</el-radio>
             </template>
           </el-form-item>
           <el-form-item label="地址:" prop="address">
-            <el-input v-model:value="addForm.address"></el-input>
+            <el-input v-model="addForm.address"></el-input>
           </el-form-item>
           <el-form-item label="手机号:" prop="phone">
-            <el-input v-model:value="addForm.phone"></el-input>
+            <el-input v-model="addForm.phone"></el-input>
           </el-form-item>
           <el-form-item label="邮箱:" prop="email">
-            <el-input v-model:value="addForm.email"></el-input>
+            <el-input v-model="addForm.email"></el-input>
           </el-form-item>
         </el-form>
         <!-- 底部区 -->
@@ -176,7 +170,7 @@
       <!-- 修改用户的对话框 -->
       <el-dialog
         title="修改用户"
-        v-model:visible="editDialogVisible"
+        v-model="editDialogVisible"
         width="50%"
         @close="editDialogClosed"
       >
@@ -188,16 +182,16 @@
           label-width="auto"
         >
           <el-form-item label="用户名" prop="name">
-            <el-input v-model:value="editForm.name"></el-input>
+            <el-input v-model="editForm.name"></el-input>
           </el-form-item>
           <el-form-item label="角色" prop="role">
-            <el-input v-model:value="editForm.role"></el-input>
+            <el-input v-model="editForm.role"></el-input>
           </el-form-item>
           <el-form-item label="权限" prop="rights">
-            <el-input v-model:value="editForm.rights"></el-input>
+            <el-input v-model="editForm.rights"></el-input>
           </el-form-item>
           <el-form-item label="就职情况" prop="status">
-            <el-input v-model:value="editForm.status"></el-input>
+            <el-input v-model="editForm.status"></el-input>
           </el-form-item>
         </el-form>
         <!-- 底部区 -->
@@ -211,26 +205,26 @@
       <!-- 查看名片的对话框 -->
       <el-dialog
         title="名片"
-        v-model:visible="showDialogVisible"
+        v-model="showDialogVisible"
         width="30%"
         @close="showDialogClosed"
       >
         <!-- 对话框主体区 -->
         <el-form :model="showForm" ref="showFormRef" label-width="auto">
           <el-form-item label="用户名:" prop="name">
-            <el-lable v-model:value="showForm.name"></el-lable>
+            <el-lable v-model="showForm.name"></el-lable>
           </el-form-item>
           <el-form-item label="性别:" prop="sex">
-            <el-lable v-model:value="showForm.sex"></el-lable>
+            <el-lable v-model="showForm.sex"></el-lable>
           </el-form-item>
           <el-form-item label="地址:" prop="address">
-            <el-lable v-model:value="showForm.address"></el-lable>
+            <el-lable v-model="showForm.address"></el-lable>
           </el-form-item>
           <el-form-item label="手机号:" prop="phone">
-            <el-lable v-model:value="showForm.phone"></el-lable>
+            <el-lable v-model="showForm.phone"></el-lable>
           </el-form-item>
           <el-form-item label="邮箱:" prop="email">
-            <el-lable v-model:value="showForm.email"></el-lable>
+            <el-lable v-model="showForm.email"></el-lable>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -239,6 +233,7 @@
 </template>
 
 <script>
+import { Search as ElIconSearch, Edit as ElIconEdit } from '@element-plus/icons'
 export default {
   data() {
     // 验证邮箱规则
@@ -432,6 +427,8 @@ export default {
           status: '在职',
         },
       ],
+      ElIconSearch,
+      ElIconEdit,
     }
   },
   // created(){

@@ -82,10 +82,9 @@
                 content="查看更多"
                 placement="top-start"
               >
-                <i
-                  class="el-icon-more-outline"
-                  style="float: right; padding: 3px 0"
-                ></i>
+                <el-icon style="float: right; padding: 3px 0"
+                  ><el-icon-more-outline
+                /></el-icon>
               </el-tooltip>
             </div>
           </template>
@@ -131,7 +130,7 @@
               >
                 <template>
                   <el-button type="text" size="small"
-                    ><i class="el-icon-search"></i
+                    ><el-icon><el-icon-search /></el-icon
                   ></el-button>
                 </template>
               </el-table-column>
@@ -152,10 +151,9 @@
                 content="查看更多"
                 placement="top-start"
               >
-                <i
-                  class="el-icon-more-outline"
-                  style="float: right; padding: 3px 0"
-                ></i>
+                <el-icon style="float: right; padding: 3px 0"
+                  ><el-icon-more-outline
+                /></el-icon>
               </el-tooltip>
             </div>
           </template>
@@ -201,7 +199,7 @@
               >
                 <template>
                   <el-button type="text" size="small"
-                    ><i class="el-icon-search"></i
+                    ><el-icon><el-icon-search /></el-icon
                   ></el-button>
                 </template>
               </el-table-column>
@@ -225,10 +223,9 @@
                 content="查看更多"
                 placement="top-start"
               >
-                <i
-                  class="el-icon-more-outline"
-                  style="float: right; padding: 3px 0"
-                ></i>
+                <el-icon style="float: right; padding: 3px 0"
+                  ><el-icon-more-outline
+                /></el-icon>
               </el-tooltip>
             </div>
           </template>
@@ -257,7 +254,7 @@
               >
                 <template>
                   <el-button type="text" size="small"
-                    ><i class="el-icon-search"></i
+                    ><el-icon><el-icon-search /></el-icon
                   ></el-button>
                 </template>
               </el-table-column>
@@ -278,10 +275,9 @@
                 content="查看更多"
                 placement="top-start"
               >
-                <i
-                  class="el-icon-more-outline"
-                  style="float: right; padding: 3px 0"
-                ></i>
+                <el-icon style="float: right; padding: 3px 0"
+                  ><el-icon-more-outline
+                /></el-icon>
               </el-tooltip>
             </div>
           </template>
@@ -310,7 +306,7 @@
               >
                 <template>
                   <el-button type="text" size="small"
-                    ><i class="el-icon-download"></i
+                    ><el-icon><el-icon-download /></el-icon
                   ></el-button>
                 </template>
               </el-table-column>
@@ -323,7 +319,17 @@
 </template>
 
 <script>
+import {
+  MoreOutline as ElIconMoreOutline,
+  Search as ElIconSearch,
+  Download as ElIconDownload,
+} from '@element-plus/icons'
 export default {
+  components: {
+    ElIconMoreOutline,
+    ElIconSearch,
+    ElIconDownload,
+  },
   name: 'Main',
   mounted() {
     this.showTime()

@@ -15,7 +15,9 @@
             <el-form-item>
               <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
-                  每页展示<i class="el-icon-arrow-down el-icon--right"></i>
+                  每页展示<el-icon class="el-icon--right"
+                    ><el-icon-arrow-down
+                  /></el-icon>
                 </span>
                 <template v-slot:dropdown>
                   <el-dropdown-menu>
@@ -28,21 +30,21 @@
             </el-form-item>
             <el-form-item label="文档名称">
               <el-input
-                v-model:value="form.name"
+                v-model="form.name"
                 placeholder="请输入文档名称"
                 style="width: 150px"
               ></el-input>
             </el-form-item>
             <el-form-item label="修改人">
               <el-input
-                v-model:value="form.modifyName"
+                v-model="form.modifyName"
                 placeholder="请输入修改人"
                 style="width: 150px"
               ></el-input>
             </el-form-item>
             <el-form-item label="上传时间">
               <el-date-picker
-                v-model:value="form.operationTime"
+                v-model="form.operationTime"
                 type="daterange"
                 range-separator="至"
                 valueFormat="yyyy-MM-dd HH:mm:ss"
@@ -55,7 +57,7 @@
             <el-form-item>
               <el-button
                 type="primary"
-                icon="el-icon-search"
+                :icon="ElIconSearch"
                 @click="selectCondition"
                 >查询</el-button
               >
@@ -74,7 +76,7 @@
         </div>
         <el-dialog
           title="上传文件"
-          v-model:visible="dialogVisible"
+          v-model="dialogVisible"
           width="35%"
           style="text-align: center"
         >
@@ -87,7 +89,7 @@
             :auto-upload="false"
             multiple
           >
-            <i class="el-icon-upload"></i>
+            <el-icon><el-icon-upload /></el-icon>
             <div class="el-upload__text">
               将文件拖到此处，或<em>点击上传</em>
             </div>
@@ -99,14 +101,14 @@
         </el-dialog>
         <el-dialog
           title="新建文件夹"
-          v-model:visible="dialogVisible3"
+          v-model="dialogVisible3"
           width="35%"
           style="text-align: center"
         >
           <el-form :inline="false" class="demo-form-inline">
             <el-form-item>
               <el-input
-                v-model:value="newFolderName"
+                v-model="newFolderName"
                 placeholder="请输入内容"
                 label="文件夹名称"
               ></el-input>
@@ -119,7 +121,7 @@
         </el-dialog>
         <el-dialog
           title="新建文件夹"
-          v-model:visible="dialogVisible2"
+          v-model="dialogVisible2"
           width="35%"
           style="text-align: center"
         >
@@ -189,14 +191,14 @@
               <!-- 查看按钮 -->
               <el-button
                 type="success"
-                icon="el-icon-search"
+                :icon="ElIconSearch"
                 size="medium"
                 @click="showFileDialog(scope.row.id)"
               ></el-button>
               <!-- 删除按钮 -->
               <el-button
                 type="danger"
-                icon="el-icon-delete"
+                :icon="ElIconDelete"
                 size="medium"
                 @click="removeFile(scope.row)"
               ></el-button>
@@ -211,15 +213,11 @@
           </el-table-column>
         </el-table>
         <!-- 重命名的对话框 -->
-        <el-dialog
-          title="重命名"
-          v-model:visible="modifyDialogVisible"
-          width="50%"
-        >
+        <el-dialog title="重命名" v-model="modifyDialogVisible" width="50%">
           <!-- 对话框主体区 -->
           <el-form ref="modifyFormRef" label-width="auto">
             <el-form-item label="文件名" prop="modifyName">
-              <el-input v-model:value="rename"></el-input>
+              <el-input v-model="rename"></el-input>
             </el-form-item>
           </el-form>
           <!-- 底部区 -->
@@ -244,6 +242,12 @@
 </template>
 
 <script>
+import {
+  ArrowDown as ElIconArrowDown,
+  Upload as ElIconUpload,
+  Search as ElIconSearch,
+  Delete as ElIconDelete,
+} from '@element-plus/icons'
 export default {
   data() {
     return {
@@ -280,7 +284,13 @@ export default {
       modifyDialogVisible: false,
       // 查询到的文件对象
       modifyForm: {},
+      ElIconSearch,
+      ElIconDelete,
     }
+  },
+  components: {
+    ElIconArrowDown,
+    ElIconUpload,
   },
   created() {
     this.getFileList()

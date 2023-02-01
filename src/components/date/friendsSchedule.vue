@@ -16,20 +16,20 @@
     <el-col :span="11">
       <div class="grid-content">
         <div class="el-select">
-          <el-input v-model:value="temp_schedule_title" placeholder="标题" />
+          <el-input v-model="temp_schedule_title" placeholder="标题" />
         </div>
         <div class="el-select">
-          <el-input v-model:value="temp_user_id" placeholder="提交人ID" />
+          <el-input v-model="temp_user_id" placeholder="提交人ID" />
         </div>
         <el-date-picker
-          v-model:value="temp_begin_time"
+          v-model="temp_begin_time"
           style="width: 234px"
           type="date"
           placeholder="开始时间"
           value-format="yyyy-MM-dd"
         />
         <el-date-picker
-          v-model:value="temp_end_time"
+          v-model="temp_end_time"
           style="width: 234px"
           type="date"
           placeholder="结束时间"
@@ -53,13 +53,13 @@
           </el-table-column>
           <el-table-column label="结束时间" width="180">
             <template v-slot="scope">
-              <i class="el-icon-time"></i>
+              <el-icon><el-icon-time /></el-icon>
               <span style="margin-left: 10px">{{ scope.row.end_time }}</span>
             </template>
           </el-table-column>
           <el-table-column label="创建人id" width="180">
             <template v-slot="scope">
-              <i class="el-icon-time"></i>
+              <el-icon><el-icon-time /></el-icon>
               <span style="margin-left: 10px">{{ scope.row.user_id }}</span>
             </template>
           </el-table-column>
@@ -84,10 +84,13 @@
 </template>
 
 <script>
+import { Time as ElIconTime } from '@element-plus/icons'
 import axios from 'axios'
 export default {
+  components: {
+    ElIconTime,
+  },
   name: 'friendsSchedule',
-  components: {},
   data() {
     return {
       resData: [

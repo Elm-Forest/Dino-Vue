@@ -5,8 +5,8 @@
       <div style="height: 20px"></div>
       <el-form id="form" ref="loginFormRef" :model="loginForm">
         <el-autocomplete
-          prefix-icon="el-icon-user-solid"
-          v-model:value="state"
+          :prefix-icon="ElIconUserSolid"
+          v-model="state"
           :fetch-suggestions="querySearchAsync"
           placeholder="企业名称"
           @select="handleSelect"
@@ -23,10 +23,10 @@
 </template>
 
 <script>
+import { UserSolid as ElIconUserSolid } from '@element-plus/icons'
 import axios from 'axios'
 
 export default {
-  name: 'Login',
   data() {
     return {
       restaurants: [],
@@ -39,8 +39,10 @@ export default {
         address: '',
         desc: '',
       },
+      ElIconUserSolid,
     }
   },
+  name: 'Login',
   mounted() {
     this.loadAll()
   },

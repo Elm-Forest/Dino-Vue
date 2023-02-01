@@ -14,7 +14,9 @@
             <el-form-item>
               <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
-                  每页展示<i class="el-icon-arrow-down el-icon--right"></i>
+                  每页展示<el-icon class="el-icon--right"
+                    ><el-icon-arrow-down
+                  /></el-icon>
                 </span>
                 <template v-slot:dropdown>
                   <el-dropdown-menu>
@@ -28,7 +30,9 @@
             <el-form-item>
               <el-dropdown @command="handleCommand2">
                 <span class="el-dropdown-link">
-                  操作<i class="el-icon-arrow-down el-icon--right"></i>
+                  操作<el-icon class="el-icon--right"
+                    ><el-icon-arrow-down
+                  /></el-icon>
                 </span>
                 <template v-slot:dropdown>
                   <el-dropdown-menu>
@@ -44,21 +48,21 @@
             </el-form-item>
             <el-form-item label="修改者">
               <el-input
-                v-model:value="form.modifyName"
+                v-model="form.modifyName"
                 placeholder="请输入修改人姓名"
                 size="small"
               ></el-input>
             </el-form-item>
             <el-form-item label="文档名称">
               <el-input
-                v-model:value="form.documentName"
+                v-model="form.documentName"
                 placeholder="请输入文档名称"
                 size="small"
               ></el-input>
             </el-form-item>
             <el-form-item label="操作时间">
               <el-date-picker
-                v-model:value="form.operationTime"
+                v-model="form.operationTime"
                 type="daterange"
                 valueFormat="yyyy-MM-dd HH:mm:ss"
                 range-separator="至"
@@ -70,7 +74,7 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="search"
+              <el-button type="primary" :icon="ElIconSearch" @click="search"
                 >查询</el-button
               >
             </el-form-item>
@@ -150,6 +154,10 @@
 </template>
 
 <script>
+import {
+  ArrowDown as ElIconArrowDown,
+  Search as ElIconSearch,
+} from '@element-plus/icons'
 export default {
   data() {
     return {
@@ -167,7 +175,11 @@ export default {
         total: 50,
         current_count: 0,
       },
+      ElIconSearch,
     }
+  },
+  components: {
+    ElIconArrowDown,
   },
   mounted() {
     this.search()

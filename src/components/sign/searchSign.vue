@@ -13,8 +13,8 @@
         <div class="">
           <el-input
             placeholder="请输入姓名"
-            suffix-icon="el-icon-search"
-            v-model:value="userName"
+            :suffix-icon="ElIconSearch"
+            v-model="userName"
             size="small"
             @change="searchUserName"
           >
@@ -24,7 +24,10 @@
       <el-col :span="17">
         <div class="">
           <el-date-picker
-            v-model:value="userDateRange"
+            :shortcuts="pickerOptions && pickerOptions.shortcuts"
+            :disabled-date="pickerOptions && pickerOptions.disabledDate"
+            :cell-class-name="pickerOptions && pickerOptions.cellClassName"
+            v-model="userDateRange"
             type="daterange"
             align="right"
             unlink-panels
@@ -35,7 +38,6 @@
             value-format="yyyy-MM-dd"
             @change="searchUserDate"
             size="small"
-            :picker-options="pickerOptions"
           >
           </el-date-picker>
         </div>
@@ -44,7 +46,7 @@
         <div class="">
           <el-button
             type="primary"
-            icon="el-icon-bell"
+            :icon="ElIconBell"
             size="small"
             @click="infoNotify"
             :disabled="selectionItem.length === 0 ? true : false"
@@ -126,13 +128,13 @@
         <template v-slot="scope">
           <el-button-group>
             <el-button
-              icon="el-icon-edit"
+              :icon="ElIconEdit"
               size="small"
               @click="openEditDialog(scope.row)"
             >
             </el-button>
             <el-button
-              icon="el-icon-more"
+              :icon="ElIconMore"
               size="small"
               @click="openDisplayInfo(scope.row)"
             >
@@ -154,7 +156,7 @@
     <!-- 编辑对话框 -->
     <el-dialog
       title="状态更改"
-      v-model:visible="editDialogVisible"
+      v-model="editDialogVisible"
       width="50%"
       :before-close="editHandleClose"
     >
@@ -174,7 +176,7 @@
         </el-col>
         <el-col :span="16">
           <el-select
-            v-model:value="newStatus"
+            v-model="newStatus"
             placeholder="请选择"
             size="small"
             class="changeStatus"
@@ -196,7 +198,7 @@
         <el-col :span="16">
           <el-time-picker
             is-range
-            v-model:value="patchTime"
+            v-model="patchTime"
             range-separator="～"
             start-placeholder="开始时间"
             end-placeholder="结束时间"
@@ -219,7 +221,7 @@
     <!-- 出勤详情对话框 -->
     <el-dialog
       :title="userAttendanceName + ' 出勤详情'"
-      v-model:visible="displayDialogVisible"
+      v-model="displayDialogVisible"
       width="50%"
       :before-close="displayHandleClose"
     >
@@ -259,6 +261,12 @@
 </template>
 
 <script>
+import {
+  Search as ElIconSearch,
+  Bell as ElIconBell,
+  Edit as ElIconEdit,
+  More as ElIconMore,
+} from '@element-plus/icons'
 import { $on, $off, $once, $emit } from '../../utils/gogocodeTransfer'
 export default {
   data() {
@@ -310,29 +318,29 @@ export default {
         shortcuts: [
           {
             text: '最近一周',
-            onClick(picker) {
+            value() {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-              $emit(picker, 'pick', [start, end])
+              return [start, end]
             },
           },
           {
             text: '最近一个月',
-            onClick(picker) {
+            value() {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              $emit(picker, 'pick', [start, end])
+              return [start, end]
             },
           },
           {
             text: '最近三个月',
-            onClick(picker) {
+            value() {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-              $emit(picker, 'pick', [start, end])
+              return [start, end]
             },
           },
         ],
@@ -601,6 +609,10 @@ export default {
           workday: 1,
         },
       ],
+      ElIconSearch,
+      ElIconBell,
+      ElIconEdit,
+      ElIconMore,
     }
   },
   methods: {

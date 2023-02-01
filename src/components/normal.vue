@@ -50,94 +50,94 @@
         <!--background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"-->
         <el-menu background-color="#fafafa">
           <!-- 1.文档管理平台 -->
-          <el-submenu index="1">
+          <el-sub-menu index="1">
             <template v-slot:title>
-              <i class="el-icon-document"></i>
+              <el-icon><el-icon-document /></el-icon>
               <span>文档管理平台</span>
             </template>
             <el-menu-item index="1-1">
-              <i class="el-icon-folder-add"></i>
+              <el-icon><el-icon-folder-add /></el-icon>
               <span @click="newFile">新建文档</span>
             </el-menu-item>
             <el-menu-item index="1-2" @click="selectFile">
-              <i class="el-icon-search"></i>
+              <el-icon><el-icon-search /></el-icon>
               <span>查询文档</span>
             </el-menu-item>
             <el-menu-item index="1-3">
-              <i class="el-icon-delete"></i>
+              <el-icon><el-icon-delete /></el-icon>
               <span @click="recycle">回收站</span>
             </el-menu-item>
             <el-menu-item index="1-4">
-              <i class="el-icon-s-order"></i>
+              <el-icon><el-icon-s-order /></el-icon>
               <span @click="record">文档日志</span>
             </el-menu-item>
-          </el-submenu>
+          </el-sub-menu>
           <!-- 2.消息管理平台 -->
-          <el-submenu index="2">
+          <el-sub-menu index="2">
             <template v-slot:title>
-              <i class="el-icon-chat-dot-square"></i>
+              <el-icon><el-icon-chat-dot-square /></el-icon>
               <span>消息管理平台</span>
             </template>
             <el-menu-item index="2-1">
-              <i class="el-icon-right"></i>
+              <el-icon><el-icon-right /></el-icon>
               <span @click="add">发送邮件</span>
             </el-menu-item>
             <el-menu-item index="2-2">
-              <i class="el-icon-edit-outline"></i>
+              <el-icon><el-icon-edit-outline /></el-icon>
               <span @click="fjx">发件箱</span>
             </el-menu-item>
             <el-menu-item index="2-3">
-              <i class="el-icon-chat-dot-square"></i>
+              <el-icon><el-icon-chat-dot-square /></el-icon>
               <span @click="sjx">收件箱</span>
             </el-menu-item>
             <el-menu-item index="2-4">
-              <i class="el-icon-edit"></i>
+              <el-icon><el-icon-edit /></el-icon>
               <span @click="cgx">草稿箱</span>
             </el-menu-item>
             <el-menu-item index="2-5">
-              <i class="el-icon-delete"></i>
+              <el-icon><el-icon-delete /></el-icon>
               <span @click="ljx">垃圾箱</span>
             </el-menu-item>
             <el-menu-item index="2-6">
-              <i class="el-icon-user"></i>
+              <el-icon><el-icon-user /></el-icon>
               <span @click="bindMailbox">邮箱账户</span>
             </el-menu-item>
-          </el-submenu>
+          </el-sub-menu>
           <!-- 3.考勤管理平台 -->
-          <el-submenu index="3">
+          <el-sub-menu index="3">
             <template v-slot:title>
-              <i class="el-icon-circle-check"></i>
+              <el-icon><el-icon-circle-check /></el-icon>
               <span>考勤管理平台</span>
             </template>
             <el-menu-item index="3-1">
-              <i class="el-icon-check"></i>
+              <el-icon><el-icon-check /></el-icon>
               <span @click="signIn">签到/签退</span>
             </el-menu-item>
             <el-menu-item index="3-2">
-              <i class="el-icon-circle-check"></i>
+              <el-icon><el-icon-circle-check /></el-icon>
               <span @click="addSign">补签申请</span>
             </el-menu-item>
-          </el-submenu>
+          </el-sub-menu>
 
           <!-- 4.日程管理平台 -->
-          <el-submenu index="4">
+          <el-sub-menu index="4">
             <template v-slot:title>
-              <i class="el-icon-date"></i>
+              <el-icon><el-icon-date /></el-icon>
               <span>日程管理平台</span>
             </template>
             <el-menu-item index="4-1">
-              <i class="el-icon-user"></i>
+              <el-icon><el-icon-user /></el-icon>
               <span @click="schedule">我的日程</span>
             </el-menu-item>
             <el-menu-item index="4-2">
-              <i class="el-icon-user-solid"></i>
+              <el-icon><el-icon-user-solid /></el-icon>
               <span @click="friendsSchedule">联系人日程</span>
             </el-menu-item>
             <el-menu-item index="4-3">
-              <i class="el-icon-more"></i>
+              <el-icon><el-icon-more /></el-icon>
               <span @click="deptSchedule">部门日程</span>
             </el-menu-item>
-          </el-submenu>
+          </el-sub-menu>
         </el-menu>
       </el-aside>
       <!-- 右侧内容主体 -->
@@ -149,10 +149,44 @@
 </template>
 
 <script>
+import {
+  Document as ElIconDocument,
+  FolderAdd as ElIconFolderAdd,
+  Search as ElIconSearch,
+  Delete as ElIconDelete,
+  SOrder as ElIconSOrder,
+  ChatDotSquare as ElIconChatDotSquare,
+  Right as ElIconRight,
+  EditOutline as ElIconEditOutline,
+  Edit as ElIconEdit,
+  User as ElIconUser,
+  CircleCheck as ElIconCircleCheck,
+  Check as ElIconCheck,
+  Date as ElIconDate,
+  UserSolid as ElIconUserSolid,
+  More as ElIconMore,
+} from '@element-plus/icons'
 import user_img from '../images/background.jpg'
 import dept_img from '../images/corp_default.png'
 
 export default {
+  components: {
+    ElIconDocument,
+    ElIconFolderAdd,
+    ElIconSearch,
+    ElIconDelete,
+    ElIconSOrder,
+    ElIconChatDotSquare,
+    ElIconRight,
+    ElIconEditOutline,
+    ElIconEdit,
+    ElIconUser,
+    ElIconCircleCheck,
+    ElIconCheck,
+    ElIconDate,
+    ElIconUserSolid,
+    ElIconMore,
+  },
   // created(){
   //     this.getMenuList()
   // },

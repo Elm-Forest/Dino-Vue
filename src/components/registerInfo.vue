@@ -6,32 +6,32 @@
       <el-form id="form" ref="loginFormRef" :model="loginForm">
         <el-form-item prop="name">
           <el-input
-            prefix-icon="el-icon-user-solid"
-            v-model:value="loginForm.name"
+            :prefix-icon="ElIconUserSolid"
+            v-model="loginForm.name"
             placeholder="姓名"
             clearable
           ></el-input>
         </el-form-item>
         <el-form-item prop="sex">
           <el-input
-            prefix-icon="el-icon-data-board"
-            v-model:value="loginForm.sex"
+            :prefix-icon="ElIconDataBoard"
+            v-model="loginForm.sex"
             placeholder="性别"
             clearable
           ></el-input>
         </el-form-item>
         <el-form-item prop="phone">
           <el-input
-            prefix-icon="el-icon-phone"
-            v-model:value="loginForm.phone"
+            :prefix-icon="ElIconPhone"
+            v-model="loginForm.phone"
             placeholder="联系方式"
             clearable
           ></el-input>
         </el-form-item>
         <el-form-item prop="address">
           <el-input
-            prefix-icon="el-icon-s-cooperation"
-            v-model:value="loginForm.address"
+            :prefix-icon="ElIconSCooperation"
+            v-model="loginForm.address"
             placeholder="常住地地址"
             clearable
           ></el-input>
@@ -43,8 +43,13 @@
 </template>
 
 <script>
+import {
+  UserSolid as ElIconUserSolid,
+  DataBoard as ElIconDataBoard,
+  Phone as ElIconPhone,
+  SCooperation as ElIconSCooperation,
+} from '@element-plus/icons'
 export default {
-  name: 'Login',
   data() {
     return {
       loginForm: {
@@ -53,8 +58,13 @@ export default {
         address: '',
         phone: '',
       },
+      ElIconUserSolid,
+      ElIconDataBoard,
+      ElIconPhone,
+      ElIconSCooperation,
     }
   },
+  name: 'Login',
   methods: {
     createDept() {
       const this_vue = this

@@ -22,16 +22,16 @@
         >
           <el-form-item prop="username">
             <el-input
-              prefix-icon="el-icon-user-solid"
-              v-model:value="loginForm.username"
+              :prefix-icon="ElIconUserSolid"
+              v-model="loginForm.username"
               placeholder="请输入用户名"
               clearable
             ></el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input
-              prefix-icon="el-icon-lock"
-              v-model:value="loginForm.password"
+              :prefix-icon="ElIconLock"
+              v-model="loginForm.password"
               placeholder="请输入密码"
               show-password
             ></el-input>
@@ -53,8 +53,11 @@
 </template>
 
 <script>
+import {
+  UserSolid as ElIconUserSolid,
+  Lock as ElIconLock,
+} from '@element-plus/icons'
 export default {
-  name: 'Login',
   data() {
     return {
       // 登录表单的数据绑定对象
@@ -85,8 +88,11 @@ export default {
       },
       time: '',
       date: '',
+      ElIconUserSolid,
+      ElIconLock,
     }
   },
+  name: 'Login',
   // 时间更新
   mounted() {
     this.$nextTick(() => {

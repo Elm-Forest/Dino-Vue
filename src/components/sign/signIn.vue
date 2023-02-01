@@ -56,14 +56,14 @@
     <!-- 请假申请对话框 -->
     <el-dialog
       title="出差请假申请单"
-      v-model:visible="dialogFormVisible"
+      v-model="dialogFormVisible"
       :before-close="handleClose"
     >
       <!-- 主体区 -->
       <el-form :model="timeoffForm" label-position="right" label-width="140px">
         <el-form-item label="出差起止日期">
           <el-date-picker
-            v-model:value="timeoffForm.timeoff_date"
+            v-model="timeoffForm.timeoff_date"
             type="daterange"
             align="right"
             unlink-panels
@@ -76,7 +76,7 @@
         </el-form-item>
         <el-form-item label="出差天数">
           <el-input-number
-            v-model:value="timeoffForm.timeoff_day"
+            v-model="timeoffForm.timeoff_day"
             size="small"
             :min="1"
             class="inputForm"
@@ -87,7 +87,7 @@
           <el-input
             type="textarea"
             :rows="5"
-            v-model:value="timeoffForm.decs"
+            v-model="timeoffForm.decs"
             size="small"
             class="textareaDecs"
           >
@@ -107,7 +107,7 @@
     <!-- 签到按钮对话框 -->
     <el-dialog
       title="签到"
-      v-model:visible="dialogFormVisible2"
+      v-model="dialogFormVisible2"
       :before-close="handleClose2"
     >
       <!-- 主体区 -->
@@ -116,7 +116,7 @@
           <el-input
             type="textarea"
             :rows="5"
-            v-model:value="signInForm.message"
+            v-model="signInForm.message"
             size="small"
             class="textareaDecs"
           >
@@ -136,7 +136,7 @@
     <!-- 签退按钮对话框 -->
     <el-dialog
       title="签退"
-      v-model:visible="dialogFormVisible3"
+      v-model="dialogFormVisible3"
       :before-close="handleClose3"
     >
       <!-- 主体区 -->
@@ -145,7 +145,7 @@
           <el-input
             type="textarea"
             :rows="5"
-            v-model:value="signOutForm.message"
+            v-model="signOutForm.message"
             size="small"
             class="textareaDecs"
           >

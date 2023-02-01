@@ -16,23 +16,23 @@
     <el-col :span="14">
       <div class="grid-content">
         <div class="el-select">
-          <el-input v-model:value="temp_schedule_title" placeholder="标题" />
+          <el-input v-model="temp_schedule_title" placeholder="标题" />
         </div>
         <div class="el-select">
-          <el-input v-model:value="temp_schedule_content" placeholder="内容" />
+          <el-input v-model="temp_schedule_content" placeholder="内容" />
         </div>
         <div class="el-select">
-          <el-input v-model:value="temp_dept_id" placeholder="部门ID" />
+          <el-input v-model="temp_dept_id" placeholder="部门ID" />
         </div>
         <el-date-picker
-          v-model:value="temp_begin_time"
+          v-model="temp_begin_time"
           style="width: 234px"
           type="date"
           placeholder="开始时间"
           value-format="yyyy-MM-dd"
         />
         <el-date-picker
-          v-model:value="temp_end_time"
+          v-model="temp_end_time"
           style="width: 234px"
           type="date"
           placeholder="结束时间"
@@ -59,13 +59,13 @@
           </el-table-column>
           <el-table-column label="结束时间" width="180">
             <template v-slot="scope">
-              <i class="el-icon-time"></i>
+              <el-icon><el-icon-time /></el-icon>
               <span style="margin-left: 10px">{{ scope.row.end_time }}</span>
             </template>
           </el-table-column>
           <el-table-column label="部门id" width="180">
             <template v-slot="scope">
-              <i class="el-icon-time"></i>
+              <el-icon><el-icon-time /></el-icon>
               <span style="margin-left: 10px">{{ scope.row.dept_id }}</span>
             </template>
           </el-table-column>
@@ -97,7 +97,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="post" id="postContent" v-model:visible="editVisible">
+        <div class="post" id="postContent" v-model="editVisible">
           <input
             class="title"
             v-model="temp_schedule_title"
@@ -130,11 +130,13 @@
 </template>
 
 <script>
+import { Time as ElIconTime } from '@element-plus/icons'
 import axios from 'axios'
-// import Cookies from "js-cookie";
 export default {
+  components: {
+    ElIconTime,
+  },
   name: 'schedule',
-  components: {},
   data() {
     return {
       resData: [
@@ -143,7 +145,7 @@ export default {
           end_time: '2019-12-25',
           schedule_title: '放假',
           dept_id: '111',
-          schedule_content: 'dawdawdawdawdawdawdawd',
+          schedule_content: 'first',
           id: '1',
         },
         {
@@ -151,7 +153,7 @@ export default {
           end_time: '2022-12-25',
           schedule_title: '出差',
           dept_id: '111',
-          schedule_content: 'wdawdwadwwwwwwdawd',
+          schedule_content: 'second',
           id: '2',
         },
         {
@@ -159,7 +161,7 @@ export default {
           end_time: '2021-12-25',
           schedule_title: '学习vue',
           dept_id: '111',
-          schedule_content: 'dwadawdawdawdawd',
+          schedule_content: '3',
           id: '3',
         },
         {
@@ -167,7 +169,7 @@ export default {
           end_time: '2022-10-25',
           schedule_title: '放假',
           dept_id: '111',
-          schedule_content: 'awdawdawdawdawdawd',
+          schedule_content: '4',
           id: '4',
         },
       ],

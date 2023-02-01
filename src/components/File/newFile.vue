@@ -21,7 +21,7 @@
         <!-- min-width100%能实现header拉长，name独大 -->
         <el-table-column prop="name" label="文件名" min-width="100%">
           <template v-slot:header>
-            <i class="el-icon-document hidden-xs-only"></i>
+            <el-icon class="hidden-xs-only"><el-icon-document /></el-icon>
             <span>文件名</span>
             <el-upload
               class="upload"
@@ -52,10 +52,10 @@
         </el-table-column>
         <el-table-column prop="operation" label="操作" width="180">
           <template v-slot="scope">
-            <el-button type="text" icon="el-icon-download"></el-button>
+            <el-button type="text" :icon="ElIconDownload"></el-button>
             <el-button
               type="text"
-              icon="el-icon-close"
+              :icon="ElIconClose"
               @click="confirm"
             ></el-button>
           </template>
@@ -66,7 +66,22 @@
 </template>
 
 <script>
-export default {}
+import {
+  Document as ElIconDocument,
+  Download as ElIconDownload,
+  Close as ElIconClose,
+} from '@element-plus/icons'
+export default {
+  data() {
+    return {
+      ElIconDownload,
+      ElIconClose,
+    }
+  },
+  components: {
+    ElIconDocument,
+  },
+}
 </script>
 
 <style scoped>
