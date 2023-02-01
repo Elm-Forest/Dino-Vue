@@ -1,6 +1,6 @@
 # AutoOffice - OA办公自动化
 
-### 注意：目前前端仓库未开源
+#### 切换至vue3分支[click here](https://gitee.com/sseven77/oa-project/tree/vue3/)
 
 
 <div>

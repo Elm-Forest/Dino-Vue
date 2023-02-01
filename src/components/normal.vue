@@ -189,7 +189,6 @@ export default {
           deptImg = dept_img
         }
         this_vue.headImg.dept = deptImg;
-        console.log(roles)
         if (role === null || role === '') {
           role = '未指定部门'
         } else {
@@ -203,12 +202,10 @@ export default {
       setTimeout(() => {
         this.userInfo = false
       }, 3000)
-      console.log(1)
     },
 //当触发mouseover时调用的方法       
     showInfo() {
       this.userInfo = true
-      console.log(1)
     },
     // 返回登录界面
     logout() {
@@ -223,7 +220,6 @@ export default {
           message: '您已登出！',
           type: 'warning'
         })
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(error);
       })
