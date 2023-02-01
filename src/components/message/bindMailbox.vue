@@ -18,9 +18,7 @@
         </div>
         <div class="boxT">
           <div class="text">验证码:</div>
-
           <input type="text" name="" id="" v-model="mailAccountForm.code" placeholder="请输入验证码">
-
           <div class="but" @click="send">
             发送
           </div>

@@ -9,7 +9,7 @@
 <script>
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
-import ritrievePassword from './components/retrievePassword.vue'
+import retrievePassword from './components/retrievePassword.vue'
 
 export default {
   name: 'App',
@@ -19,7 +19,7 @@ export default {
   components: {
     Login: Login,
     Register: Register,
-    ritrievePassword: ritrievePassword
+    retrievePassword: retrievePassword
   }
 }
 </script>

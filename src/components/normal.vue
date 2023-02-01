@@ -38,9 +38,9 @@
               <i class="el-icon-folder-add"></i>
               <span @click="newFile">新建文档</span>
             </el-menu-item>
-            <el-menu-item index="1-2">
+            <el-menu-item index="1-2" @click="selectFile">
               <i class="el-icon-search"></i>
-              <span @click="selectFile">查询文档</span>
+              <span>查询文档</span>
             </el-menu-item>
             <el-menu-item index="1-3">
               <i class="el-icon-delete"></i>
@@ -178,7 +178,7 @@ export default {
     },
     // 返回登录界面
     logout() {
-      var this_vue = this
+      let this_vue = this
       this.$axios({
         method: 'post',
         url: '/user/logout',
