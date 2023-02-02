@@ -27,24 +27,28 @@
       <el-aside width="250px">
         <!-- 侧边栏菜单区域 -->
         <!--background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"-->
-        <el-menu background-color="#fafafa">
+        <el-menu
+            background-color="#fafafa"
+            router="true"
+            unique-opened="true"
+        >
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
               <span>企业网盘</span>
             </template>
-            <el-menu-item index="1-2" @click="selectFile">
+            <el-menu-item index="/File/selectFile">
               <i class="el-icon-search"></i>
               <span>文件管理</span>
             </el-menu-item>
-            <el-menu-item index="1-3">
+            <el-menu-item index="/File/recycle">
               <i class="el-icon-delete"></i>
-              <span @click="recycle">回收站</span>
+              <span>回收站</span>
             </el-menu-item>
-            <el-menu-item index="1-4">
+            <el-menu-item index="/File/record">
               <i class="el-icon-s-order"></i>
-              <span @click="record">文档日志</span>
+              <span>文档日志</span>
             </el-menu-item>
           </el-submenu>
           <!-- 2.企业邮箱平台 -->
@@ -53,29 +57,29 @@
               <i class="el-icon-chat-dot-square"></i>
               <span>企业邮箱</span>
             </template>
-            <el-menu-item index="2-1">
+            <el-menu-item index="/message/add">
               <i class="el-icon-right"></i>
-              <span @click="add">发邮件</span>
+              <span>发邮件</span>
             </el-menu-item>
-            <el-menu-item index="2-2">
+            <el-menu-item index="/message/fjx">
               <i class="el-icon-edit-outline"></i>
-              <span @click="fjx">发件箱</span>
+              <span>发件箱</span>
             </el-menu-item>
-            <el-menu-item index="2-3">
+            <el-menu-item index="/message/sjx">
               <i class="el-icon-chat-dot-square"></i>
-              <span @click="sjx">收件箱</span>
+              <span >收件箱</span>
             </el-menu-item>
-            <el-menu-item index="2-4">
+            <el-menu-item index="/message/cgx">
               <i class="el-icon-edit"></i>
-              <span @click="cgx">草稿箱</span>
+              <span>草稿箱</span>
             </el-menu-item>
-            <el-menu-item index="2-5">
+            <el-menu-item index="/message/ljx">
               <i class="el-icon-delete"></i>
-              <span @click="ljx">垃圾箱</span>
+              <span>垃圾箱</span>
             </el-menu-item>
-            <el-menu-item index="2-6">
+            <el-menu-item index="/message/bindMailbox">
               <i class="el-icon-user"></i>
-              <span @click="bindMailbox">邮箱账户</span>
+              <span>邮箱账户</span>
             </el-menu-item>
           </el-submenu>
           <!-- 3.考勤管理平台 -->
@@ -84,13 +88,13 @@
               <i class="el-icon-circle-check"></i>
               <span>考勤</span>
             </template>
-            <el-menu-item index="3-1">
+            <el-menu-item index="/sign/signIn">
               <i class="el-icon-check"></i>
-              <span @click="signIn">签到/签退</span>
+              <span>签到/签退</span>
             </el-menu-item>
-            <el-menu-item index="3-2">
+            <el-menu-item index="/sign/addSign">
               <i class="el-icon-circle-check"></i>
-              <span @click="addSign">补签申请</span>
+              <span>补签申请</span>
             </el-menu-item>
           </el-submenu>
 
@@ -100,17 +104,17 @@
               <i class="el-icon-date"></i>
               <span>日程</span>
             </template>
-            <el-menu-item index="4-1">
+            <el-menu-item index="/date/schedule">
               <i class="el-icon-user"></i>
-              <span @click="schedule">我的日程</span>
+              <span>我的日程</span>
             </el-menu-item>
-            <el-menu-item index="4-2">
+            <el-menu-item index="/date/friendsSchedule">
               <i class="el-icon-user-solid"></i>
-              <span @click="friendsSchedule">联系人日程</span>
+              <span>联系人日程</span>
             </el-menu-item>
-            <el-menu-item index="4-3">
+            <el-menu-item index="/date/deptSchedule">
               <i class="el-icon-more"></i>
-              <span @click="deptSchedule">部门日程</span>
+              <span>部门日程</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -203,7 +207,7 @@ export default {
         this.userInfo = false
       }, 3000)
     },
-//当触发mouseover时调用的方法       
+    //当触发mouseover时调用的方法
     showInfo() {
       this.userInfo = true
     },

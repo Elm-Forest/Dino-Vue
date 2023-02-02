@@ -6,8 +6,8 @@
         <el-avatar :src="headImg.dept" class="el-dropdown-link" id="headImg" alt="" :size="30"
                    @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
       </div>
-      <span id="title" style="position: absolute;display: block;margin-left: 20px;">{{ name.dept }} | {{ role }}</span>
-      <span id="title" style="position: absolute;display: block;right: 60px">欢迎您，{{ name.user }}</span>
+      <span class="title" style="position: absolute;display: block;margin-left: 20px;">{{ name.dept }} | {{ role }}</span>
+      <span class="title" style="position: absolute;display: block;right: 60px">欢迎您，{{ name.user }}</span>
       <div class="head_img">
         <el-dropdown>
           <el-avatar :src="headImg.user" class="el-dropdown-link" id="headImg" alt="" :size="30"
@@ -25,28 +25,31 @@
       <!-- 侧边栏 -->
       <el-aside width="250px">
         <!-- 侧边栏菜单区域 -->
-        <el-menu background-color="#fafafa">
+        <el-menu background-color="#fafafa"
+                 default-active="/admin/admUser"
+                 unique-opened="true"
+                 router="true">
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
               <span>文档管理平台</span>
             </template>
-            <el-menu-item index="1-1">
+            <el-menu-item index="/admin/newFile">
               <i class="el-icon-folder-add"></i>
-              <span @click="newFile">新建文档</span>
+              <span>新建文档</span>
             </el-menu-item>
-            <el-menu-item index="1-2">
+            <el-menu-item index="/admin/selectFile">
               <i class="el-icon-search"></i>
-              <span @click="selectFile">查询文档</span>
+              <span>查询文档</span>
             </el-menu-item>
-            <el-menu-item index="1-3">
+            <el-menu-item index="/admin/recycle">
               <i class="el-icon-delete"></i>
-              <span @click="recycle">回收站</span>
+              <span>回收站</span>
             </el-menu-item>
-            <el-menu-item index="1-4">
+            <el-menu-item index="/admin/record">
               <i class="el-icon-s-order"></i>
-              <span @click="record">文档日志</span>
+              <span>文档日志</span>
             </el-menu-item>
           </el-submenu>
           <!-- 2.消息管理平台 -->
@@ -55,9 +58,9 @@
               <i class="el-icon-chat-dot-square"></i>
               <span>消息管理平台</span>
             </template>
-            <el-menu-item index="2-1">
+            <el-menu-item index="/admin/adminList">
               <i class="el-icon-s-grid"></i>
-              <span @click="adminList">消息列表</span>
+              <span>消息列表</span>
             </el-menu-item>
           </el-submenu>
           <!-- 3.考勤管理平台 -->
@@ -66,17 +69,17 @@
               <i class="el-icon-circle-check"></i>
               <span>考勤管理平台</span>
             </template>
-            <el-menu-item index="3-1">
+            <el-menu-item index="/admin/searchSign">
               <i class="el-icon-search"></i>
-              <span @click="searchSign">考勤信息查询</span>
+              <span>考勤信息查询</span>
             </el-menu-item>
-            <el-menu-item index="3-2">
+            <el-menu-item index="/admin/signTime">
               <i class="el-icon-setting"></i>
-              <span @click="signTime">考勤时间管理</span>
+              <span>考勤时间管理</span>
             </el-menu-item>
-            <el-menu-item index="3-3">
+            <el-menu-item index="/admin/approve">
               <i class="el-icon-chat-dot-square"></i>
-              <span @click="approve">员工申请审批</span>
+              <span>员工申请审批</span>
             </el-menu-item>
           </el-submenu>
 
@@ -86,17 +89,17 @@
               <i class="el-icon-date"></i>
               <span>日程管理平台</span>
             </template>
-            <el-menu-item index="4-1">
+            <el-menu-item index="/admin/schedule">
               <i class="el-icon-user"></i>
-              <span @click="schedule">我的日程</span>
+              <span>我的日程</span>
             </el-menu-item>
-            <el-menu-item index="4-2">
+            <el-menu-item index="/admin/friendsSchedule">
               <i class="el-icon-user-solid"></i>
-              <span @click="friendsSchedule">联系人日程</span>
+              <span>联系人日程</span>
             </el-menu-item>
-            <el-menu-item index="4-3">
+            <el-menu-item index="/admin/deptSchedule">
               <i class="el-icon-more"></i>
-              <span @click="deptSchedule">部门日程</span>
+              <span>部门日程</span>
             </el-menu-item>
           </el-submenu>
 
@@ -106,17 +109,17 @@
               <i class="el-icon-s-grid"></i>
               <span>部门管理平台</span>
             </template>
-            <el-menu-item index="5-1">
+            <el-menu-item index="/admin/admUser">
               <i class="el-icon-user"></i>
-              <span @click="admUser">成员管理</span>
+              <span>成员管理</span>
             </el-menu-item>
-            <el-menu-item index="5-2">
+            <el-menu-item index="/admin/offer">
               <i class="el-icon-office-building"></i>
-              <span @click="offer">offer管理</span>
+              <span>offer管理</span>
             </el-menu-item>
-            <el-menu-item index="5-3">
+            <el-menu-item index="/admin/company">
               <i class="el-icon-office-building"></i>
-              <span @click="company">企业名片</span>
+              <span>企业名片</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -207,7 +210,7 @@ export default {
         this.userInfo = false
       }, 3000)
     },
-//当触发mouseover时调用的方法
+    //当触发mouseover时调用的方法
     showInfo() {
       this.userInfo = true
     },
@@ -228,65 +231,7 @@ export default {
         console.log(error);
       })
     },
-    // 查看消息按钮
-    showNews() {
-      this.$router.push("/admin/adminList");
-    },
-    // 新建文档界面
-    newFile() {
-      this.$router.push('/admin/newFile');
-    },
-    // 查询文档界面
-    selectFile() {
-      this.$router.push('/admin/selectFile');
-    },
-    // 文件回收站界面
-    recycle() {
-      this.$router.push('/admin/recycle');
-    },
-    // 文档日志界面
-    record() {
-      this.$router.push('/admin/record');
-    },
-    // 消息列表界面
-    adminList() {
-      this.$router.push('/admin/adminList');
-    },
-    // 考勤信息查询界面
-    searchSign() {
-      this.$router.push('/admin/searchSign');
-    },
-    // 考勤时间管理界面
-    signTime() {
-      this.$router.push('/admin/signTime');
-    },
-    // 员工申请审批界面
-    approve() {
-      this.$router.push('/admin/approve');
-    },
-    // 我的日程界面
-    schedule() {
-      this.$router.push('/admin/schedule');
-    },
-    // 联系人日程界面
-    friendsSchedule() {
-      this.$router.push('/admin/friendsSchedule');
-    },
-    // 部门日程界面
-    deptSchedule() {
-      this.$router.push('/admin/deptSchedule');
-    },
-    // 成员管理界面
-    admUser() {
-      this.$router.push('/admin/admUser');
-    },
-    // 公司招牌界面
-    company() {
-      this.$router.push('/admin/company');
-    },
-    offer() {
-      this.$router.push('/admin/offer');
-    }
+
     // 获取所有的菜单
     // getMenuList(){
     //     this.$http.get('menus');
@@ -302,6 +247,7 @@ export default {
   box-shadow: 1px 1px 4px rgb(99 99 99 / 15%);
   display: block;
 }
+
 .el-aside {
   display: block;
   position: absolute;
@@ -309,6 +255,7 @@ export default {
   top: 60px;
   bottom: 0;
 }
+
 .el-main {
   position: absolute;
   left: 300px;
@@ -317,9 +264,11 @@ export default {
   bottom: 0;
   overflow-y: scroll;
 }
-.el-menu{
+
+.el-menu {
   border-right: solid 0;
 }
+
 .home-container {
   height: 100%;
 }
@@ -332,7 +281,7 @@ export default {
   align-items: center;
 }
 
-#title {
+.title {
   padding: 0 30px;
   color: aliceblue;
   font-size: 16px;

@@ -23,11 +23,15 @@
             <el-input prefix-icon="el-icon-message" v-model="registerForm.email" placeholder="请输入邮箱"
                       clearable></el-input>
           </el-form-item>
-          <el-form-item prop="yzcode" style="display: flex; justify-content: space-between;flex-direction:row;">
-            <el-input style="width: 190px;"
-                      prefix-icon="el-icon-edit" v-model="registerForm.yzcode" placeholder="请输入验证码"
-                      clearable></el-input>
-            <el-button @click="send">发送验证码</el-button>
+          <el-form-item prop="yzcode">
+            <el-col :span="14" style="margin-right: 12px">
+              <el-input
+                  prefix-icon="el-icon-edit" v-model="registerForm.yzcode" placeholder="请输入验证码"
+                  clearable></el-input>
+            </el-col>
+            <el-col :span="6">
+              <el-button @click="send">发送验证码</el-button>
+            </el-col>
           </el-form-item>
           <el-form-item prop="password">
             <el-input
@@ -103,47 +107,64 @@ export default {
   },
   methods: {
     send() {
-      this.$axios({
-        method: 'post',
-        url: '/email/register',
-        params: {
-          'email': this.registerForm.email,
-        }
-      }).then(function (response) {
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+      if (this.registerForm.email !== '' && this.registerForm.email !== undefined) {
+        this.$axios({
+          method: 'post',
+          url: '/email/register',
+          params: {
+            'email': this.registerForm.email,
+          }
+        }).then(function (response) {
+          console.log(JSON.stringify(response.data));
+        }).catch(function (error) {
+          console.log(localStorage.getItem('token'))
+          console.log(error);
+        });
+      } else {
+        this.$message({
+          message: "邮箱不能为空",
+          type: 'warning'
+        });
+      }
+
     },
     register() {
-      var this_vue = this;
-      this.$axios({
-        method: 'post',
-        url: '/register',
-        params: {
-          'username': this.registerForm.username,
-          'password': this.registerForm.password,
-          'email': this.registerForm.email,
-          'code': this.registerForm.yzcode,
-        }
-      }).then(function (response) {
-        if (response.flag) {
-          this_vue.$router.push({path: '/login'})
-          this_vue.$message({
-            message: response.message,
-            type: 'success'
+      let this_vue = this;
+      this.$refs.registerFormRef.validate(valid => {
+        if (valid) {
+          this.$axios({
+            method: 'post',
+            url: '/register',
+            params: {
+              'username': this.registerForm.username,
+              'password': this.registerForm.password,
+              'email': this.registerForm.email,
+              'code': this.registerForm.yzcode,
+            }
+          }).then(function (response) {
+            if (response.flag) {
+              this_vue.$router.push({path: '/login'})
+              this_vue.$message({
+                message: response.message,
+                type: 'success'
+              });
+            } else {
+              this_vue.$message({
+                message: response.message,
+                type: 'warning'
+              });
+            }
+            console.log(JSON.stringify(response.data));
+          }).catch(function (error) {
+            console.log(localStorage.getItem('token'))
+            console.log(error);
           });
         } else {
           this_vue.$message({
-            message: response.message,
+            message: "表单填写不合法",
             type: 'warning'
           });
         }
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
       });
     },
     // 跳转到登录页面
