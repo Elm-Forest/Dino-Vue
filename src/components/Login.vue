@@ -74,81 +74,88 @@ export default {
   methods: {
     // 登录预验证
     login() {
-      this.$refs.loginFormRef.validate(() => {
-        const this_vue = this;
-        this.$axios({
-          method: 'post',
-          url: '/login',
-          params: {
-            'username': this.loginForm.username,
-            'password': this.loginForm.password,
-          }
-        }).then(function (response) {
-          if (response.flag === false) {
-            this_vue.$router.push('/login');
-            this_vue.$message({
-              message: response.message,
-              type: 'warning'
-            })
-          } else {
-            localStorage.setItem('token', response.data);
-            this_vue.$axios({
-              method: 'get',
-              url: '/user/entry',
-            }).then(function (response) {
+      const this_vue = this;
+      this.$refs.loginFormRef.validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: 'post',
+            url: '/login',
+            params: {
+              'username': this.loginForm.username,
+              'password': this.loginForm.password,
+            }
+          }).then(function (response) {
+            if (response.flag === false) {
+              this_vue.$router.push('/login');
+              this_vue.$message({
+                message: response.message,
+                type: 'warning'
+              })
+            } else {
+              localStorage.setItem('token', response.data);
               this_vue.$axios({
                 method: 'get',
-                url: '/user/userinfo',
-              }).then(function (e) {
-                if (e.data.name === null || e.data.name === '') {
-                  this_vue.$router.push('/registerInfo');
-                  this_vue.$message({
-                    message: '您尚未填写资料',
-                    type: 'warning'
-                  })
-                } else {
-                  if (response.data.status === 1) {
-                    if (response.data.rights === 1) {
-                      this_vue.$router.push('/normal');
-                      this_vue.$message({
-                        message: '欢迎您，部门员工',
-                        type: 'success'
-                      });
-                    }
-                    if (response.data.rights >= 2) {
-                      this_vue.$router.push('/admin');
-                      this_vue.$message({
-                        message: '欢迎您，部门管理员',
-                        type: 'success'
-                      });
-                    }
-                  } else if (response.data.status === 0) {
-                    this_vue.$router.push('/dept');
+                url: '/user/entry',
+              }).then(function (response) {
+                this_vue.$axios({
+                  method: 'get',
+                  url: '/user/userinfo',
+                }).then(function (e) {
+                  if (e.data.name === null || e.data.name === '') {
+                    this_vue.$router.push('/registerInfo');
                     this_vue.$message({
-                      message: '您尚未加入企业',
+                      message: '您尚未填写资料',
                       type: 'warning'
                     })
-                  } else if (response.data.status === 2) {
-                    this_vue.$router.push('/dept');
-                    this_vue.$message({
-                      message: '您已离职',
-                      type: 'warning'
-                    })
+                  } else {
+                    if (response.data.status === 1) {
+                      if (response.data.rights === 1) {
+                        this_vue.$router.push('/normal');
+                        this_vue.$message({
+                          message: '欢迎您，部门员工',
+                          type: 'success'
+                        });
+                      }
+                      if (response.data.rights >= 2) {
+                        this_vue.$router.push('/admin');
+                        this_vue.$message({
+                          message: '欢迎您，部门管理员',
+                          type: 'success'
+                        });
+                      }
+                    } else if (response.data.status === 0) {
+                      this_vue.$router.push('/dept');
+                      this_vue.$message({
+                        message: '您尚未加入企业',
+                        type: 'warning'
+                      })
+                    } else if (response.data.status === 2) {
+                      this_vue.$router.push('/dept');
+                      this_vue.$message({
+                        message: '您已离职',
+                        type: 'warning'
+                      })
+                    }
                   }
-                }
+                }).catch(function (error) {
+                  console.log(localStorage.getItem('token'))
+                  console.log(error);
+                });
+
+                console.log(JSON.stringify(response.data));
               }).catch(function (error) {
-                console.log(localStorage.getItem('token'))
                 console.log(error);
               });
-
-              console.log(JSON.stringify(response.data));
-            }).catch(function (error) {
-              console.log(error);
-            });
-          }
-        }).catch(function (error) {
-          console.log(error);
-        });
+            }
+          }).catch(function (error) {
+            console.log(error);
+          });
+        } else {
+          this_vue.$message({
+            message: "表单填写不合法",
+            type: 'warning'
+          })
+        }
       });
     },
     // 跳转注册
