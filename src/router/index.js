@@ -35,10 +35,12 @@ import requestOffer from "@/components/requestOffer";
 import userinfo from "@/components/user/userinfo";
 import adminOffer from "@/components/dept/adminOffer";
 import registerInfo from "@/components/registerInfo";
+import socket from '@/components/test/socket.vue'
 
 Vue.use(Router)
 
 const routes = [
+    {path: '/socket', component: socket},
     {path: '/', redirect: '/login'},
     {path: '/login', component: Login},
     {path: '/register', component: Register},

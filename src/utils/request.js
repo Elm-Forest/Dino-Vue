@@ -2,9 +2,11 @@ import axios from 'axios'
 import {MessageBox, Message} from 'element-ui'
 import router from '../router/index'
 
+export const reqUrl = '127.0.0.1:8080';
+
 // create an axios instance
 const service = axios.create({
-    baseURL: 'http://127.0.0.1:8080', // url = base url + request url
+    baseURL: 'http://' + reqUrl, // url = base url + request url
     timeout: 5000 // request timeout
 })
 
@@ -15,7 +17,6 @@ service.interceptors.request.use(config => {
         if (token !== null || token !== '') {
             config.headers['token'] = token
         }
-        console.log('token', token);
         return config
     },
     error => {
@@ -40,10 +41,15 @@ service.interceptors.response.use(
     response => {
         let res = response.data;
         if (res.code !== 99000) {
-            console.log(res.code)
             return res
         }
-        router.push('/login')
+        router.push('/login').then(() => {
+
+        })
+        this.message({
+            message: '您尚未登录！',
+            type: 'warning'
+        })
         return res
     },
     error => {

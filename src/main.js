@@ -10,8 +10,10 @@ import './plugins/element.js'
 import './utils/tokenUtils.js'
 import './utils/request.js'
 import axios from './utils/request'
+import websocket from "@/utils/websocket";
 
 Vue.prototype.$axios = axios
+Vue.prototype.$websocket = websocket
 Vue.prototype.$path = Vue.prototype.$axios
 Vue.use(ElementUI)
 Vue.config.productionTip = false

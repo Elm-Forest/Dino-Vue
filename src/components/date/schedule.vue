@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="30">
-    <el-col :span="10">
+    <el-col>
       <div class="grid-content bg-purple">
         <el-calendar>
           <template slot="dateCell" slot-scope="{data}">
@@ -13,7 +13,7 @@
         </el-calendar>
       </div>
     </el-col>
-    <el-col :span="14">
+    <el-col>
       <div class="grid-content">
         <div class="el-select">
           <el-input v-model="temp_schedule_title" placeholder='标题'/>
@@ -248,12 +248,13 @@ export default {
 .el-row {
   margin-bottom: 20px;
 
-&
-:last-child {
-  margin-bottom: 0;
-}
+  &
+  :last-child {
+    margin-bottom: 0;
+  }
 
 }
+
 .el-col {
   border-radius: 4px;
 }

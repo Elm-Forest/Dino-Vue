@@ -162,7 +162,6 @@ export default {
         url: '/user/img',
       }).then(function (response) {
         this_vue.headImg.user = response.data;
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(error);
       });
@@ -194,7 +193,6 @@ export default {
         } else {
           role = roles[role - 1]
         }
-        console.log(role)
         this_vue.role = role;
       })
     },
