@@ -3,17 +3,25 @@ import {reqUrl} from './request.js';
 
 function initWebSocket() {
     const wsUrl = 'ws://' + reqUrl + "/websocket";
-    this.socket = new WebSocket(wsUrl, [localStorage.getItem('token')])//这里面的this都指向vue
+    this.socket = new WebSocket(wsUrl, [localStorage.getItem('token')])
+    this.socket.onopen = function () {
+        ElementUI.Notification({
+            title: '来自websocket服务日志',
+            message: '成功与服务器建立websocket连接',
+            type: 'success',
+            duration: 3000,
+        });
+    }
     this.socket.onerror = webSocketOnError;
-    this.socket.onmessage = webSocketOnMessage;
     this.socket.onclose = closeWebsocket;
     return this.socket;
 }
 
 function webSocketOnError(e) {
+    console.log('websocket error:', e)
     ElementUI.Notification({
-        title: '',
-        message: "WebSocket连接发生错误" + e,
+        title: '来自websocket服务日志',
+        message: "无法建立websocket连接，日志见控制台",
         type: 'error',
         duration: 0,
     });

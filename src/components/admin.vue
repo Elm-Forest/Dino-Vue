@@ -34,7 +34,7 @@
             </template>
             <el-menu-item index="1-1">
               <i class="el-icon-folder-add"></i>
-              <span @click="newFile">新建文档</span>
+              <span @click="$router.push('/admin/newFile')">新建文档</span>
             </el-menu-item>
             <el-menu-item index="1-2">
               <i class="el-icon-search"></i>
@@ -138,6 +138,7 @@ import '../utils/role.js'
 export default {
   data() {
     return {
+      socket: null,
       headImg: {
         user: user_img,
         dept: dept_img
@@ -151,11 +152,25 @@ export default {
     }
   },
   created() {
+    this.socket = this.$websocket.initWebSocket();
+    this.socket.onmessage = this.webSocketOnMessage;
     this.getUserHeadImg();
     this.getBaseInfo();
   },
   mounted: {},
   methods: {
+    webSocketOnOpen () {
+      this.$message({
+        message: "成功与服务器建立websocket连接",
+        type: 'success'
+      })
+    },
+    webSocketOnMessage(e) {
+      this.$message({
+        message: "来自服务器的消息：" + e,
+        type: 'success'
+      })
+    },
     userinfo() {
       this.$router.push('/userinfo');
     },

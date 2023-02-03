@@ -67,7 +67,7 @@
             </el-menu-item>
             <el-menu-item index="/message/sjx">
               <i class="el-icon-chat-dot-square"></i>
-              <span >收件箱</span>
+              <span>收件箱</span>
             </el-menu-item>
             <el-menu-item index="/message/cgx">
               <i class="el-icon-edit"></i>
@@ -138,6 +138,7 @@ export default {
   // },
   data() {
     return {
+      socket: null,
       headImg: {
         user: user_img,
         dept: dept_img
@@ -151,11 +152,25 @@ export default {
     }
   },
   created() {
+    this.socket = this.$websocket.initWebSocket();
+    this.socket.onmessage = this.webSocketOnMessage;
     this.getUserHeadImg();
     this.getBaseInfo();
   },
   mounted: {},
   methods: {
+    webSocketOnOpen () {
+      this.$message({
+        message: "成功与服务器建立websocket连接",
+        type: 'success'
+      })
+    },
+    webSocketOnMessage(e) {
+      this.$message({
+        message: "来自服务器的消息：" + e,
+        type: 'success'
+      })
+    },
     userinfo() {
       this.$router.push('/userinfo');
     },
@@ -304,6 +319,7 @@ export default {
   box-shadow: 1px 1px 4px rgb(99 99 99 / 15%);
   display: block;
 }
+
 .el-aside {
   display: block;
   position: absolute;
@@ -311,6 +327,7 @@ export default {
   top: 60px;
   bottom: 0;
 }
+
 .el-main {
   position: absolute;
   left: 300px;
@@ -319,9 +336,11 @@ export default {
   bottom: 0;
   overflow-y: scroll;
 }
-.el-menu{
+
+.el-menu {
   border-right: solid 0;
 }
+
 .home-container {
   height: 100%;
 }
