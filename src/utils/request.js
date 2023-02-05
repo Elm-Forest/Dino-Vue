@@ -2,7 +2,7 @@ import axios from 'axios'
 import {MessageBox, Message} from 'element-ui'
 import router from '../router/index'
 
-export const reqUrl = '127.0.0.1:8080';
+export const reqUrl = '101.132.249.251:6633';
 
 // create an axios instance
 const service = axios.create({
