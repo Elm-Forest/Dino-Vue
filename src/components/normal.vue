@@ -130,7 +130,7 @@
 <script>
 import user_img from '../images/background.jpg'
 import dept_img from '../images/corp_default.png'
-import '../utils/role.js'
+import {roles} from '@/utils/role'
 
 export default {
   // created(){
