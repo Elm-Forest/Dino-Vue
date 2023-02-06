@@ -6,9 +6,9 @@ import retrievePassword from '../components/retrievePassword.vue'
 import normal from '../components/normal.vue'
 import admin from '../components/admin.vue'
 import home from '../components/home.vue'
-import selectFile from '../components/File/selectFile.vue'
-import recycle from '../components/File/recycle.vue'
-import record from '../components/File/record.vue'
+import selectFile from '../components/file/selectFile.vue'
+import recycle from '../components/file/recycle.vue'
+import record from '../components/file/record.vue'
 import signIn from '../components/sign/signIn.vue'
 import addSign from '../components/sign/addSign.vue'
 import searchSign from '../components/sign/searchSign.vue'
@@ -57,9 +57,9 @@ const routes = [
         children: [
             {path: '/userinfo', component: userinfo},
             {path: '/home', component: home},
-            {path: '/File/selectFile', component: selectFile},
-            {path: '/File/recycle', component: recycle},
-            {path: '/File/record', component: record},
+            {path: '/file/selectFile', component: selectFile},
+            {path: '/file/recycle', component: recycle},
+            {path: '/file/record', component: record},
             {path: '/sign/signIn', component: signIn},
             {path: '/sign/addSign', component: addSign},
             {path: '/message/fjx', name: 'fjx', component: fjx},

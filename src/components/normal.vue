@@ -36,15 +36,15 @@
               <i class="el-icon-document"></i>
               <span>企业网盘</span>
             </template>
-            <el-menu-item index="/File/selectFile">
+            <el-menu-item index="/file/selectFile">
               <i class="el-icon-search"></i>
               <span>文件管理</span>
             </el-menu-item>
-            <el-menu-item index="/File/recycle">
+            <el-menu-item index="/file/recycle">
               <i class="el-icon-delete"></i>
               <span>回收站</span>
             </el-menu-item>
-            <el-menu-item index="/File/record">
+            <el-menu-item index="/file/record">
               <i class="el-icon-s-order"></i>
               <span>文档日志</span>
             </el-menu-item>
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-import user_img from '../images/background.jpg'
+import user_img from '../images/user_img.png'
 import dept_img from '../images/corp_default.png'
 import {dept_list} from '@/utils/const'
 
