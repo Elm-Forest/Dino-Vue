@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img id="register" src="../images/background.png" alt="">
+    <img id="register" src="../assets/images/background.png" alt="">
     <!-- 跳转登录区域 -->
     <div id="circle"></div>
     <div id="goto">

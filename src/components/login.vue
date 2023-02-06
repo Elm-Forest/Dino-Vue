@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img id="login-container" src="../images/background.png" alt="">
+    <img id="login-container" src="../assets/images/background.png" alt="">
     <!-- 跳转注册区域 -->
     <div id="circle"></div>
     <div id="goto">

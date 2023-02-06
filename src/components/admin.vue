@@ -124,8 +124,8 @@
   </el-container>
 </template>
 <script>
-import user_img from '../images/user_img.png'
-import dept_img from '../images/corp_default.png'
+import user_img from '../assets/images/user_img.png'
+import dept_img from '../assets/images/corp_default.png'
 import {dept_list} from '@/utils/const'
 
 export default {

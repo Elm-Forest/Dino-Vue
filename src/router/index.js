@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '../components/login.vue'
-import Register from '../components/Register.vue'
+import register from '../components/register.vue'
 import retrievePassword from '../components/retrievePassword.vue'
 import normal from '../components/normal.vue'
 import admin from '../components/admin.vue'
@@ -43,7 +43,7 @@ const routes = [
     {path: '/socket', component: socket},
     {path: '/', redirect: '/login'},
     {path: '/login', name: '登录', component: login},
-    {path: '/register', component: Register},
+    {path: '/register', component: register},
     {path: '/retrievePassword', component: retrievePassword},
     {path: '/dept', component: deptRegister},
     {path: '/offer', component: requestOffer},
@@ -123,6 +123,11 @@ const routes = [
             {path: '/super/deptSchedule', component: deptSchedule},
             {path: '/super/offer', component: adminOffer},
         ]
+    },
+    {
+        path: '*',
+        name: '404',
+        component: () => import('../components/404.vue')
     }
 ]
 

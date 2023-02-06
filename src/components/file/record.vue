@@ -137,7 +137,6 @@ export default {
       }
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
       this.form.current_count = val;
     },
     handleCurrentChange(val) {
@@ -156,7 +155,7 @@ export default {
       this.getList();
     },
     getList() {
-      var this_vue = this;
+      const this_vue = this;
       this.$axios({
         method: 'GET',
         url: '/doc/log',

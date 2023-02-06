@@ -233,7 +233,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -275,7 +275,7 @@ export default {
 
 #box {
   position: absolute;
-  top: 25%;
+  top: 20%;
   left: 25%;
 }
 </style>
