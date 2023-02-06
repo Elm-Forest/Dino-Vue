@@ -7,7 +7,7 @@
 
 <!-- 用于编写当前组件的业务代码 -->
 <script>
-import Login from './components/Login.vue'
+import login from './components/login.vue'
 import Register from './components/Register.vue'
 import retrievePassword from './components/retrievePassword.vue'
 
@@ -17,7 +17,7 @@ export default {
   },
   methods: {},
   components: {
-    Login: Login,
+    login: login,
     Register: Register,
     retrievePassword: retrievePassword
   }

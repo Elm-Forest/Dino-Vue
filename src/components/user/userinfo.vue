@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>部门管理平台</el-breadcrumb-item>
+      <el-breadcrumb-item>用户信息管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户信息</el-breadcrumb-item>
     </el-breadcrumb>
     <div id="box">
@@ -12,7 +12,7 @@
         </el-avatar>
         <el-form id="form" style="text-align: center;">
           <div class="text item">
-            <el-descriptions title="用户资料卡片" column="1">
+            <el-descriptions title="个人资料" column="1">
               <el-descriptions-item label="姓名">{{ name }}</el-descriptions-item>
               <el-descriptions-item label="手机号">{{ phone }}</el-descriptions-item>
               <el-descriptions-item label="居住地">{{ address }}</el-descriptions-item>
@@ -32,7 +32,7 @@
           title="上传头像"
           :visible.sync="dialogVisible"
           width="35%">
-        <el-form :model="form" style="text-align: center;">
+        <el-form style="text-align: center;">
           <el-form-item :label-width="formLabelWidth">
             <el-upload
                 action="#"
@@ -55,8 +55,8 @@
       </el-dialog>
     </div>
     <div>
-      <el-dialog title="收货地址" :visible.sync="dialogFormVisible" width="35%">
-        <el-form :model="form" style="text-align: center;">
+      <el-dialog title="修改信息" :visible.sync="dialogFormVisible" width="35%">
+        <el-form style="text-align: center;">
           <el-form-item label="姓名" :label-width="formLabelWidth">
             <el-input v-model="name" autocomplete="off"></el-input>
           </el-form-item>
@@ -79,19 +79,11 @@
   </div>
 </template>
 <script>
+import {right_list, role_list} from '@/utils/const'
+
 export default {
   data() {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
       fileList: [],
       files: '',
       dialogImageUrl: '',
@@ -106,8 +98,8 @@ export default {
       headImg: '',
       role: 'CEO',
       rights: '',
-      roles: ['客服', '财务', '技术', '采购', '运营', 'HR', 'CEO'],
-      right: ['企业员工', '部门管理员', '企业负责人']
+      roles: role_list,
+      right: right_list
     };
   },
   mounted: function () {
@@ -115,7 +107,6 @@ export default {
     this.getUserHeadImg();
   },
   created() {
-
   },
   methods: {
     fileOnChange(file, fileList) {
@@ -126,7 +117,6 @@ export default {
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
-      console.log('handlePictureCardPreview', file.url)
       this.dialogVisible = true;
     },
     handleClose2(done) {
@@ -174,8 +164,7 @@ export default {
         url: '/user/img',
       }).then(function (response) {
         document.getElementById('headImg1').src = response.data;
-        document.getElementById('headImg').src = response.data;
-        console.log(JSON.stringify(response.data));
+        document.getElementById('headImg').getElementsByTagName('img')[0].src = response.data;
       }).catch(function (error) {
         console.log(error);
       });
@@ -201,7 +190,6 @@ export default {
           this_vue.phone = response.data.phone;
           this_vue.headImg = response.data.headImg;
         }
-        console.log(response)
       }).catch(function (error) {
         console.log(error);
       });
@@ -220,7 +208,7 @@ export default {
         url: '/user/userinfo',
         params: {
           'name': this.name,
-          'sex': [{'女': 0, '男': 1}][0].this_sex,
+          'sex': {'女': 0, '男': 1}[this.sex],
           'phone': this.phone,
           'address': this.address,
         }
@@ -238,7 +226,6 @@ export default {
             type: 'warning'
           });
         }
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(error);
       });
@@ -289,6 +276,6 @@ export default {
 #box {
   position: absolute;
   top: 25%;
-  left: 37%;
+  left: 25%;
 }
 </style>

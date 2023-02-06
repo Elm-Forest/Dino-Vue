@@ -32,10 +32,6 @@
               <i class="el-icon-document"></i>
               <span>文档管理平台</span>
             </template>
-            <el-menu-item index="1-1">
-              <i class="el-icon-folder-add"></i>
-              <span @click="$router.push('/admin/newFile')">新建文档</span>
-            </el-menu-item>
             <el-menu-item index="1-2">
               <i class="el-icon-search"></i>
               <span @click="selectFile">查询文档</span>
@@ -107,16 +103,16 @@
               <span>部门管理平台</span>
             </template>
             <el-menu-item index="5-1">
-              <i class="el-icon-user"></i>
-              <span @click="admUser">成员管理</span>
+              <i class="el-icon-user" @click="admUser"/>
+              <span>成员管理</span>
             </el-menu-item>
             <el-menu-item index="5-2">
-              <i class="el-icon-office-building"></i>
-              <span @click="offer">offer管理</span>
+              <i class="el-icon-office-building" @click="$router.push('/admin/offer')"/>
+              <span>offer管理</span>
             </el-menu-item>
             <el-menu-item index="5-3">
-              <i class="el-icon-office-building"></i>
-              <span @click="company">企业名片</span>
+              <i class="el-icon-office-building" @click="$router.push('/admin/company')"/>
+              <span>企业名片</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -128,12 +124,10 @@
     </el-container>
   </el-container>
 </template>
-
 <script>
 import user_img from '../images/background.jpg'
 import dept_img from '../images/corp_default.png'
-import {roles} from '@/utils/role'
-
+import {dept_list} from '@/utils/const'
 
 export default {
   data() {
@@ -159,7 +153,7 @@ export default {
   },
   mounted: {},
   methods: {
-    webSocketOnOpen () {
+    webSocketOnOpen() {
       this.$message({
         message: "成功与服务器建立websocket连接",
         type: 'success'
@@ -172,7 +166,7 @@ export default {
       })
     },
     userinfo() {
-      this.$router.push('/userinfo');
+      this.$router.push('/admin/userinfo');
     },
     getUserHeadImg() {
       const this_vue = this;
@@ -210,7 +204,7 @@ export default {
         if (role === null || role === '') {
           role = '未指定部门'
         } else {
-          role = roles[role - 1]
+          role = dept_list[role - 1]
         }
         this_vue.role = role;
       })
@@ -293,18 +287,6 @@ export default {
     admUser() {
       this.$router.push('/admin/admUser');
     },
-    // 公司招牌界面
-    company() {
-      this.$router.push('/admin/company');
-    },
-    offer() {
-      this.$router.push('/admin/offer');
-    }
-    // 获取所有的菜单
-    // getMenuList(){
-    //     this.$http.get('menus');
-    // }
-
   }
 };
 </script>
@@ -315,6 +297,7 @@ export default {
   box-shadow: 1px 1px 4px rgb(99 99 99 / 15%);
   display: block;
 }
+
 .el-aside {
   display: block;
   position: absolute;
@@ -322,6 +305,7 @@ export default {
   top: 60px;
   bottom: 0;
 }
+
 .el-main {
   position: absolute;
   left: 300px;
@@ -330,9 +314,11 @@ export default {
   bottom: 0;
   overflow-y: scroll;
 }
-.el-menu{
+
+.el-menu {
   border-right: solid 0;
 }
+
 .home-container {
   height: 100%;
 }
@@ -356,10 +342,6 @@ export default {
 .el-aside {
   background-color: #fafafa;
 }
-
-/*.el-aside {*/
-/*  background-color: #545c64;*/
-/*}*/
 
 .el-main {
   background-color: white;

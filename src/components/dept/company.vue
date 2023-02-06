@@ -1,58 +1,268 @@
 <template>
-
-  <div class="box">
-
-    <!-- <img src="D:\vscode项目\auto-office\src\images\background3.png" alt=""> -->
+  <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>部门管理平台</el-breadcrumb-item>
-        <el-breadcrumb-item>公司招牌</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>企业信息管理</el-breadcrumb-item>
+      <el-breadcrumb-item>企业信息</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="mainBox">
-        <el-descriptions class="margin-top" :column="1">
-        <el-descriptions-item label="企业名称">OA自动化办公企业</el-descriptions-item>
-        <el-descriptions-item label="企业联系电话">8887777</el-descriptions-item>
-        <el-descriptions-item label="企业地址" :span="2">湖北省宜昌市西陵区</el-descriptions-item>
-        <el-descriptions-item label="企业描述">
-            OA办公系统即办公自动化系统，是将计算机、通信等现代技术运用到传统办公方式，
-            进而形成的新型办公方式，可进行邮件通信、信息发布、文档管理等工作。
-            使员工能快速便捷的共享信息，高效地协同工作，相比过去传统的办公方式，采集和处理信息更迅速、更全面。
-        </el-descriptions-item>
-        </el-descriptions>
+    <div id="box">
+      <el-card class="box-card box-card2">
+        <el-avatar :size="60" src="" id="headBox">
+          <img src="" alt="" id="headImg1" @click="dialogVisible = true"/>
+        </el-avatar>
+        <el-form id="form" style="text-align: center;">
+          <div class="text item">
+            <el-descriptions title="企业信息" column="1">
+              <el-descriptions-item label="企业名称">{{ name }}</el-descriptions-item>
+              <el-descriptions-item label="联系方式">{{ phone }}</el-descriptions-item>
+              <el-descriptions-item label="企业地址">{{ address }}</el-descriptions-item>
+              <el-descriptions-item label="企业描述">{{ describe }}</el-descriptions-item>
+            </el-descriptions>
+          </div>
+          <el-button type="primary" @click="dialogFormVisible = true">修改</el-button>
+        </el-form>
+      </el-card>
     </div>
-</div>
+    <div>
+      <el-dialog
+          title="上传头像"
+          :visible.sync="dialogVisible"
+          width="35%">
+        <el-form style="text-align: center;">
+          <el-form-item :label-width="formLabelWidth">
+            <el-upload
+                action="#"
+                list-type="picture-card"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+                :on-change="fileOnChange"
+                :auto-upload="false"
+                name="file">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible2">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+          </el-form-item>
+          <span slot="footer" class="dialog-footer"></span>
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="upload">确 定</el-button>
+        </el-form>
+      </el-dialog>
+    </div>
+    <div>
+      <el-dialog title="修改信息" :visible.sync="dialogFormVisible" width="35%">
+        <el-form style="text-align: center;">
+          <el-form-item label="企业名称" :label-width="formLabelWidth">
+            <el-input v-model="name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="联系方式" :label-width="formLabelWidth">
+            <el-input v-model="phone" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="企业地址" :label-width="formLabelWidth">
+            <el-input v-model="address" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="企业描述" :label-width="formLabelWidth">
+            <el-input v-model="describe" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="post">确 定</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    </div>
+  </div>
 </template>
-
 <script>
-export default{
+export default {
+  data() {
+    return {
+      fileList: [],
+      files: '',
+      dialogImageUrl: '',
+      formLabelWidth: '80px',
+      dialogVisible2: false,
+      dialogVisible: false,
+      dialogFormVisible: false,
+      name: '',
+      describe: '',
+      address: '',
+      phone: '',
+      headImg: '',
+      deptId: ''
+    };
+  },
+  mounted: function () {
+    this.getDeptInfo();
+    this.getHeadImg();
+  },
+  created() {
 
+  },
+  methods: {
+    fileOnChange(file, fileList) {
+      this.fileList = fileList;
+    },
+    handleRemove(file, fileList) {
+      this.fileList = fileList;
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      console.log('handlePictureCardPreview', file.url)
+      this.dialogVisible = true;
+    },
+    handleClose2(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {
+          });
+    },
+    upload() {
+      const data = new FormData();
+      this.fileList.forEach(e => {
+        data.append("file", e.raw);
+      });
+      const this_vue = this;
+      this.$axios({
+        method: 'put',
+        url: '/department/img',
+        headers: {
+          'token': localStorage.getItem('token'),
+          'Content-type': 'multipart/form-data;charset=utf-8'
+        },
+        data: data
+      }).then(e => {
+        if (e.flag) {
+          this_vue.dialogImageUrl = e.data
+          this_vue.$message({
+            message: e.message,
+            type: 'success'
+          })
+          this_vue.getHeadImg();
+        } else {
+          this_vue.$message({
+            message: e.message,
+            type: 'warning'
+          })
+        }
+      })
+      this.dialogVisible = false
+    },
+    getHeadImg() {
+      this.$axios({
+        method: 'get',
+        url: '/department/img',
+      }).then(function (response) {
+        document.getElementById('headImg1').src = response.data;
+        document.getElementById('headImg').getElementsByTagName('img')[0].src = response.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {
+          });
+    },
+    getDeptInfo() {
+      const this_vue = this;
+      this.$axios({
+        method: 'get',
+        url: '/department'
+      }).then(function (response) {
+        if (response.flag) {
+          this_vue.name = response.data.name;
+          this_vue.address = response.data.address;
+          this_vue.phone = response.data.phone;
+          this_vue.headImg = response.data.headImg;
+          this_vue.describe = response.data.describe;
+          this_vue.deptId = response.data.deptId;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    post() {
+      const this_vue = this;
+      this.$axios({
+        method: 'put',
+        url: '/department',
+        params: {
+          'name': this.name,
+          'desc': this.describe,
+          'phone': this.phone,
+          'address': this.address,
+        }
+      }).then(function (response) {
+        this_vue.dialogFormVisible = false;
+        if (response.flag) {
+          this_vue.getDeptInfo();
+          this_vue.$message({
+            message: response.message,
+            type: 'success'
+          });
+        } else {
+          this_vue.$message({
+            message: response.message,
+            type: 'warning'
+          });
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
 }
 </script>
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
 
-<style scoped>
-.mainBox{
-    width: 70%;
-    height: 100%;
-    /* margin: 0 auto; */
-    font-family: "微软雅黑 Light",serif;
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
 }
-.el-breadcrumb{
-    margin-bottom: 30px;
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
 }
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
 .text {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .item {
-    margin-bottom: 18px;
+  padding: 18px 0;
 }
 
-.clearfix:before,
-.clearfix:after {
-    display: table;
-    content: "";
+.box-card2 {
+  width: 480px;
 }
-.clearfix:after {
-    clear: both
+
+#box {
+  position: absolute;
+  top: 25%;
+  left: 25%;
 }
 </style>

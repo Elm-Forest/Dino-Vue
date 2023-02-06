@@ -6,7 +6,7 @@
     <div id="goto">
       <div>
         <h3>已有账号？</h3>
-        <h5>立即登录已有账号，享受独家权益。</h5>
+        <h5>立即登录账号，开始便捷办公之旅</h5>
       </div>
       <el-button round id="myButton" @click="gotolo">去登录</el-button>
     </div>

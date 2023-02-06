@@ -5,8 +5,8 @@
     <div id="circle"></div>
     <div id="goto">
       <div>
-        <h3>加入我们</h3>
-        <h5>加入我们，成为本站的一份子。</h5>
+        <h3>AutoOffice办公助手</h3>
+        <h5>企业级OA框架解决方案</h5>
       </div>
       <el-button round id="myButton" @click="toRegister">去注册</el-button>
     </div>
@@ -40,7 +40,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Login',
   data() {
@@ -112,14 +111,21 @@ export default {
                       if (response.data.rights === 1) {
                         this_vue.$router.push('/normal');
                         this_vue.$message({
-                          message: '欢迎您，部门员工',
+                          message: '欢迎您',
                           type: 'success'
                         });
                       }
-                      if (response.data.rights >= 2) {
+                      if (response.data.rights === 2) {
                         this_vue.$router.push('/admin');
                         this_vue.$message({
                           message: '欢迎您，部门管理员',
+                          type: 'success'
+                        });
+                      }
+                      if (response.data.rights === 3) {
+                        this_vue.$router.push('/super');
+                        this_vue.$message({
+                          message: '欢迎您，企业负责人',
                           type: 'success'
                         });
                       }
@@ -289,9 +295,8 @@ export default {
   color: aliceblue;
   position: absolute;
   top: 95%;
-  left: 35%;
+  left: 45%;
 }
-
 </style>
 
 
