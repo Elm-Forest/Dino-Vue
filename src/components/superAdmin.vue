@@ -7,7 +7,13 @@
                    @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
       </div>
       <span id="title" style="position: absolute;display: block;margin-left: 20px;">{{ name.dept }} | {{ role }}</span>
-      <span id="title" style="position: absolute;display: block;right: 60px">欢迎您，{{ name.user }}</span>
+      <span id="title" style="position: absolute;display: block;right: 100px">欢迎您，{{ name.user }}</span>
+      <el-dropdown style="position: absolute;display: block;right: 90px;top:20px">
+        <div class="el-icon-message-solid" style="color:#FFFFFF;font-size:20px;"></div>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="null">站内消息(尚未开发)</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <div class="head_img">
         <el-dropdown>
           <el-avatar :src="headImg.user" class="el-dropdown-link" id="headImg" alt="" :size="30"
@@ -47,7 +53,7 @@
           <!-- 2.消息管理平台 -->
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-chat-dot-square"></i>
+              <i class="el-icon-message"></i>
               <span>消息管理平台</span>
             </template>
             <el-menu-item index="/super/adminList">

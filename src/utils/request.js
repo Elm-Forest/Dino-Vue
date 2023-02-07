@@ -1,8 +1,10 @@
 import axios from 'axios'
-import {MessageBox, Message} from 'element-ui'
+import {Message} from 'element-ui'
 import router from '../router/index'
 
-export const reqUrl = '101.132.249.251:6633';
+const localUrl = '127.0.0.1:8080'
+const remoteUrl = '101.132.249.251:6633'
+export const reqUrl = localUrl
 
 // create an axios instance
 const service = axios.create({
@@ -43,9 +45,7 @@ service.interceptors.response.use(
         if (res.code !== 99000) {
             return res
         }
-        router.push('/login').then(() => {
-
-        })
+        router.push('/login').then()
         this.message({
             message: '您尚未登录！',
             type: 'warning'
@@ -53,9 +53,12 @@ service.interceptors.response.use(
         return res
     },
     error => {
-        console.log('err' + error) // for debug
+        let msg = error.response.data.message;
+        if (error.response.data.message === null || error.response.data.message === '' || error.response.data.message === undefined) {
+            msg = error.message;
+        }
         Message({
-            message: error.message,
+            message: msg,
             type: 'error',
             duration: 5 * 1000
         })

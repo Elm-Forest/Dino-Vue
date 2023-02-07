@@ -40,7 +40,7 @@
               <el-input v-model="form.modifyName" placeholder="请输入修改人姓名" size="small"></el-input>
             </el-form-item>
             <el-form-item label="文档名称">
-              <el-input v-model="form.documentName" placeholder="请输入文档名称"  size="small"></el-input>
+              <el-input v-model="form.documentName" placeholder="请输入文档名称" size="small"></el-input>
             </el-form-item>
             <el-form-item label="操作时间">
               <el-date-picker
@@ -156,6 +156,12 @@ export default {
     },
     getList() {
       const this_vue = this;
+      let beginTime = null;
+      let endTime = null;
+      if (this.form.operationTime !== null) {
+        beginTime = this.form.operationTime[0]
+        endTime = this.form.operationTime[1]
+      }
       this.$axios({
         method: 'GET',
         url: '/doc/log',
@@ -165,8 +171,8 @@ export default {
           'name': this.form.modifyName,
           'documentName': this.form.documentName,
           'operation': this.form.operation,
-          'beginTime': this.form.operationTime[0],
-          'endTime': this.form.operationTime[1],
+          'beginTime': beginTime,
+          'endTime': endTime,
         }
       }).then(function (response) {
         this_vue.form.current_count = this_vue.form.size;

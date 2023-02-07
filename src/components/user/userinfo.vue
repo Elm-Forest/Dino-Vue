@@ -16,7 +16,7 @@
               <el-descriptions-item label="姓名">{{ name }}</el-descriptions-item>
               <el-descriptions-item label="手机号">{{ phone }}</el-descriptions-item>
               <el-descriptions-item label="居住地">{{ address }}</el-descriptions-item>
-              <el-descriptions-item label="性别">{{ sex }}</el-descriptions-item>
+              <el-descriptions-item label="性别">{{ sex_show }}</el-descriptions-item>
               <el-descriptions-item label="职务">
                 <el-tag size="small">{{ role }}</el-tag>
               </el-descriptions-item>
@@ -56,7 +56,7 @@
     </div>
     <div>
       <el-dialog title="修改信息" :visible.sync="dialogFormVisible" width="35%">
-        <el-form style="text-align: center;">
+        <el-form>
           <el-form-item label="姓名" :label-width="formLabelWidth">
             <el-input v-model="name" autocomplete="off"></el-input>
           </el-form-item>
@@ -66,10 +66,13 @@
           <el-form-item label="居住地" :label-width="formLabelWidth">
             <el-input v-model="address" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="性别" :label-width="formLabelWidth">
-            <el-input v-model="sex" autocomplete="off"></el-input>
+          <el-form-item label="性别" :label-width="formLabelWidth" value-key="id">
+            <el-select v-model="sex" placeholder="性别">
+              <el-option key=1 label="男" value=1></el-option>
+              <el-option key=0 label="女" value=0></el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item>
+          <el-form-item style="text-align: center">
             <el-button @click="dialogFormVisible = false">取 消</el-button>
             <el-button type="primary" @click="post">确 定</el-button>
           </el-form-item>
@@ -93,6 +96,7 @@ export default {
       dialogFormVisible: false,
       name: '',
       sex: '',
+      sex_show: '',
       address: '',
       phone: '',
       headImg: '',
@@ -185,7 +189,8 @@ export default {
       }).then(function (response) {
         if (response.flag) {
           this_vue.name = response.data.name;
-          this_vue.sex = ['女', '男'][response.data.sex];
+          this_vue.sex_show = ['女', '男'][response.data.sex];
+          this_vue.sex = response.data.sex;
           this_vue.address = response.data.address;
           this_vue.phone = response.data.phone;
           this_vue.headImg = response.data.headImg;
@@ -202,13 +207,14 @@ export default {
       })
     },
     post() {
+      console.log(this.sex)
       const this_vue = this;
       this.$axios({
         method: 'put',
         url: '/user/userinfo',
         params: {
           'name': this.name,
-          'sex': {'女': 0, '男': 1}[this.sex],
+          'sex': this.sex,
           'phone': this.phone,
           'address': this.address,
         }

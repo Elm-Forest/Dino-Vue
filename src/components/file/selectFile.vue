@@ -5,8 +5,8 @@
       <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>查询文档</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-card class="box-card">
-      <div class="oa_main">
+    <el-card style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1)">
+      <div>
         <!-- 搜索区域 -->
         <div class="oa_search">
           <el-form :inline="true" :model="form" class="demo-form-inline">
@@ -104,8 +104,15 @@
           </el-form>
         </el-dialog>
         <!-- 列表区域 -->
-        <el-table :data="tableData4" stripe style="width: 100%" :cell-class-name="addClass">
+        <el-table :data="tableData4" style="width: 100%" :cell-class-name="addClass">
           <el-table-column prop="type" align="center" label="类型" width="120">
+            <template slot-scope="scope">
+              <img alt="" style="width: 25px;height: 25px" :src="((ty)=>{
+              if(ty===1){return file}
+              else if (ty===2){return folder}
+              else return file})
+              (scope.row.type)">
+            </template>
           </el-table-column>
           <el-table-column prop="name" label="文档名称" align="center" min-width="220"></el-table-column>
           <el-table-column prop="modifyTime" align="center" label="最近修改时间" width="150"
@@ -114,16 +121,31 @@
           <el-table-column prop="size" align="center" label="大小" width="200"
                            :formatter="transformSize"></el-table-column>
           <el-table-column prop="id" align="center" label="id" width="120" v-if="false"></el-table-column>
-          <el-table-column fixed="right" align="center" label="操作" width="300">
+          <el-table-column fixed="right" align="center" label="操作" width="320">
             <template slot-scope="scope">
               <!-- 查看按钮 -->
-              <el-button type="success" icon="el-icon-search" size="medium"
-                         @click="showFileDialog(scope.row.id)"></el-button>
+              <el-button type="primary" :icon="((ty)=>{
+                if(ty===2){return 'el-icon-search'}
+                else if (ty===1){return 'el-icon-download'}
+                else return 'el-icon-download'})(scope.row.type)" size="medium" plain
+                         @click="select(scope.row)">{{
+                  ((ty) => {
+                    if (ty === 2) {
+                      return '查看'
+                    } else if (ty === 1) {
+                      return '下载'
+                    } else return '查看'
+                  })(scope.row.type)
+                }}
+              </el-button>
               <!-- 删除按钮 -->
               <el-button type="danger" icon="el-icon-delete" size="medium"
-                         @click="removeFile(scope.row)"></el-button>
+                         @click="removeFile(scope.row)">删除
+              </el-button>
               <!-- 重命名按钮 -->
-              <el-button type="warning" size="medium" @click="showModifyDialog(scope.row)">重命名</el-button>
+              <el-button type="warning" size="medium" @click="showModifyDialog(scope.row)"
+                         :disabled="((ty)=>{return ty!==1})(scope.row.type)">重命名
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -157,9 +179,25 @@
   </div>
 </template>
 <script>
+import file from '@/assets/images/doc/file.svg'
+import folder from '@/assets/images/doc/folder.svg'
+import axios from "axios";
+
 export default {
   data() {
     return {
+      folder,
+      file,
+      fileType: [
+        {
+          id: 1,
+          value: folder
+        },
+        {
+          id: 2,
+          value: file
+        }
+      ],
       current: "",
       size: 10,
       total: 50,
@@ -173,11 +211,11 @@ export default {
       dialogVisible2: false,
       tableData4: [],
       newFolderName: '',
-      type: '',
+      type: '1',
       rename: '',
       name: '',
       form: {
-        current: "",
+        current: 1,
         size: 5,
         name: "",
         modifyName: '',
@@ -211,7 +249,13 @@ export default {
       this.selectCondition();
     },
     selectCondition() {
-      var this_vue = this;
+      const this_vue = this;
+      let beginTime = null;
+      let endTime = null;
+      if (this.form.operationTime !== null) {
+        beginTime = this.form.operationTime[0]
+        endTime = this.form.operationTime[1]
+      }
       this.$axios({
         method: 'GET',
         url: '/doc/list',
@@ -220,16 +264,15 @@ export default {
           'size': this.form.size,
           'uName': this.form.modifyName,
           'dName': this.form.name,
-          'beginTime': this.form.operationTime[0],
-          'endTime': this.form.operationTime[1],
+          'beginTime': beginTime,
+          'endTime': endTime,
         }
       }).then(function (response) {
         this_vue.form.current_count = this_vue.form.size;
         this_vue.tableData4 = response.data.recordList;
+        console.log(this_vue.tableData4)
         this_vue.form.total = response.data.count;
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
         console.log(error);
       });
     },
@@ -258,9 +301,7 @@ export default {
           })
         }
         this_vue.dialogVisible2 = false;
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
         console.log(error);
       });
     },
@@ -278,7 +319,7 @@ export default {
       return operationTime.substring(0, operationTime.indexOf('T'))
     },
     upload() {
-      var data = new FormData();
+      const data = new FormData();
       this.fileList.forEach(e => {
         data.append("file", e.raw);
       });
@@ -330,9 +371,7 @@ export default {
           this_vue.getFileList();
         }
         this_vue.dialogVisible3 = false;
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
         console.log(error);
       });
     },
@@ -357,10 +396,32 @@ export default {
         }
       }).then(function (response) {
         this_vue.tableData4 = response.data
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    select(row) {
+      const this_vue = this;
+      if (row.type === 2) {
+        this.$alert("需要开发")
+      } else if (row.type === 1) {
+        this_vue.$axios({
+          method: 'get',
+          url: '/doc/download',
+          params: {
+            docId: row.id
+          }
+        }).then(res => {
+          if (res.flag) {
+            window.location.href = res.data
+          } else {
+            this_vue.$message({
+              type: 'error',
+              message: res.message
+            })
+          }
+        })
+      }
     },
     showModifyDialog(row) {
       this.modifyDialogVisible = true
@@ -398,7 +459,6 @@ export default {
     // 根据文件id删除对应文件
     removeFile(row) {
       this.docId = row.id;
-      console.log(this.docId)
       this.dialogVisible2 = true;
     }
   },
