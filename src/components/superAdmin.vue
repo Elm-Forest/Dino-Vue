@@ -35,11 +35,11 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
-              <span>文档管理平台</span>
+              <span>文件管理平台</span>
             </template>
             <el-menu-item index="/super/selectFile">
-              <i class="el-icon-search"></i>
-              <span>查询文档</span>
+              <i class="el-icon-folder-opened"></i>
+              <span>管理文件</span>
             </el-menu-item>
             <el-menu-item index="/super/recycle">
               <i class="el-icon-delete"></i>
@@ -47,7 +47,7 @@
             </el-menu-item>
             <el-menu-item index="/super/record">
               <i class="el-icon-s-order"></i>
-              <span>文档日志</span>
+              <span>文件操作日志</span>
             </el-menu-item>
           </el-submenu>
           <!-- 2.消息管理平台 -->

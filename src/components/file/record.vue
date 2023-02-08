@@ -110,7 +110,7 @@ export default {
       file,
       tableData4: '',
       form: {
-        current: "",
+        current: 1,
         size: 5,
         name: "",
         modifyName: '',
@@ -153,8 +153,6 @@ export default {
       } else if (type === '2') {
         return '文件夹';
       }
-    }, formatStateOperator(row, column, operation) {
-      return this.operationConst[operation]
     },
     handleSizeChange(val) {
       this.form.current_count = val;

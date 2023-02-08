@@ -2,8 +2,8 @@
   <div style='font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;'>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
-      <el-breadcrumb-item>查询文档</el-breadcrumb-item>
+      <el-breadcrumb-item>文件管理平台</el-breadcrumb-item>
+      <el-breadcrumb-item>管理文件</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1)">
       <div>
@@ -302,7 +302,7 @@ export default {
             message: '删除成功',
             type: 'success'
           })
-          this_vue.getFileList();
+          this_vue.selectCondition();
         } else {
           this_vue.$message({
             message: '删除成功',
@@ -351,7 +351,7 @@ export default {
             message: '上传成功',
             type: 'success'
           })
-          this_vue.getFileList();
+          this_vue.selectCondition();
         } else {
           this_vue.$message({
             message: '上传失败',
@@ -379,7 +379,7 @@ export default {
             message: '创建成功',
             type: 'success'
           })
-          this_vue.getFileList();
+          this_vue.selectCondition();
         }
         this_vue.dialogVisible3 = false;
       }).catch(function (error) {
@@ -455,7 +455,7 @@ export default {
             message: '重命名成功',
             type: 'success'
           })
-          this_vue.getFileList();
+          this_vue.selectCondition();
         } else {
           this_vue.$message({
             message: '重命名失败',
