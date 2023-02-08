@@ -22,7 +22,7 @@
     <!-- 主体 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="250px">
+      <el-aside width="240px">
         <!-- 侧边栏菜单区域 -->
         <el-menu background-color="#fafafa">
           <!-- 1.文档管理平台 -->
@@ -255,7 +255,7 @@ export default {
 
 .el-main {
   position: absolute;
-  left: 300px;
+  left: 250px;
   right: 0;
   top: 60px;
   bottom: 0;

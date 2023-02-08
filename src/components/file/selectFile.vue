@@ -9,7 +9,7 @@
       <div>
         <!-- 搜索区域 -->
         <div class="oa_search">
-          <el-form :inline="true" :model="form" class="demo-form-inline">
+          <el-form :inline="true" :model="form" class="demo-form-inline" style="font-size: 5px">
             <el-form-item>
               <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
@@ -23,10 +23,10 @@
               </el-dropdown>
             </el-form-item>
             <el-form-item label="文档名称">
-              <el-input v-model="form.name" placeholder="请输入文档名称" style="width: 150px"></el-input>
+              <el-input v-model="form.name" placeholder="请输入文档名称" style="width: 150px" size="small"></el-input>
             </el-form-item>
             <el-form-item label="修改人">
-              <el-input v-model="form.modifyName" placeholder="请输入修改人" style="width: 150px"></el-input>
+              <el-input v-model="form.modifyName" placeholder="请输入修改人" style="width: 150px" size="small"></el-input>
             </el-form-item>
             <el-form-item label="上传时间">
               <el-date-picker
@@ -37,17 +37,18 @@
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
                   style="width: 250px"
+                  size="small"
               >
               </el-date-picker>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="selectCondition">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="selectCondition" size="small">查询</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="dialogVisible=true">点击上传</el-button>
+              <el-button type="primary" icon="el-icon-upload2" @click="dialogVisible=true" size="small">上传</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="dialogVisible3=true">新建文件夹</el-button>
+              <el-button type="primary" icon="el-icon-folder-add" @click="dialogVisible3=true" size="small">新建文件夹</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -55,7 +56,8 @@
             title="上传文件"
             :visible.sync="dialogVisible"
             width="35%"
-            style="text-align: center">
+            style="text-align: center"
+        >
           <el-upload
               class="upload-demo"
               drag
@@ -94,7 +96,7 @@
           <el-form :inline="false" class="demo-form-inline">
             <el-form-item>
               <el-form-item>
-                <span>文件将移入回收站，30天后到期</span>
+                <span>文件将移入回收站，30天后自动删除</span>
               </el-form-item>
               <el-form-item>
                 <el-button @click="dialogVisible2 = false">取 消</el-button>
@@ -118,7 +120,7 @@
           <el-table-column prop="modifyTime" align="center" label="最近修改时间" width="150"
                            :formatter="transform"></el-table-column>
           <el-table-column prop="modifyName" align="center" label="最近修改者" width="150"></el-table-column>
-          <el-table-column prop="size" align="center" label="大小" width="200"
+          <el-table-column prop="size" align="center" label="大小" width="100"
                            :formatter="transformSize"></el-table-column>
           <el-table-column prop="id" align="center" label="id" width="120" v-if="false"></el-table-column>
           <el-table-column fixed="right" align="center" label="操作" width="320">
@@ -127,7 +129,7 @@
               <el-button type="primary" :icon="((ty)=>{
                 if(ty===2){return 'el-icon-search'}
                 else if (ty===1){return 'el-icon-download'}
-                else return 'el-icon-download'})(scope.row.type)" size="medium" plain
+                else return 'el-icon-download'})(scope.row.type)" size="small" plain
                          @click="select(scope.row)">{{
                   ((ty) => {
                     if (ty === 2) {
@@ -139,11 +141,11 @@
                 }}
               </el-button>
               <!-- 删除按钮 -->
-              <el-button type="danger" icon="el-icon-delete" size="medium"
+              <el-button type="danger" icon="el-icon-delete" size="small"
                          @click="removeFile(scope.row)">删除
               </el-button>
               <!-- 重命名按钮 -->
-              <el-button type="warning" size="medium" @click="showModifyDialog(scope.row)"
+              <el-button type="warning" size="small" @click="showModifyDialog(scope.row)"
                          :disabled="((ty)=>{return ty!==1})(scope.row.type)">重命名
               </el-button>
             </template>
@@ -181,7 +183,6 @@
 <script>
 import file from '@/assets/images/doc/file.svg'
 import folder from '@/assets/images/doc/folder.svg'
-import axios from "axios";
 
 export default {
   data() {
@@ -223,7 +224,7 @@ export default {
         operation: 0,
         beginTime: '',
         endTime: '',
-        operationTime: ['2020-01-01 00:00:00', '2023-01-01 00:00:00'],
+        operationTime: [],
         total: 50,
         current_count: 0
       },
@@ -306,7 +307,16 @@ export default {
       });
     },
     transformSize(row, column, size) {
-      return parseInt(size / 1024) + 'kb'
+      let ext = 'b'
+      if (size >= 1024) {
+        size = (size / 1024).toFixed(2)
+        ext = 'Kb'
+      }
+      if (size >= 1024) {
+        size = (size / 1024).toFixed(2)
+        ext = 'Mb'
+      }
+      return size + ext
     },
     addClass({row, column, rowIndex, columnIndex}) {
       if (columnIndex === 0) {
@@ -464,13 +474,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.box-card {
-  margin: 20px;
-  background-color: rgba(255, 255, 255, 0.5);
-
-  .el-icon-search {
-    color: blue;
-  }
-}
-</style>

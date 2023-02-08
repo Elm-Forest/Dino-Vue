@@ -28,7 +28,7 @@
     <!-- 主体 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="250px">
+      <el-aside width="240px">
         <!-- 侧边栏菜单区域 -->
         <el-menu background-color="#fafafa" router="true" unique-opened="true">
           <!-- 1.文档管理平台 -->
@@ -260,7 +260,7 @@ export default {
 
 .el-main {
   position: absolute;
-  left: 300px;
+  left: 250px;
   right: 0;
   top: 60px;
   bottom: 0;
@@ -276,7 +276,7 @@ export default {
 }
 
 .el-header {
-  /*height: 70px;*/
+
   background-color: #0b2342;
   display: flex;
   justify-content: space-between;
@@ -294,10 +294,6 @@ export default {
 .el-aside {
   background-color: #fafafa;
 }
-
-/*.el-aside {*/
-/*  background-color: #545c64;*/
-/*}*/
 
 .el-main {
   background-color: white;

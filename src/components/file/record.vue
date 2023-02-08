@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div
+      style='font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;'>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
@@ -28,7 +29,8 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="0">任意</el-dropdown-item>
-                  <el-dropdown-item command="1">查询</el-dropdown-item>
+                  <el-dropdown-item command="1">上传</el-dropdown-item>
+                  <el-dropdown-item command="6">下载</el-dropdown-item>
                   <el-dropdown-item command="2">修改</el-dropdown-item>
                   <el-dropdown-item command="3">删除</el-dropdown-item>
                   <el-dropdown-item command="4">恢复</el-dropdown-item>
@@ -37,10 +39,10 @@
               </el-dropdown>
             </el-form-item>
             <el-form-item label="修改者">
-              <el-input v-model="form.modifyName" placeholder="请输入修改人姓名" size="small"></el-input>
+              <el-input v-model="form.modifyName" placeholder="请输入修改人姓名" size="small" style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item label="文档名称">
-              <el-input v-model="form.documentName" placeholder="请输入文档名称" size="small"></el-input>
+              <el-input v-model="form.documentName" placeholder="请输入文档名称" size="small" style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item label="操作时间">
               <el-date-picker
@@ -50,29 +52,40 @@
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  size="small"
-              >
+                  style="width: 250px"
+                  size="small">
               </el-date-picker>
             </el-form-item>
-
             <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="search">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="search" size="small">查询</el-button>
             </el-form-item>
           </el-form>
         </div>
         <el-table :data="tableData4" stripe style="width: 100%">
-          <el-table-column type="index" align="center" label="#" width="50"></el-table-column>
-          <el-table-column prop="name" align="center" label="文档名称" width="150"></el-table-column>
-          <el-table-column prop="modifyName" align="center" label="修改者" width="150"></el-table-column>
-          <el-table-column prop="operation" align="center" label="修改类型" width="150"
-                           :formatter="formatStateOperator"></el-table-column>
-          <el-table-column prop="extension" align="center" label="扩展名" width="150"></el-table-column>
-          <el-table-column prop="type" align="center" label="类型" width="150"
-                           :formatter="formatStateType"></el-table-column>
-          <el-table-column prop="filePath" align="center" label="路径" min-width="150"></el-table-column>
-          <el-table-column prop="size" align="center" label="大小" width="150"></el-table-column>
           <el-table-column prop="operationTime" align="center" label="操作时间" width="150"
                            :formatter="transform"></el-table-column>
+          <el-table-column prop="type" align="center" label="类型" width="150"
+                           :formatter="formatStateType">
+            <template slot-scope="scope">
+              <img alt="" style="width: 25px;height: 25px" :src="((ty)=>{
+              if(ty==='1'||ty===1){return file}
+              else if (ty===2||ty==='2'){return folder}
+              else return file})
+              (scope.row.type)">
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" align="center" label="文件名称" width="200"></el-table-column>
+          <el-table-column prop="filePath" align="center" label="路径" min-width="150"></el-table-column>
+          <el-table-column prop="modifyName" align="center" label="修改者" width="150"></el-table-column>
+          <el-table-column prop="operation" align="center" label="操作" width="150">
+            <template slot-scope="scope">
+              <el-tag :type="operationColors[scope.row.operation]">{{
+                  operationConst[scope.row.operation]
+                }}
+              </el-tag>
+            </template>
+
+          </el-table-column>
         </el-table>
       </div>
       <el-pagination
@@ -87,9 +100,14 @@
   </div>
 </template>
 <script>
+import file from '@/assets/images/doc/file.svg'
+import folder from '@/assets/images/doc/folder.svg'
+
 export default {
   data() {
     return {
+      folder,
+      file,
       tableData4: '',
       form: {
         current: "",
@@ -104,6 +122,22 @@ export default {
         total: 50,
         current_count: 0
       },
+      operationConst: {
+        '1': '上传',
+        '2': '修改',
+        '3': '删除',
+        '4': '恢复',
+        '5': '彻底删除',
+        '6': '下载'
+      },
+      operationColors: {
+        '1': 'primary',
+        '2': 'warning',
+        '3': 'danger',
+        '4': 'success',
+        '5': 'danger',
+        '6': 'primary'
+      }
     };
   },
   mounted() {
@@ -113,28 +147,14 @@ export default {
     transform(row, column, operationTime) {
       return operationTime.substring(0, operationTime.indexOf('T'))
     },
-    formatStateType(row, column, type) {
+    formatStateType(type) {
       if (type === '1') {
         return '文件';
       } else if (type === '2') {
         return '文件夹';
       }
     }, formatStateOperator(row, column, operation) {
-      if (operation === 1) {
-        return '添加';
-      }
-      if (operation === 2) {
-        return '修改';
-      }
-      if (operation === 3) {
-        return '删除';
-      }
-      if (operation === 4) {
-        return '恢复';
-      }
-      if (operation === 5) {
-        return '彻底删除';
-      }
+      return this.operationConst[operation]
     },
     handleSizeChange(val) {
       this.form.current_count = val;
@@ -178,7 +198,6 @@ export default {
         this_vue.form.current_count = this_vue.form.size;
         this_vue.tableData4 = response.data.recordList;
         this_vue.form.total = response.data.count;
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(localStorage.getItem('token'))
         console.log(error);

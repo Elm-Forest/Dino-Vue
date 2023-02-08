@@ -23,7 +23,7 @@
     <!-- 主体 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="250px">
+      <el-aside width="240px">
         <el-menu
             background-color="#fafafa"
             router="true"
@@ -224,7 +224,7 @@ export default {
       this.$axios({
         method: 'post',
         url: '/user/logout',
-      }).then(function (response) {
+      }).then(function () {
         localStorage.removeItem('token');
         this_vue.$router.push('/login');
         this_vue.$message({
@@ -256,7 +256,7 @@ export default {
 
 .el-main {
   position: absolute;
-  left: 300px;
+  left: 250px;
   right: 0;
   top: 60px;
   bottom: 0;
@@ -272,7 +272,6 @@ export default {
 }
 
 .el-header {
-  /*height: 70px;*/
   background-color: #0b2342;
   display: flex;
   justify-content: space-between;
