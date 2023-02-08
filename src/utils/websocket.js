@@ -1,8 +1,8 @@
 import ElementUI from 'element-ui';
-import {reqUrl} from './request.js';
+import {requestUrl} from './back-end.js';
 
 function initWebSocket() {
-    const wsUrl = 'ws://' + reqUrl + "/websocket";
+    const wsUrl = 'ws://' + requestUrl + "/websocket";
     this.socket = new WebSocket(wsUrl, [localStorage.getItem('token')])
     this.socket.onopen = function () {
         ElementUI.Notification({

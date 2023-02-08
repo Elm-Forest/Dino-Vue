@@ -1,14 +1,11 @@
 import axios from 'axios'
 import {Message} from 'element-ui'
 import router from '../router/index'
-
-const localUrl = '127.0.0.1:8080'
-const remoteUrl = '101.132.249.251:6633'
-export const reqUrl = localUrl
+import {requestUrl} from './back-end.js'
 
 // create an axios instance
 const service = axios.create({
-    baseURL: 'http://' + reqUrl, // url = base url + request url
+    baseURL: 'http://' + requestUrl, // url = base url + request url
     timeout: 5000 // request timeout
 })
 
