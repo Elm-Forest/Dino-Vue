@@ -10,5 +10,8 @@
 </script>
 
 <!-- 用于编写当前组件的样式代码 -->
-<style scoped>
+<style>
+body {
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
 </style>

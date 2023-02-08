@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style='font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;'>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
@@ -106,8 +106,8 @@
           </el-form>
         </el-dialog>
         <!-- 列表区域 -->
-        <el-table :data="tableData4" style="width: 100%" :cell-class-name="addClass">
-          <el-table-column prop="type" align="center" label="类型" width="120">
+        <el-table :data="tableData4" style="width: 100%">
+          <el-table-column prop="type" align="center" label="类型" width="100">
             <template slot-scope="scope">
               <img alt="" style="width: 25px;height: 25px" :src="((ty)=>{
               if(ty===1){return file}
@@ -116,20 +116,27 @@
               (scope.row.type)">
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="文档名称" align="center" min-width="220"></el-table-column>
+          <el-table-column prop="name" label="文档名称" align="center"></el-table-column>
           <el-table-column prop="modifyTime" align="center" label="最近修改时间" width="150"
                            :formatter="transform"></el-table-column>
           <el-table-column prop="modifyName" align="center" label="最近修改者" width="150"></el-table-column>
           <el-table-column prop="size" align="center" label="大小" width="100"
                            :formatter="transformSize"></el-table-column>
-          <el-table-column prop="id" align="center" label="id" width="120" v-if="false"></el-table-column>
+          <el-table-column prop="role" align="center" label="部门">
+            <template slot-scope="scope">
+              <el-tag size="small">{{
+                  dept_list[scope.row.role - 1]
+                }}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" align="center" label="操作" width="320">
             <template slot-scope="scope">
               <!-- 查看按钮 -->
-              <el-button type="primary" :icon="((ty)=>{
+              <el-button type="success" :icon="((ty)=>{
                 if(ty===2){return 'el-icon-search'}
                 else if (ty===1){return 'el-icon-download'}
-                else return 'el-icon-download'})(scope.row.type)" size="small" plain
+                else return 'el-icon-download'})(scope.row.type)" size="small"
                          @click="select(scope.row)">{{
                   ((ty) => {
                     if (ty === 2) {
@@ -183,10 +190,12 @@
 <script>
 import file from '@/assets/images/doc/file.svg'
 import folder from '@/assets/images/doc/folder.svg'
+import {dept_list} from "@/utils/const";
 
 export default {
   data() {
     return {
+      dept_list,
       folder,
       file,
       fileType: [
@@ -199,7 +208,7 @@ export default {
           value: file
         }
       ],
-      current: "",
+      current: 1,
       size: 10,
       total: 50,
       current_count: 0,
@@ -235,7 +244,7 @@ export default {
     };
   },
   created() {
-    this.getFileList();
+    this.selectCondition();
   },
   methods: {
     handleCommand(command) {
@@ -271,7 +280,6 @@ export default {
       }).then(function (response) {
         this_vue.form.current_count = this_vue.form.size;
         this_vue.tableData4 = response.data.recordList;
-        console.log(this_vue.tableData4)
         this_vue.form.total = response.data.count;
       }).catch(function (error) {
         console.log(error);
@@ -317,13 +325,6 @@ export default {
         ext = 'Mb'
       }
       return size + ext
-    },
-    addClass({row, column, rowIndex, columnIndex}) {
-      if (columnIndex === 0) {
-        if (row.type === 1) {
-          console.log('test', row.type)
-        }
-      }
     },
     transform(row, column, operationTime) {
       return operationTime.substring(0, operationTime.indexOf('T'))

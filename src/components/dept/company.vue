@@ -51,7 +51,7 @@
       </el-dialog>
     </div>
     <div>
-      <el-dialog title="修改信息" :visible.sync="dialogFormVisible" width="35%">
+      <el-dialog title="修改信息" :visible.sync="dialogFormVisible" width="38%">
         <el-form style="text-align: center;">
           <el-form-item label="企业名称" :label-width="formLabelWidth">
             <el-input v-model="name" autocomplete="off"></el-input>
@@ -62,8 +62,9 @@
           <el-form-item label="企业地址" :label-width="formLabelWidth">
             <el-input v-model="address" autocomplete="off"></el-input>
           </el-form-item>
+
           <el-form-item label="企业描述" :label-width="formLabelWidth">
-            <el-input v-model="describe" autocomplete="off"></el-input>
+            <el-input type="textarea" v-model="describe" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -157,7 +158,7 @@ export default {
         url: '/department/img',
       }).then(function (response) {
         document.getElementById('headImg1').src = response.data;
-        document.getElementById('headImg').getElementsByTagName('img')[0].src = response.data;
+        document.getElementById('deptImg').getElementsByTagName('img')[0].src = response.data;
       }).catch(function (error) {
         console.log(error);
       });

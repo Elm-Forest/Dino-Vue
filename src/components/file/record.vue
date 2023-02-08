@@ -74,7 +74,7 @@
               (scope.row.type)">
             </template>
           </el-table-column>
-          <el-table-column prop="name" align="center" label="文件名称" width="200"></el-table-column>
+          <el-table-column prop="name" align="center" label="文件名称" width="250"></el-table-column>
           <el-table-column prop="filePath" align="center" label="路径" min-width="150"></el-table-column>
           <el-table-column prop="modifyName" align="center" label="修改者" width="150"></el-table-column>
           <el-table-column prop="operation" align="center" label="操作" width="150">

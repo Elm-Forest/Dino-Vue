@@ -16,6 +16,7 @@ Vue.prototype.$axios = axios
 Vue.prototype.$websocket = websocket
 Vue.prototype.$path = Vue.prototype.$axios
 Vue.use(ElementUI)
+Vue.prototype.$ELEMENT = {};
 Vue.config.productionTip = false
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
