@@ -7,6 +7,7 @@
 #### 主分支使用vue2.7开发，切换至vue3分支[click here](https://github.com/Elm-Forest/OA-vue/tree/vue3)
 <p></p>
 <p></p>
+
 ### 系统架构
 
 <div>
@@ -114,6 +115,7 @@
     <img src="https://github.com/Elm-Forest/AutoOffice/blob/master/.github/imgs/rights.png?raw=true" width="40%" alt="" style="display: inline-block">
 	<img src="https://github.com/Elm-Forest/AutoOffice/blob/master/.github/imgs/roles.png?raw=true" width="30%" alt="" style="display: inline-block">
 </div>
+
 ### 数据库设计
 
 <div>

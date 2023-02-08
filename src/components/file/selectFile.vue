@@ -1,5 +1,6 @@
 <template>
-  <div style='font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;'>
+  <div
+      style='font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;'>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>文件管理平台</el-breadcrumb-item>
@@ -26,7 +27,8 @@
               <el-input v-model="form.name" placeholder="请输入文档名称" style="width: 150px" size="small"></el-input>
             </el-form-item>
             <el-form-item label="修改人">
-              <el-input v-model="form.modifyName" placeholder="请输入修改人" style="width: 150px" size="small"></el-input>
+              <el-input v-model="form.modifyName" placeholder="请输入修改人" style="width: 150px"
+                        size="small"></el-input>
             </el-form-item>
             <el-form-item label="上传时间">
               <el-date-picker
@@ -48,8 +50,27 @@
               <el-button type="primary" icon="el-icon-upload2" @click="dialogVisible=true" size="small">上传</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" icon="el-icon-folder-add" @click="dialogVisible3=true" size="small">新建文件夹</el-button>
+              <el-button type="primary" icon="el-icon-folder-add" @click="dialogVisible3=true" size="small">新建文件夹
+              </el-button>
             </el-form-item>
+            <div>
+              <el-form-item>
+                <el-button type="info" size="mini" icon="el-icon-back" :disabled="backButton" @click="back">上一级
+                </el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-input
+                    size="mini"
+                    placeholder="请输入内容"
+                    v-model="path"
+                    style="width: 200px">
+                </el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" size="mini" icon="el-icon-s-promotion" @click="go">GO
+                </el-button>
+              </el-form-item>
+            </div>
           </el-form>
         </div>
         <el-dialog
@@ -214,6 +235,10 @@ export default {
       current_count: 0,
       operationTime: '',
       path: '/home/',
+      backStack: [],
+      home: '/home/',
+      backPath: '/home/',
+      backButton: false,
       fileList: [],
       docId: 0,
       dialogVisible3: false,
@@ -247,11 +272,22 @@ export default {
     this.selectCondition();
   },
   methods: {
+    go() {
+      this.selectCondition()
+    },
+    back() {
+      if (this.backStack.length===0){
+        this.path=this.home
+        this.selectCondition();
+      }else {
+        this.path = this.backStack.pop();
+        this.selectCondition();
+      }
+    },
     handleCommand(command) {
       this.form.size = parseInt(command)
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
       this.form.current_count = val;
     },
     handleCurrentChange(val) {
@@ -272,6 +308,7 @@ export default {
         params: {
           'current': this.form.current,
           'size': this.form.size,
+          'path': this.path,
           'uName': this.form.modifyName,
           'dName': this.form.name,
           'beginTime': beginTime,
@@ -284,6 +321,7 @@ export default {
       }).catch(function (error) {
         console.log(error);
       });
+      this.backButton = this.path === '/home/';
     },
     deleteDoc() {
       const this_vue = this
@@ -394,27 +432,14 @@ export default {
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
-      console.log('handlePictureCardPreview', file.url)
       this.dialogVisible = true;
-    },
-    getFileList() {
-      const this_vue = this;
-      this.$axios({
-        method: 'get',
-        url: '/doc',
-        params: {
-          'filePath': this.path
-        }
-      }).then(function (response) {
-        this_vue.tableData4 = response.data
-      }).catch(function (error) {
-        console.log(error);
-      });
     },
     select(row) {
       const this_vue = this;
       if (row.type === 2) {
-        this.$alert("需要开发")
+        this.backStack.push(this.path)
+        this.path = this.path + row.name + '/'
+        this.selectCondition();
       } else if (row.type === 1) {
         this_vue.$axios({
           method: 'get',
