@@ -35,7 +35,7 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
-              <span>文件管理平台</span>
+              <span>企业云盘</span>
             </template>
             <el-menu-item index="/super/selectFile">
               <i class="el-icon-folder-opened"></i>
@@ -54,8 +54,32 @@
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-message"></i>
-              <span>消息管理平台</span>
+              <span>企业邮箱</span>
             </template>
+            <el-menu-item index="/super/add">
+              <i class="el-icon-right"></i>
+              <span>发邮件</span>
+            </el-menu-item>
+            <el-menu-item index="/super/fjx">
+              <i class="el-icon-edit-outline"></i>
+              <span>发件箱</span>
+            </el-menu-item>
+            <el-menu-item index="/super/sjx">
+              <i class="el-icon-chat-dot-square"></i>
+              <span>收件箱</span>
+            </el-menu-item>
+            <el-menu-item index="/super/cgx">
+              <i class="el-icon-edit"></i>
+              <span>草稿箱</span>
+            </el-menu-item>
+            <el-menu-item index="/super/ljx">
+              <i class="el-icon-delete"></i>
+              <span>垃圾箱</span>
+            </el-menu-item>
+            <el-menu-item index="/super/bindMailbox">
+              <i class="el-icon-user"></i>
+              <span>邮箱账户</span>
+            </el-menu-item>
             <el-menu-item index="/super/adminList">
               <i class="el-icon-s-grid"></i>
               <span>消息列表</span>

@@ -142,7 +142,8 @@
                            :formatter="transform"></el-table-column>
           <el-table-column prop="modifyName" align="center" label="最近修改者" width="150"></el-table-column>
           <el-table-column prop="size" align="center" label="大小" width="100"
-                           :formatter="transformSize"></el-table-column>
+                           :formatter="transformSize"
+                           :cell-class-name="tableCellClassName"></el-table-column>
           <el-table-column prop="role" align="center" label="部门">
             <template slot-scope="scope">
               <el-tag size="small">{{
@@ -276,10 +277,10 @@ export default {
       this.selectCondition()
     },
     back() {
-      if (this.backStack.length===0){
-        this.path=this.home
+      if (this.backStack.length === 0) {
+        this.path = this.home
         this.selectCondition();
-      }else {
+      } else {
         this.path = this.backStack.pop();
         this.selectCondition();
       }
@@ -318,6 +319,30 @@ export default {
         this_vue.form.current_count = this_vue.form.size;
         this_vue.tableData4 = response.data.recordList;
         this_vue.form.total = response.data.count;
+        for (const i in this_vue.tableData4) {
+          if (this_vue.tableData4[i].type === 2) {
+            this_vue.tableData4[i].size = "计算中"
+            this_vue.$axios({
+              method: 'get',
+              url: '/doc/folder/size',
+              params: {
+                docId: this_vue.tableData4[i].id
+              }
+            }).then(res => {
+              let ext = 'b'
+              let size = res.data;
+              if (size >= 1024) {
+                size = (size / 1024).toFixed(2)
+                ext = 'Kb'
+              }
+              if (size >= 1024) {
+                size = (size / 1024).toFixed(2)
+                ext = 'Mb'
+              }
+              this_vue.tableData4[i].size = size + ext;
+            })
+          }
+        }
       }).catch(function (error) {
         console.log(error);
       });
@@ -353,16 +378,20 @@ export default {
       });
     },
     transformSize(row, column, size) {
-      let ext = 'b'
-      if (size >= 1024) {
-        size = (size / 1024).toFixed(2)
-        ext = 'Kb'
+      if (row.type === 1) {
+        let ext = 'b'
+        if (size >= 1024) {
+          size = (size / 1024).toFixed(2)
+          ext = 'Kb'
+        }
+        if (size >= 1024) {
+          size = (size / 1024).toFixed(2)
+          ext = 'Mb'
+        }
+        return size + ext
+      } else {
+        return size;
       }
-      if (size >= 1024) {
-        size = (size / 1024).toFixed(2)
-        ext = 'Mb'
-      }
-      return size + ext
     },
     transform(row, column, operationTime) {
       return operationTime.substring(0, operationTime.indexOf('T'))
@@ -374,15 +403,22 @@ export default {
       });
       data.append('filePath', this.path)
       const this_vue = this;
+      this.$message({
+        message: '正在上传，请耐心等待',
+        duration: 60 * 1000 * 10,
+        type: 'info'
+      })
       this.$axios({
         method: 'post',
         url: '/doc',
+        timeout: 60 * 1000 * 10,
         headers: {
           'token': localStorage.getItem('token'),
           'Content-type': 'multipart/form-data;charset=utf-8'
         },
         data: data
       }).then(e => {
+        this_vue.$message.closeAll();
         this_vue.dialogImageUrl = e.data;
         if (e.flag) {
           this_vue.$message({
@@ -396,6 +432,8 @@ export default {
             type: 'error'
           })
         }
+      }).catch(e => {
+        this_vue.$message.closeAll();
       })
       this.dialogVisible = false
     },

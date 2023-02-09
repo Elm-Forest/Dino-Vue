@@ -8,26 +8,26 @@
     <el-card class="box-card">
       <div class="oa_main">
         <!--search-->
-        <div class="oa_search">
-          <el-form :inline="true" :model="form" class="demo-form-inline">
-            <el-form-item label="文档名称">
-              <el-input v-model="form.name" placeholder="请输入文档名称" size="small"></el-input>
-            </el-form-item>
-            <el-form-item label="上传时间">
-              <el-date-picker
-                  v-model="form.time"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  size="small">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small">查询</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
+<!--        <div class="oa_search">-->
+<!--          <el-form :inline="true" :model="form" class="demo-form-inline">-->
+<!--            <el-form-item label="文档名称">-->
+<!--              <el-input v-model="form.name" placeholder="请输入文档名称" size="small"></el-input>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item label="上传时间">-->
+<!--              <el-date-picker-->
+<!--                  v-model="form.time"-->
+<!--                  type="daterange"-->
+<!--                  range-separator="至"-->
+<!--                  start-placeholder="开始日期"-->
+<!--                  end-placeholder="结束日期"-->
+<!--                  size="small">-->
+<!--              </el-date-picker>-->
+<!--            </el-form-item>-->
+<!--            <el-form-item>-->
+<!--              <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small">查询</el-button>-->
+<!--            </el-form-item>-->
+<!--          </el-form>-->
+<!--        </div>-->
         <el-dialog
             title="警告！"
             :visible.sync="dialogVisible"
@@ -151,16 +151,20 @@ export default {
       return operationTime.substring(0, operationTime.indexOf('T'))
     },
     transformSize(row, column, size) {
-      let ext = 'b'
-      if (size >= 1024) {
-        size = (size / 1024).toFixed(2)
-        ext = 'Kb'
+      if (row.type === 1) {
+        let ext = 'b'
+        if (size >= 1024) {
+          size = (size / 1024).toFixed(2)
+          ext = 'Kb'
+        }
+        if (size >= 1024) {
+          size = (size / 1024).toFixed(2)
+          ext = 'Mb'
+        }
+        return size + ext
+      } else {
+        return size;
       }
-      if (size >= 1024) {
-        size = (size / 1024).toFixed(2)
-        ext = 'Mb'
-      }
-      return size + ext
     },
     formatStateType(type) {
       if (type === '1') {
@@ -176,17 +180,34 @@ export default {
         url: '/doc/rec',
       }).then(res => {
         this_vue.tableData4 = res.data;
+        for (const i in this_vue.tableData4) {
+          if (this_vue.tableData4[i].type === 2) {
+            this_vue.tableData4[i].size = "计算中"
+            this_vue.$axios({
+              method: 'get',
+              url: '/doc/folder/size',
+              params: {
+                docId: this_vue.tableData4[i].id
+              }
+            }).then(res => {
+              let ext = 'b'
+              let size = res.data;
+              if (size >= 1024) {
+                size = (size / 1024).toFixed(2)
+                ext = 'Kb'
+              }
+              if (size >= 1024) {
+                size = (size / 1024).toFixed(2)
+                ext = 'Mb'
+              }
+              this_vue.tableData4[i].size = size + ext;
+            })
+          }
+        }
         this_vue.form.current_count = this_vue.form.size;
         this_vue.form.total = res.data.count;
       })
     },
-    // handleGoUrl(url) {
-    //   this.$router.push({ path: url });
-    // },
-    // onSubmit() {
-    //   console.log(this.form);
-    // },
-    // 根据文件id删除对应文件
     open() {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -224,8 +245,8 @@ export default {
           params: {
             docId: id
           }
-        }).then(res => {
-          console.log('res:', res)
+        }).then(() => {
+          this.selectCondition();
           return this.$message.success('已成功恢复文件')
         })
 

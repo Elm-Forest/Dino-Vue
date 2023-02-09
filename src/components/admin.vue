@@ -29,7 +29,7 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
-              <span>文档管理平台</span>
+              <span>企业云盘</span>
             </template>
             <el-menu-item index="/admin/selectFile">
               <i class="el-icon-search"></i>

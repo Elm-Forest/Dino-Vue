@@ -33,19 +33,15 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
-              <span>企业网盘</span>
+              <span>企业云盘</span>
             </template>
             <el-menu-item index="/file/selectFile">
-              <i class="el-icon-search"></i>
+              <i class="el-icon-document"></i>
               <span>文件管理</span>
             </el-menu-item>
             <el-menu-item index="/file/recycle">
               <i class="el-icon-delete"></i>
               <span>回收站</span>
-            </el-menu-item>
-            <el-menu-item index="/file/record">
-              <i class="el-icon-s-order"></i>
-              <span>文档日志</span>
             </el-menu-item>
           </el-submenu>
           <!-- 2.企业邮箱平台 -->
