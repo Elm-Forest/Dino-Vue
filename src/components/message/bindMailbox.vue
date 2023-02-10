@@ -5,29 +5,33 @@
       <el-breadcrumb-item>消息管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>邮箱账户</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="bagBox">
-      <div class="mailBox">
-        <div class="boxT">
-          <div class="text">邮箱:</div>
-          <input type="text" name="" id="" v-model="mailAccountForm.email"
-                 placeholder="请输入邮箱,目前仅支持qq邮箱和网易邮箱">
-        </div>
-        <div class="boxT">
-          <div class="text">授权码:</div>
-          <input type="text" name="" id="" v-model="mailAccountForm.password" placeholder="请输入授权码">
-        </div>
-        <div class="boxT">
-          <div class="text">验证码:</div>
-          <input type="text" name="" id="" v-model="mailAccountForm.code" placeholder="请输入验证码">
-          <div class="but" @click="send">
-            发送
-          </div>
-        </div>
-        <div class="boxT">
-          <el-button type="primary" size="mini" @click="checkS">绑定</el-button>
-        </div>
-      </div>
-    </div>
+    <el-row type="flex" justify="center" style="margin-top: 10%">
+      <el-col :span="12">
+        <el-card>
+          <el-form ref="form" :model="mailAccountForm" label-width="80px" style="margin-top: 5%">
+            <el-form-item label="邮箱" style="width: 88%">
+              <el-input v-model="mailAccountForm.email"></el-input>
+            </el-form-item>
+
+            <el-form-item label="授权码" style="width: 88%">
+              <el-input v-model="mailAccountForm.password"></el-input>
+            </el-form-item>
+
+            <el-form-item label="验证码">
+              <el-col :span="16" style="margin-right: 16px">
+                <el-input v-model="mailAccountForm.code"></el-input>
+              </el-col>
+              <el-button @click="send">发送</el-button>
+            </el-form-item>
+
+            <el-form-item>
+              <el-button type="primary" @click="bindEmail" style="margin-left: 32%">绑定</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-col>
+    </el-row>
+
   </div>
 
 </template>
@@ -52,8 +56,8 @@ export default {
     })
   },
   methods: {
-    checkS() {
-      var this_vue = this;
+    bindEmail() {
+      let this_vue = this;
       this.$axios({
         method: 'post',
         url: '/message/mail/account',
@@ -66,14 +70,19 @@ export default {
       }).then(function (response) {
         if (response.flag) {
           this_vue.$store.commit('SET_SHOW');
-          alert('邮箱绑定成功')
-
+          this_vue.$message({
+            message: '邮箱绑定成功！',
+            type: 'success'
+          });
         } else {
           alert(response.message)
           console.log(JSON.stringify(response.data));
         }
       }).catch(function (error) {
-        alert('切换邮箱失败')
+        this_vue.$message({
+          message: '邮箱绑定成功！',
+          type: 'error'
+        });
         console.log(error);
       })
     },
@@ -85,13 +94,21 @@ export default {
         params: {
           'email': this.mailAccountForm.email,
           'password': this.mailAccountForm.password,
-          'type': this.getType(this.mailAccountForm.email)
+          'url': this.getType(this.mailAccountForm.email)
         }
       }).then(function (response) {
-        this_vue.$message({
-          message: '发送成功！',
-          type: 'success'
-        });
+        if (response.flag) {
+          this_vue.$message({
+            message: '发送成功！',
+            type: 'success'
+          });
+        } else {
+          this_vue.$message({
+            message: '表单填写错误！',
+            type: 'error'
+          });
+        }
+
         console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         this_vue.$message({
@@ -120,64 +137,5 @@ export default {
 </script>
 
 <style scoped>
-.bagBox {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
 
-.mailBox {
-  width: 480px;
-  height: 260px;
-  border-radius: 12px;
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.boxT {
-  width: 80%;
-  height: 40px;
-  margin: auto;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  position: relative;
-}
-
-.text {
-  /* font-size: 18px;
-  font-weight: 550; */
-  color: black;
-  display: block;
-}
-
-.boxT input {
-  display: block;
-  width: 70%;
-  height: 25px;
-  font-size: 13px;
-  border-radius: 10px;
-  color: rgb(103, 98, 98);
-  padding-left: 12px;
-  border: 0.5px solid #666;
-}
-
-.but {
-  position: absolute;
-  right: -35px;
-  width: 40px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
-  background-color: rgb(204, 202, 202);
-  font-size: 12px;
-  color: white;
-  border-radius: 12px;
-}
-
-.el-breadcrumb {
-  margin-bottom: 180px;
-}
 </style>
