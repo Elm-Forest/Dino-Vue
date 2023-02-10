@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>企业管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>企业信息管理</el-breadcrumb-item>
-      <el-breadcrumb-item>企业信息</el-breadcrumb-item>
     </el-breadcrumb>
     <div id="box">
       <el-card class="box-card box-card2">

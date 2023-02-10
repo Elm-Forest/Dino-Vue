@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
+      <el-breadcrumb-item>企业云盘</el-breadcrumb-item>
       <el-breadcrumb-item>回收站</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
