@@ -3,8 +3,8 @@
       style='font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;'>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>企业云盘</el-breadcrumb-item>
-      <el-breadcrumb-item>文件操作日志</el-breadcrumb-item>
+      <el-breadcrumb-item>文档管理平台</el-breadcrumb-item>
+      <el-breadcrumb-item>文档日志</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
       <div class="oa_main">

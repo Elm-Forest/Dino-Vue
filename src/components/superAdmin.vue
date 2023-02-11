@@ -31,6 +31,10 @@
       <el-aside width="240px">
         <!-- 侧边栏菜单区域 -->
         <el-menu background-color="#fafafa" router="true" unique-opened="true">
+          <el-menu-item index="/super/home">
+            <i class="el-icon-house"></i>
+            <span>首页</span>
+          </el-menu-item>
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
@@ -80,16 +84,27 @@
               <i class="el-icon-user"></i>
               <span>邮箱账户</span>
             </el-menu-item>
+
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-chat-dot-round"></i>
+              <span>站内消息</span>
+            </template>
             <el-menu-item index="/super/adminList">
               <i class="el-icon-s-grid"></i>
               <span>消息列表</span>
             </el-menu-item>
+            <el-menu-item index="#">
+              <i class="el-icon-s-grid"></i>
+              <span>需要开发</span>
+            </el-menu-item>
           </el-submenu>
           <!-- 3.考勤管理平台 -->
-          <el-submenu index="3">
+          <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-circle-check"></i>
-              <span>考勤管理平台</span>
+              <span>考勤管理</span>
             </template>
             <el-menu-item index="/super/searchSign">
               <i class="el-icon-search"></i>
@@ -106,10 +121,10 @@
           </el-submenu>
 
           <!-- 4.日程管理平台 -->
-          <el-submenu index="4">
+          <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-date"></i>
-              <span>日程管理平台</span>
+              <span>日程管理</span>
             </template>
             <el-menu-item index="/super/schedule">
               <i class="el-icon-user"></i>
@@ -126,10 +141,10 @@
           </el-submenu>
 
           <!-- 5.企业管理平台 -->
-          <el-submenu index="5">
+          <el-submenu index="6">
             <template slot="title">
               <i class="el-icon-s-grid"></i>
-              <span>企业管理平台</span>
+              <span>企业管理</span>
             </template>
             <el-menu-item index="/super/admUser">
               <i class="el-icon-user"/>
@@ -142,6 +157,21 @@
             <el-menu-item index="/super/company">
               <i class="el-icon-office-building"/>
               <span>企业信息管理</span>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="7">
+            <template slot="title">
+              <i class="el-icon-user"></i>
+              <span>个人管理</span>
+            </template>
+            <el-menu-item index="/super/admUser">
+              <i class="el-icon-s-custom"/>
+              <span>个人信息管理</span>
+            </el-menu-item>
+            <el-menu-item index="/super/offer">
+              <i class="el-icon-key"/>
+              <span>账号管理</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
