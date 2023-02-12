@@ -91,12 +91,13 @@ export default {
     });
   },
   mounted() {
+    const this_vue = this;
     this.$axios.get('/message/mail/account/check').then(response => {
       if (response.data != null) {
-        this.$store.commit('SET_SHOW');
+        this_vue.$store.commit('SET_SHOW');
+        this_vue.show = this_vue.$store.state.bindMailbox
       }
     })
-    this.show = this.$store.state.bindMailbox
   },
   methods: {
     changepage(index) {

@@ -282,9 +282,11 @@ export default {
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
+    const this_vue = this;
     this.$axios.get('/message/mail/account/check').then(response => {
       if (response.data != null) {
-        this.$store.commit('SET_SHOW');
+        this_vue.$store.commit('SET_SHOW');
+        this_vue.show = this_vue.$store.state.bindMailbox
       }
     })
     // this.tableData2 = this.tableData;

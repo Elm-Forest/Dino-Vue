@@ -4,7 +4,6 @@
       <h1 id="login-title">入职申请</h1>
       <div style="height: 20px;"></div>
       <el-form id="form" ref="loginFormRef" :model="loginForm">
-
         <el-autocomplete
             prefix-icon="el-icon-user-solid"
             v-model="state"
@@ -14,7 +13,6 @@
             clearable
         ></el-autocomplete>
         <el-button @click="createDept">创建企业?</el-button>
-        <!--        <el-link id="forgetPWD" @click="retrievePWD">加入企业</el-link>-->
         <el-button type="primary" style="flex: left;" @click="requestOffer">投递</el-button>
       </el-form>
     </el-card>
@@ -33,6 +31,7 @@ export default {
       timeout: null,
       deptId: '',
       loginForm: {
+        deptId: '',
         name: '',
         phone: '',
         address: '',
@@ -46,7 +45,7 @@ export default {
   methods: {
     // 登录预验证
     requestOffer() {
-      var this_vue = this;
+      const this_vue = this;
       this.$axios({
         method: 'post',
         url: '/user/userinfo/dept',
@@ -76,7 +75,7 @@ export default {
       this.$router.push({path: '/dept'})
     },
     loadAll() {
-      var this_vue = this;
+      const this_vue = this;
       this.$axios({
         method: 'get',
         url: '/user/dept',
@@ -90,10 +89,8 @@ export default {
       });
     },
     querySearchAsync(queryString, cb) {
-      var restaurants = this.restaurants;
-      var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
-
-      console.log(restaurants)
+      const restaurants = this.restaurants;
+      const results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         cb(results);
@@ -106,7 +103,6 @@ export default {
     },
     handleSelect(item) {
       this.loginForm.deptId = item.id;
-      console.log(item.id);
     }
   }
 }
