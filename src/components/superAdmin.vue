@@ -165,11 +165,11 @@
               <i class="el-icon-user"></i>
               <span>个人管理</span>
             </template>
-            <el-menu-item index="/super/admUser">
+            <el-menu-item index="/super/userinfo">
               <i class="el-icon-s-custom"/>
               <span>个人信息管理</span>
             </el-menu-item>
-            <el-menu-item index="/super/offer">
+            <el-menu-item index="/super/account">
               <i class="el-icon-key"/>
               <span>账号管理</span>
             </el-menu-item>

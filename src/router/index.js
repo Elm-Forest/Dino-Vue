@@ -36,6 +36,7 @@ import adminOffer from "@/components/dept/adminOffer";
 import registerInfo from "@/components/registerInfo";
 import socket from '@/components/test/socket.vue'
 import superAdmin from "@/components/superAdmin.vue";
+import account from "@/components/user/account.vue";
 
 Vue.use(Router)
 
@@ -107,12 +108,12 @@ const routes = [
         redirect: '/super/admUser',
         children: [
             {path: '/super/userinfo', component: userinfo},
+            {path: '/super/account', component: account},
             {path: '/super/home', component: home},
             {path: '/super/selectFile', component: selectFile},
             {path: '/super/recycle', component: recycle},
             {path: '/super/record', component: record},
             {path: '/super/searchSign', component: searchSign},
-
             {path: '/super/fjx', name: 'fjx', component: fjx},
             {path: '/super/sjx', name: 'sjx', component: sjx},
             {path: '/super/cgx', component: cgx},

@@ -2,8 +2,8 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>用户信息管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户信息</el-breadcrumb-item>
+      <el-breadcrumb-item>个人管理</el-breadcrumb-item>
+      <el-breadcrumb-item>个人信息</el-breadcrumb-item>
     </el-breadcrumb>
     <div id="box">
       <el-card class="box-card box-card2">
@@ -281,7 +281,7 @@ export default {
 
 #box {
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 25%;
 }
 </style>
