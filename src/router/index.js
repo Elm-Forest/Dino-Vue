@@ -37,11 +37,13 @@ import registerInfo from "@/components/registerInfo";
 import socket from '@/components/test/socket.vue'
 import superAdmin from "@/components/superAdmin.vue";
 import account from "@/components/user/account.vue";
+import wangeditorTest from "@/components/test/wangeditorTest.vue";
 
 Vue.use(Router)
 
 const routes = [
     {path: '/socket', component: socket},
+    {path: '/edit', component: wangeditorTest},
     {path: '/', redirect: '/login'},
     {path: '/login', name: '登录', component: login},
     {path: '/register', component: register},

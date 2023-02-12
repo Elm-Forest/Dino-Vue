@@ -197,7 +197,7 @@ export default {
       addFormRules: {
         name: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
-          {min: 3, max: 10, message: '用户名的长度在3~10个字符之间', trigger: 'blur'}
+          {min: 1, max: 10, message: '用户名的长度在1~10个字符之间', trigger: 'blur'}
         ],
         role: [
           {required: true, message: '请输入角色', trigger: 'blur'}
@@ -247,7 +247,7 @@ export default {
       editFormRules: {
         name: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
-          {min: 3, max: 10, message: '用户名的长度在3~10个字符之间', trigger: 'blur'}
+          {min: 1, max: 10, message: '用户名的长度在1~10个字符之间', trigger: 'blur'}
         ],
         role: [
           {required: true, message: '请输入角色', trigger: 'blur'}

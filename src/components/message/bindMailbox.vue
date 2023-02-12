@@ -45,8 +45,9 @@ export default {
     }
   },
   mounted() {
+    this.show = this.$store.state.bindMailbox
     this.$axios.get('/message/mail/account/check').then(response => {
-      if (response.data != null) {
+      if (response.flag) {
         this.$store.commit('SET_SHOW');
         this.mailAccountForm.email = response.data;
         this.title = "您已绑定账号，可再次修改账号"
@@ -82,15 +83,21 @@ export default {
     },
     send() {
       const this_vue = this;
+      this.$message({
+        message: '正在发送，请耐心等待',
+        duration: 60 * 1000 * 10,
+        type: 'info'
+      })
       this.$axios({
         method: 'post',
         url: '/message/mail/send',
         params: {
           'email': this.mailAccountForm.email,
           'password': this.mailAccountForm.password,
-          'url': this.getType(this.mailAccountForm.email)
+          'server': this.getType(this.mailAccountForm.email)
         }
       }).then(function (response) {
+        this_vue.$message.closeAll();
         if (response.flag) {
           this_vue.$message({
             message: '发送成功！',

@@ -8,11 +8,8 @@
         <el-breadcrumb-item>发送邮件</el-breadcrumb-item>
       </el-breadcrumb>
       <el-divider content-position="left"><b>发送邮件</b></el-divider>
-      <el-form :model="form">
-        <el-form-item label="主题" :label-width="formLabelWidth">
-          <el-input v-model="form.title" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="收件人" :label-width="formLabelWidth">
+      <el-form :model="form" label-position="left">
+        <el-form-item label="收件人：">
           <el-autocomplete
               prefix-icon="el-icon-user-solid"
               v-model="form.contacts.name"
@@ -22,12 +19,27 @@
               clearable
           ></el-autocomplete>
         </el-form-item>
-        <el-form-item label="内容" :label-width="formLabelWidth">
-          <el-input rows="4" v-model="form.description" autocomplete="off" type="textarea" maxlength="200"
-                    show-word-limit></el-input>
+        <el-form-item label="邮件主题">
+          <el-input v-model="form.title" autocomplete="off" style="width: 800px"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <div style="border: 1px solid #ccc;">
+            <Toolbar
+                style="border-bottom: 1px solid #ccc"
+                :editor="editor"
+                :defaultConfig="toolbarConfig"
+                :mode="mode"
+            />
+            <Editor
+                style="height: 500px; overflow-y: hidden;"
+                v-model="form.description"
+                :defaultConfig="editorConfig"
+                :mode="mode"
+                @onCreated="onCreated"
+            />
+          </div>
         </el-form-item>
       </el-form>
-      <el-button @click="back()">取 消</el-button>
       <el-button type="primary" @click="submit">发送</el-button>
       <el-button type="info" @click="submit">保存到草稿</el-button>
     </div>
@@ -38,10 +50,19 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
+
 export default {
-  components: {},
+  components: {Editor, Toolbar},
   data() {
     return {
+      editor: null,
+      html: '<p>hello world</p>',
+      toolbarConfig: {},
+      editorConfig: {placeholder: '请输入内容...'},
+      mode: 'default',
+
       formLabelWidth: "80px",
       contacts: '',
       form: {
@@ -57,6 +78,11 @@ export default {
     };
   },
   methods: {
+    onCreated(editor) {
+      this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
+    },
+
+
     loadAll() {
       const this_vue = this;
       this.$axios({
@@ -69,13 +95,18 @@ export default {
         this_vue.contacts = JSON.parse(JSON.stringify(response.data).replace(/name/g, "value"));
       })
     },
+    createStateFilter(queryString) {
+      return (state) => {
+        return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      };
+    },
     querySearchAsync(queryString, cb) {
       const contacts = this.contacts;
       const results = queryString ? contacts.filter(this.createStateFilter(queryString)) : contacts;
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         cb(results);
-      }, 3000 * Math.random());
+      }, 500);
     },
     handleSelect(item) {
       this.form.contacts.id = item.id;
@@ -97,8 +128,8 @@ export default {
         url: '/message/mail',
         params: {
           'auId': this.form.contacts.id,
-          'subject': '',
-          'content': ''
+          'subject': this.form.title,
+          'content': this.form.description
         }
       }).then(res => {
         _this.$message.closeAll()
@@ -136,12 +167,13 @@ export default {
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
-    this.loadAll();
     const this_vue = this;
+    this.show = this.$store.state.bindMailbox
     this.$axios.get('/message/mail/account/check').then(response => {
-      if (response.data != null) {
+      if (response.data !== null) {
         this_vue.$store.commit('SET_SHOW');
         this_vue.show = this_vue.$store.state.bindMailbox
+        this.loadAll();
       }
     })
   },
@@ -154,13 +186,17 @@ export default {
   updated() {
   }, //生命周期 - 更新之后
   beforeDestroy() {
-  }, //生命周期 - 销毁之前
+    const editor = this.editor
+    if (editor == null) return
+    editor.destroy() // 组件销毁时，及时销毁编辑器
+  },
   destroyed() {
   }, //生命周期 - 销毁完成
   activated() {
   }, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
+<style src="@wangeditor/editor/dist/css/style.css"></style>
 <style lang='less' scoped>
 //@import url(); 引入公共css类
 // 

@@ -283,6 +283,7 @@ export default {
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     const this_vue = this;
+    this.show = this.$store.state.bindMailbox
     this.$axios.get('/message/mail/account/check').then(response => {
       if (response.data != null) {
         this_vue.$store.commit('SET_SHOW');
@@ -294,8 +295,8 @@ export default {
       return i < 5;
     });
 
-    // 
-    this.show = this.$store.state.bindMailbox
+    //
+
 
   },
   beforeCreate() {

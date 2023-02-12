@@ -92,6 +92,7 @@ export default {
   },
   mounted() {
     const this_vue = this;
+    this.show = this.$store.state.bindMailbox
     this.$axios.get('/message/mail/account/check').then(response => {
       if (response.data != null) {
         this_vue.$store.commit('SET_SHOW');
