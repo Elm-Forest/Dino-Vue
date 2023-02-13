@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="box" v-if="show">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>首页</el-breadcrumb-item>
         <el-breadcrumb-item>消息管理平台</el-breadcrumb-item>
         <el-breadcrumb-item>发件箱</el-breadcrumb-item>
       </el-breadcrumb>
@@ -14,83 +14,94 @@
           </el-input>
         </el-col>
       </el-row>
-      <br>
-      <el-table v-loading="listLoading" :data="list2" element-loading-text="Loading" border fit highlight-current-row>
-        <el-table-column align="center" label="序号" width="120">
-          <template slot-scope="scope">
-            {{ scope.$index + 1 }}
-          </template>
-        </el-table-column>
-        <el-table-column label="邮件标题">
-          <template slot-scope="scope">
-            {{ scope.row.title }}
-          </template>
-        </el-table-column>
-        <el-table-column label="收件人">
-          <template slot-scope="scope">
-            {{ scope.row.username }}
-          </template>
-        </el-table-column>
-        <el-table-column label="发件时间">
-          <template slot-scope="scope">
-            {{ timestampToTime(scope.row.date) }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="210" align="center">
-          <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="order(scope.row.id)">
-              查看详情
-            </el-button>
-            <el-button type="danger" size="mini" @click="deleted(scope.row.id, scope.$index)">
-              删除
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination small layout="prev, pager, next" :total="list.length" :page-size="5" @current-change="changepage">
-      </el-pagination>
-    </div>
+      <div>
+        <el-dialog
+            title="邮件详情"
+            :visible.sync="dialogVisible"
+            width="50%">
+          <el-form>
+            <el-form-item :label-width="formLabelWidth" label="主题："><h3 style="display: inline">
+              {{ dialogForm.emailTitle }}</h3>
+            </el-form-item>
+            <el-form-item :label-width="formLabelWidth" label="正文：">
+              <div v-html="dialogForm.emailContent"></div>
+            </el-form-item>
+            <el-form-item style="text-align: center;">
+              <el-button @click="dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+            </el-form-item>
+          </el-form>
+        </el-dialog>
+      </div>
+      <div>
+        <el-table v-loading="listLoading" :data="list2" element-loading-text="Loading" border
+                  fit highlight-current-row>
+          <el-table-column label="邮件标题" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.emailTitle }}
+            </template>
+          </el-table-column>
+          <el-table-column label="收件人" align="center">
+            <template slot-scope="scope">
+              {{ scope.row.acceptUserName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="发件时间" align="center">
+            <template slot-scope="scope">
+              {{ timestampToTime(scope.row.sendTime) }}
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="210" align="center">
+            <template slot-scope="scope">
+              <el-button type="primary" size="mini" @click="order(scope.row.id)">
+                查看详情
+              </el-button>
+              <el-button type="danger" size="mini" @click="deleted(scope.row.id, scope.$index)">
+                删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-pagination
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="queryInfo.count"
+            :current-page="queryInfo.current"
+            :page-sizes="[1, 2, 5, 10]"
+            :page-size="queryInfo.size"
+            @current-change="changepage"
+            @size-change="handleSizeChange">
+        </el-pagination>
+      </div>
 
+    </div>
     <div class="remind" v-if="!show">
       <h1>请绑定邮箱以查看详情</h1>
     </div>
-
   </div>
-
-
-
 </template>
 
 <script>
 export default {
   data() {
     return {
-      searchtxt: "" /* 搜索的文本信息 */,
+      queryInfo: {
+        current: 1,
+        size: 5,
+        count: 1
+      },
+      formLabelWidth: '80px',
+      searchtxt: "",
       list: null,
       list2: [],
+      contentList: [],
       listLoading: false,
-
-      // 显示
+      dialogVisible: false,
       show: true,
+      dialogForm: {}
     };
   },
   created() {
-    let _this = this;
-    this.listLoading = false; /* 加载状态 */
-    _this.list = [
-      {
-        title: "标题1",
-        username: "123",
-        email: "123",
-        id: 1,
-        date: 1660171002715,
-      },
-    ];
-    // _this.list2 = _this.list;
-    let result = this.list.filter((ele, i) => {
-      return i < 5;
-    });
-    this.list2 = result;
+    this.listLoading = false;
   },
   mounted() {
     const this_vue = this;
@@ -99,49 +110,94 @@ export default {
       if (response.data != null) {
         this_vue.$store.commit('SET_SHOW');
         this_vue.show = this_vue.$store.state.bindMailbox
+        this_vue.selectEmails()
       }
     })
   },
   methods: {
+    handleSizeChange(size) {
+      this.queryInfo.size = size
+      this.selectEmails()
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {
+          });
+    },
+    selectEmails() {
+      const _this = this
+      this.$axios({
+        url: '/message/mail/outbox',
+        method: 'get',
+        params: {
+          'current': this.queryInfo.current,
+          'size': this.queryInfo.size
+        }
+      }).then(res => {
+        _this.contentList = res.data.recordList
+        _this.queryInfo.count = res.data.count
+        _this.list2 = this.contentList.filter((ele, i) => {
+          return i < 5;
+        });
+      })
+    },
     changepage(index) {
-      console.log(index);
-      let result = this.list.filter((ele, i) => {
+      this.queryInfo.current = index
+      this.selectEmails()
+      this.list2 = this.contentList.filter((ele, i) => {
         return i >= 5 * (index - 1) && i < 5 * index;
       });
-      this.list2 = result;
     },
     /* 搜索功能 */
     search() {
-      console.log(this.list);
-      var result = this.list.filter((ele) => {
-        return ele.title.indexOf(this.searchtxt) != -1;
+
+      this.list2 = this.contentList.filter((ele) => {
+        return ele.emailTitle.indexOf(this.searchtxt) !== -1;
       });
-      this.list2 = result;
     },
     /* 查看详情 */
-    order(index) {
-      console.log(index);
-      this.$router.push({ name: "fjxDetail", params: { id: index } });
+    order(id) {
+      const _this = this;
+      this.$axios({
+        method: 'get',
+        url: '/message/mail',
+        params: {
+          'id': id
+        }
+      }).then(res => {
+        _this.dialogForm = res.data
+        _this.dialogVisible = true
+      })
     },
-    /* 删除功能 */
-    /* id为对象id,index为数组中的索引 */
     deleted(id, index) {
       let _this = this;
       this.listLoading = true;
-      /* 删除接口 */
       _this.listLoading = false;
-      _this.$message({
-        duration: "1000",
-        message: "删除成功，内容在垃圾箱内",
-        type: "success",
-        onClose: function () {
-          _this.list2.splice(index, 1);
-        },
-      });
+      this.$axios({
+        url: '/message/mail',
+        method: 'delete',
+        params: {
+          'id': id
+        }
+      }).then(res => {
+        _this.$message({
+          duration: "1000",
+          message: "删除成功，内容在垃圾箱内",
+          type: "success",
+          onClose: function () {
+            _this.list2.splice(index, 1);
+          },
+        });
+      })
     },
-    //时间戳转时间
-    timestampToTime(nS) {
-      return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/, " ");
+    timestampToTime(time) {
+      if (time !== null && time !== '') {
+        time = time.replace(/T|\.\d+\+\d{2}:\d{2}/g, ' ')
+      }
+      return time;
     },
   },
 };
@@ -168,6 +224,10 @@ export default {
 .remind h1 {
   margin: 150px auto;
 
+}
+
+.el-pagination {
+  margin-top: 15px;
 }
 </style>
 

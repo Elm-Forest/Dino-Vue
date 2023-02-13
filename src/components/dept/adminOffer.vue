@@ -169,21 +169,21 @@ import JSONbig from "json-bigint";
 export default {
   data() {
     // 验证邮箱规则
-    var checkEmail = (rule, value, cb) => {
+    const checkEmail = (rule, value, cb) => {
       const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/
       if (regEmail.test(value)) {
         return cb
       }
       cb(new Error('请输入合法的邮箱'))
-    }
+    };
     // 验证手机号规则
-    var checkPhonenum = (rule, value, cb) => {
+    const checkPhonenum = (rule, value, cb) => {
       const rePhonenum = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
       if (rePhonenum.test(value)) {
         return cb
       }
       cb(new Error('请输入合法的手机号'))
-    }
+    };
     return {
       // 角色选项
       optionRoles: [{
@@ -329,9 +329,8 @@ export default {
     this.getUserList()
   },
   methods: {
-
     getUserList() {
-      var this_vue = this;
+      const this_vue = this;
       this.$axios({
         method: 'get',
         url: '/employee/list/all',
@@ -345,10 +344,7 @@ export default {
         }
       }).then(function (response) {
         this_vue.tableData = response.data.recordList;
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+      })
     },
     offerPass() {
       var this_vue = this;
@@ -366,22 +362,16 @@ export default {
           message: response.message,
           type: 'success'
         });
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+      })
     },
     handleSizeChange(newSize) {
-      console.log(newSize)
       this.queryInfo.pagesize = newSize
-      // this.getUserList()
+      this.getUserList()
     },
     // 监听页码值改变的事件
     handleCurrentChange(newPage) {
-      console.log(newPage)
       this.queryInfo.pagenum = newPage
-      // this.getUserList()
+      this.getUserList()
     },
     // 监听添加用户对话框的关闭事件
     addDialogClosed() {
@@ -390,9 +380,6 @@ export default {
     // 点击按钮，添加新用户
     addUser() {
       this.$refs.addFormRef.validate(valid => {
-        if (!valid) return
-        // 发起添加新用户的数据请求
-        // this.$http.post('',this.addForm)
       })
     },
     // 展示编辑用户的对话框

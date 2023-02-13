@@ -196,10 +196,7 @@ export default {
         this_vue.form.current_count = this_vue.form.size;
         this_vue.tableData4 = response.data.recordList;
         this_vue.form.total = response.data.count;
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+      })
     },
     getType(num) {
       return num === 1 ? '文件' : '文件夹';

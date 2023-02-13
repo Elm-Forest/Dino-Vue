@@ -195,7 +195,6 @@
           <span slot="footer" class="dialog-footer"></span>
           <el-button @click="modifyDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="reName">确 定</el-button>
-
         </el-dialog>
       </div>
       <el-pagination
@@ -343,9 +342,7 @@ export default {
             })
           }
         }
-      }).catch(function (error) {
-        console.log(error);
-      });
+      })
       this.backButton = this.path === '/home/';
     },
     deleteDoc() {
@@ -373,9 +370,7 @@ export default {
           })
         }
         this_vue.dialogVisible2 = false;
-      }).catch(function (error) {
-        console.log(error);
-      });
+      })
     },
     transformSize(row, column, size) {
       if (row.type === 1) {
@@ -432,7 +427,7 @@ export default {
             type: 'error'
           })
         }
-      }).catch(e => {
+      }).catch(() => {
         this_vue.$message.closeAll();
       })
       this.dialogVisible = false

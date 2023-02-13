@@ -22,10 +22,6 @@ import cgx from '../components/message/cgx.vue'
 import ljx from '../components/message/ljx.vue'
 import add from '../components/message/add.vue'
 import bindMailbox from '../components/message/bindMailbox.vue'
-import fjxDetail from '../components/message/fjxDetail.vue'
-import sjxDetail from '../components/message/sjxDetail.vue'
-import adminList from '../components/message/adminList.vue'
-import adminListDetail from '../components/message/adminListDetail.vue'
 import schedule from '../components/date/schedule.vue'
 import friendsSchedule from '../components/date/friendsSchedule.vue'
 import deptSchedule from '../components/date/deptSchedule.vue'
@@ -71,8 +67,6 @@ const routes = [
             {path: '/message/ljx', component: ljx},
             {path: '/message/add', component: add},
             {path: '/message/bindMailbox', component: bindMailbox},
-            {path: '/message/fjxDetail/:id', name: 'fjxDetail', component: fjxDetail},
-            {path: '/message/sjxDetail/:id', name: 'sjxDetail', component: sjxDetail},
             {path: '/date/schedule', component: schedule},
             {path: '/date/schedule', component: schedule},
             {path: '/date/friendsSchedule', component: friendsSchedule},
@@ -95,8 +89,6 @@ const routes = [
             {path: '/admin/approve', component: approve},
             {path: '/admin/admUser', component: admUser},
             {path: '/admin/company', component: company},
-            {path: '/admin/adminList', name: 'adminList', component: adminList},
-            {path: '/admin/adminListDetail/:id', name: 'adminListDetail', component: adminListDetail},
             {path: '/admin/schedule', component: schedule},
             {path: '/admin/friendsSchedule', component: friendsSchedule},
             {path: '/admin/deptSchedule', component: deptSchedule},
@@ -122,10 +114,6 @@ const routes = [
             {path: '/super/ljx', component: ljx},
             {path: '/super/add', component: add},
             {path: '/super/bindMailbox', component: bindMailbox},
-            {path: '/super/fjxDetail/:id', name: 'fjxDetail', component: fjxDetail},
-            {path: '/super/sjxDetail/:id', name: 'sjxDetail', component: sjxDetail},
-            {path: '/super/adminList', name: 'adminList', component: adminList},
-            {path: '/super/adminListDetail/:id', name: 'adminListDetail', component: adminListDetail},
             {path: '/super/signTime', component: signTime},
             {path: '/super/approve', component: approve},
             {path: '/super/admUser', component: admUser},

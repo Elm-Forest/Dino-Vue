@@ -20,28 +20,36 @@
           ></el-autocomplete>
         </el-form-item>
         <el-form-item label="邮件主题">
-          <el-input v-model="form.title" autocomplete="off" style="width: 800px"></el-input>
+          <el-input v-model="form.title" autocomplete="off" style="width: 800px" placeholder="邮件主题"></el-input>
         </el-form-item>
-        <el-form-item>
-          <div style="border: 1px solid #ccc;">
-            <Toolbar
-                style="border-bottom: 1px solid #ccc"
-                :editor="editor"
-                :defaultConfig="toolbarConfig"
-                :mode="mode"
-            />
-            <Editor
-                style="height: 500px; overflow-y: hidden;"
-                v-model="form.description"
-                :defaultConfig="editorConfig"
-                :mode="mode"
-                @onCreated="onCreated"
-            />
+        <el-form-item label="邮件正文">
+          <div style="padding-left: 68px;">
+            <div style="border: 1px solid #ccc;width:90%;">
+              <Toolbar
+                  style="border-bottom: 1px solid #ccc"
+                  :editor="editor"
+                  :defaultConfig="toolbarConfig"
+                  :mode="mode"
+              />
+              <Editor
+                  style="height: 280px; overflow-y: hidden;"
+                  v-model="form.description"
+                  :defaultConfig="editorConfig"
+                  :mode="mode"
+                  @onCreated="onCreated"
+              />
+            </div>
+            <div style="padding-top: 15px">
+              <el-button type="primary" @click="submit">发送</el-button>
+              <el-button type="info" @click="save">保存到草稿</el-button>
+            </div>
           </div>
         </el-form-item>
+        <el-form-item style="text-align: center">
+
+        </el-form-item>
       </el-form>
-      <el-button type="primary" @click="submit">发送</el-button>
-      <el-button type="info" @click="submit">保存到草稿</el-button>
+
     </div>
     <div class="remind" v-if="!show">
       <h1>请绑定邮箱以查看详情</h1>
@@ -50,7 +58,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 
 export default {
@@ -62,10 +69,18 @@ export default {
       toolbarConfig: {},
       editorConfig: {placeholder: '请输入内容...'},
       mode: 'default',
-
       formLabelWidth: "80px",
       contacts: '',
       form: {
+        title: "",
+        contacts: {
+          id: '',
+          name: ''
+        },
+        description: "",
+        file: ""
+      },
+      formClean: {
         title: "",
         contacts: {
           id: '',
@@ -79,10 +94,8 @@ export default {
   },
   methods: {
     onCreated(editor) {
-      this.editor = Object.seal(editor) // 一定要用 Object.seal() ，否则会报错
+      this.editor = Object.seal(editor)
     },
-
-
     loadAll() {
       const this_vue = this;
       this.$axios({
@@ -122,7 +135,6 @@ export default {
         duration: 60 * 1000 * 10,
         type: 'info'
       })
-      console.log(this.form.contacts.id)
       this.$axios({
         method: 'POST',
         url: '/message/mail',
@@ -137,8 +149,10 @@ export default {
           _this.$message({
             message: "发送成功",
             type: "success",
+            duration: 1000,
             onClose: function () {
-              _this.$router.push("/normal/fjx");
+              _this.$store.commit('SET_EDIT', _this.formClean)
+              _this.$router.push("/" + _this.$store.state.rights + "/fjx");
             }
           });
         } else {
@@ -148,24 +162,44 @@ export default {
           })
         }
       })
-
     },
-    /* 保存邮箱 */
     save() {
       let _this = this;
-      _this.$message({
-        message: "保存成功",
-        type: "success",
-        onClose: function () {
-          _this.$router.push("/normal/cgx");
-        },
-      });
+      this.$axios({
+        method: 'POST',
+        url: '/message/mail/draft',
+        params: {
+          'auId': this.form.contacts.id,
+          'subject': this.form.title,
+          'content': this.form.description
+        }
+      }).then(res => {
+        if (res.flag) {
+          _this.$message({
+            message: "保存成功",
+            type: "success",
+            duration: 1000,
+            onClose: function () {
+              _this.$store.commit('SET_EDIT', _this.formClean)
+              _this.$router.push("/" + _this.$store.state.rights + "/cgx");
+            }
+          });
+        } else {
+          _this.$message({
+            message: res.message,
+            type: "error"
+          })
+        }
+      }).catch(e => {
+        _this.$message({
+          message: e.message,
+          type: "error",
+        });
+      })
     },
   },
-  //生命周期 - 创建完成（可以访问当前this实例）
   created() {
   },
-  //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {
     const this_vue = this;
     this.show = this.$store.state.bindMailbox
@@ -173,12 +207,13 @@ export default {
       if (response.data !== null) {
         this_vue.$store.commit('SET_SHOW');
         this_vue.show = this_vue.$store.state.bindMailbox
+        this_vue.form = this_vue.$store.state.editForm
         this.loadAll();
       }
     })
   },
   beforeCreate() {
-  }, //生命周期 - 创建之前
+  },
   beforeMount() {
   }, //生命周期 - 挂载之前
   beforeUpdate() {
@@ -196,10 +231,10 @@ export default {
   }, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style src="@wangeditor/editor/dist/css/style.css"></style>
+
 <style lang='less' scoped>
 //@import url(); 引入公共css类
-// 
+//
 .remind {
   width: 100%;
   height: 100%;
@@ -208,6 +243,6 @@ export default {
 
 .remind h1 {
   margin: 150px auto;
-
 }
 </style>
+<style src="@wangeditor/editor/dist/css/style.css"></style>

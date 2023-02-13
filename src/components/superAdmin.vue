@@ -91,13 +91,9 @@
               <i class="el-icon-chat-dot-round"></i>
               <span>站内消息</span>
             </template>
-            <el-menu-item index="/super/adminList">
+            <el-menu-item index="#" @click="$alert('尚未开发')">
               <i class="el-icon-s-grid"></i>
-              <span>消息列表</span>
-            </el-menu-item>
-            <el-menu-item index="#">
-              <i class="el-icon-s-grid"></i>
-              <span>需要开发</span>
+              <span>私信列表</span>
             </el-menu-item>
           </el-submenu>
           <!-- 3.考勤管理平台 -->
