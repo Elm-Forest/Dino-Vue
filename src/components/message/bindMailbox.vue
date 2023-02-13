@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/'+this.$store.state.rights+'/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>消息管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>邮箱账户</el-breadcrumb-item>
     </el-breadcrumb>

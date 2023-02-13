@@ -29,17 +29,21 @@
             router="true"
             unique-opened="true"
         >
+          <el-menu-item index="/normal/home">
+            <i class="el-icon-house"></i>
+            <span>首页</span>
+          </el-menu-item>
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-document"></i>
               <span>企业云盘</span>
             </template>
-            <el-menu-item index="/file/selectFile">
+            <el-menu-item index="/normal/selectFile">
               <i class="el-icon-document"></i>
               <span>文件管理</span>
             </el-menu-item>
-            <el-menu-item index="/file/recycle">
+            <el-menu-item index="/normal/recycle">
               <i class="el-icon-delete"></i>
               <span>回收站</span>
             </el-menu-item>
@@ -50,27 +54,27 @@
               <i class="el-icon-chat-dot-square"></i>
               <span>企业邮箱</span>
             </template>
-            <el-menu-item index="/message/add">
+            <el-menu-item index="/normal/add">
               <i class="el-icon-right"></i>
               <span>发邮件</span>
             </el-menu-item>
-            <el-menu-item index="/message/fjx">
+            <el-menu-item index="/normal/fjx">
               <i class="el-icon-edit-outline"></i>
               <span>发件箱</span>
             </el-menu-item>
-            <el-menu-item index="/message/sjx">
+            <el-menu-item index="/normal/sjx">
               <i class="el-icon-chat-dot-square"></i>
               <span>收件箱</span>
             </el-menu-item>
-            <el-menu-item index="/message/cgx">
+            <el-menu-item index="/normal/cgx">
               <i class="el-icon-edit"></i>
               <span>草稿箱</span>
             </el-menu-item>
-            <el-menu-item index="/message/ljx">
+            <el-menu-item index="/normal/ljx">
               <i class="el-icon-delete"></i>
               <span>垃圾箱</span>
             </el-menu-item>
-            <el-menu-item index="/message/bindMailbox">
+            <el-menu-item index="/normal/bindMailbox">
               <i class="el-icon-user"></i>
               <span>邮箱账户</span>
             </el-menu-item>
@@ -81,11 +85,11 @@
               <i class="el-icon-circle-check"></i>
               <span>考勤</span>
             </template>
-            <el-menu-item index="/sign/signIn">
+            <el-menu-item index="/normal/signIn">
               <i class="el-icon-check"></i>
               <span>签到/签退</span>
             </el-menu-item>
-            <el-menu-item index="/sign/addSign">
+            <el-menu-item index="/normal/addSign">
               <i class="el-icon-circle-check"></i>
               <span>补签申请</span>
             </el-menu-item>
@@ -97,17 +101,31 @@
               <i class="el-icon-date"></i>
               <span>日程</span>
             </template>
-            <el-menu-item index="/date/schedule">
+            <el-menu-item index="/normal/schedule">
               <i class="el-icon-user"></i>
               <span>我的日程</span>
             </el-menu-item>
-            <el-menu-item index="/date/friendsSchedule">
+            <el-menu-item index="/normal/friendsSchedule">
               <i class="el-icon-user-solid"></i>
               <span>联系人日程</span>
             </el-menu-item>
-            <el-menu-item index="/date/deptSchedule">
+            <el-menu-item index="/normal/deptSchedule">
               <i class="el-icon-more"></i>
               <span>部门日程</span>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="5">
+            <template slot="title">
+              <i class="el-icon-user"></i>
+              <span>个人管理</span>
+            </template>
+            <el-menu-item index="/normal/userinfo">
+              <i class="el-icon-s-custom"/>
+              <span>个人信息管理</span>
+            </el-menu-item>
+            <el-menu-item index="/normal/account">
+              <i class="el-icon-key"/>
+              <span>账号管理</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -162,7 +180,7 @@ export default {
       })
     },
     userinfo() {
-      this.$router.push('/userinfo');
+      this.$router.push('/normal/userinfo');
     },
     getUserHeadImg() {
       const this_vue = this;
@@ -317,7 +335,6 @@ export default {
 }
 
 
-
 .box2 {
   position: absolute;
   bottom: -60px;
@@ -334,7 +351,6 @@ p {
   text-align: center;
   font-size: 12px;
 }
-
 
 
 .head_img {

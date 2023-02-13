@@ -1,7 +1,7 @@
 <template xmlns="">
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/admin/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/'+this.$store.state.rights+'/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>部门管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>offer管理</el-breadcrumb-item>
     </el-breadcrumb>
@@ -16,11 +16,12 @@
       </el-row>
       <!-- 用户列表区域 -->
       <el-table :data="tableData" border stripe>
-        <el-table-column type="index" align="center" label="#"></el-table-column>
+        <template slot="empty">
+          <el-empty :image-size="100" :description="emptyDesc"></el-empty>
+        </template>
         <el-table-column label="姓名" align="center" prop="name"></el-table-column>
         <el-table-column label="性别" align="center" prop="sex"></el-table-column>
         <el-table-column label="联系方式" align="center" prop="phone"></el-table-column>
-        <el-table-column label="地址" align="center" prop="address"></el-table-column>
         <el-table-column label="操作" align="center" width="225">
           <template slot-scope="scope">
             <!-- 修改按钮 -->
@@ -185,6 +186,7 @@ export default {
       cb(new Error('请输入合法的手机号'))
     };
     return {
+      emptyDesc: '加载中...',
       // 角色选项
       optionRoles: [{
         value: '选项1',
@@ -343,6 +345,9 @@ export default {
           'rights': -1
         }
       }).then(function (response) {
+        if (response.data.count === 0 || response.data.count === '') {
+          this_vue.emptyDesc = "空空如也"
+        }
         this_vue.tableData = response.data.recordList;
       })
     },

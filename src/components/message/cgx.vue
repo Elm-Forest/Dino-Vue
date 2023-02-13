@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="box" v-if="show">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item>首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/'+this.$store.state.rights+'/home' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item>消息管理平台</el-breadcrumb-item>
         <el-breadcrumb-item>草稿箱</el-breadcrumb-item>
       </el-breadcrumb>
