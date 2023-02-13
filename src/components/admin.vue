@@ -316,10 +316,6 @@ export default {
   height: 100%;
 }
 
-:hover {
-  cursor: pointer;
-}
-
 .box2 {
   position: absolute;
   bottom: -60px;
@@ -335,10 +331,6 @@ p {
   margin-top: 6px;
   text-align: center;
   font-size: 12px;
-}
-
-:hover {
-  cursor: pointer;
 }
 
 .head_img {

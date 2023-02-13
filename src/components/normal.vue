@@ -316,9 +316,7 @@ export default {
   height: 100%;
 }
 
-:hover {
-  cursor: pointer;
-}
+
 
 .box2 {
   position: absolute;
@@ -337,9 +335,7 @@ p {
   font-size: 12px;
 }
 
-:hover {
-  cursor: pointer;
-}
+
 
 .head_img {
   padding: 5px 10px 0;
