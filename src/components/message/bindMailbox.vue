@@ -36,7 +36,7 @@
 export default {
   data() {
     return {
-      title: '设置邮箱账户',
+      title: '加载中...',
       mailAccountForm: {
         email: '',
         password: '',
@@ -52,6 +52,8 @@ export default {
         this.mailAccountForm.email = response.data;
         this.title = "您已绑定账号，可再次修改账号"
       }
+    }).then(() => {
+      this.title = "设置邮箱账户"
     })
   },
   methods: {

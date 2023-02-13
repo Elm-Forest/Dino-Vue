@@ -36,6 +36,9 @@
       <div>
         <el-table v-loading="listLoading" :data="list2" element-loading-text="Loading" border
                   fit highlight-current-row>
+          <template slot="empty">
+            <el-empty :image-size="100" :description="emptyDesc"></el-empty>
+          </template>
           <el-table-column label="邮件标题" align="center">
             <template slot-scope="scope">
               {{ scope.row.emailTitle }}
@@ -96,6 +99,7 @@ export default {
       searchtxt: "",
       list: null,
       list2: [],
+      emptyDesc: '加载中...',
       contentList: [],
       listLoading: false,
       dialogVisible: false,
@@ -168,6 +172,9 @@ export default {
           'size': this.queryInfo.size
         }
       }).then(res => {
+        if (res.data.count === 0 || res.data.count === '') {
+          _this.emptyDesc = "空空如也"
+        }
         _this.contentList = res.data.recordList
         _this.queryInfo.count = res.data.count
         _this.list2 = this.contentList.filter((ele, i) => {

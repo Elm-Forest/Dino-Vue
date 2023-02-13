@@ -36,6 +36,9 @@
       <div>
         <el-table v-loading="listLoading" :data="list2" element-loading-text="Loading" border
                   fit highlight-current-row>
+          <template slot="empty">
+            <el-empty :image-size="100" :description="emptyDesc"></el-empty>
+          </template>
           <el-table-column label="邮件标题" align="center">
             <template slot-scope="scope">
               {{ scope.row.emailTitle }}
@@ -97,6 +100,7 @@ export default {
         count: 1
       },
       formLabelWidth: '80px',
+      emptyDesc: "加载中...",
       searchtxt: "",
       list: null,
       list2: [],
@@ -144,6 +148,9 @@ export default {
           'size': this.queryInfo.size
         }
       }).then(res => {
+        if (res.data.count === 0 || res.data.count === '') {
+          _this.emptyDesc = "空空如也"
+        }
         _this.contentList = res.data.recordList
         _this.queryInfo.count = res.data.count
         _this.list2 = this.contentList.filter((ele, i) => {
@@ -187,7 +194,7 @@ export default {
         params: {
           'id': id
         }
-      }).then(res => {
+      }).then(() => {
         _this.$message({
           duration: "1000",
           message: "恢复成功",
@@ -209,7 +216,7 @@ export default {
       }).then(res => {
         _this.$message({
           duration: "1000",
-          message: "删除成功，内容在垃圾箱内",
+          message: "删除成功",
           type: "success",
           onClose: function () {
             _this.list2.splice(index, 1);
