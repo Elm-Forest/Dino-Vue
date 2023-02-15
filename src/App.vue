@@ -14,17 +14,17 @@
 body {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
-::-webkit-scrollbar {
+#app ::-webkit-scrollbar {
   width: 0.3em;
   background-color: #F5F5F5;
 }
 
-::-webkit-scrollbar-thumb {
+#app ::-webkit-scrollbar-thumb {
   border-radius: 20px;
   background-color: #a2a1a1;
 }
 
-::-webkit-scrollbar-track {
+#app ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   background-color: #F5F5F5;
 }

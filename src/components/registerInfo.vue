@@ -1,30 +1,33 @@
 <template>
   <div id="loginBox">
-    <el-card class="box-card">
-      <h1 id="login-title">个人资料</h1>
-      <div style="height: 20px;"></div>
+    <el-card class="box-card" style="width: 400px">
+      <h1 id="login-title">个人信息</h1>
+      <div style="height: 30px;"></div>
       <el-form id="form" ref="loginFormRef" :model="loginForm">
         <el-form-item prop="name">
-          <el-input prefix-icon="el-icon-user-solid" v-model="loginForm.name" placeholder="姓名"
+          <el-input prefix-icon="el-icon-user-solid" v-model="loginForm.name" placeholder="真实姓名" :style="width"
                     clearable></el-input>
         </el-form-item>
         <el-form-item>
           <el-form-item prop="sex">
-            <el-select v-model="loginForm.sex" placeholder="性别" >
+            <el-select v-model="loginForm.sex" placeholder="请选择性别" :style="width">
               <el-option key=1 label="男" value=1></el-option>
               <el-option key=0 label="女" value=0></el-option>
             </el-select>
           </el-form-item>
         </el-form-item>
         <el-form-item prop="phone">
-          <el-input prefix-icon="el-icon-phone" v-model="loginForm.phone" placeholder="联系方式"
+          <el-input prefix-icon="el-icon-phone" v-model="loginForm.phone" placeholder="联系方式" :style="width"
                     clearable></el-input>
         </el-form-item>
         <el-form-item prop="address">
-          <el-input prefix-icon="el-icon-s-cooperation" v-model="loginForm.address" placeholder="常住地地址"
+          <el-input prefix-icon="el-icon-s-cooperation" v-model="loginForm.address" placeholder="居住地址"
+                    :style="width"
                     clearable></el-input>
         </el-form-item>
-        <el-button type="primary" @click="createDept">提交</el-button>
+        <el-form-item style="text-align: center">
+          <el-button type="primary" @click="createDept" style="width: 100px">提交</el-button>
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -36,6 +39,7 @@ export default {
   name: 'Login',
   data() {
     return {
+      width: 'width: 250px',
       loginForm: {
         name: '',
         sex: '',
@@ -108,11 +112,9 @@ export default {
 </script>
 
 <style scoped>
-
-
 #loginBox {
   position: absolute;
-  top: 25%;
+  top: 20%;
   left: 37%;
 }
 
@@ -126,6 +128,5 @@ export default {
   line-height: 60px;
   padding-left: 55px;
   padding-right: 55px;
-  text-align: center;
 }
 </style>
