@@ -8,17 +8,52 @@
     <el-card class="box-card">
       <!-- 搜索与添加区域 -->
       <el-row :gutter="20">
-        <el-col :span="8">
-          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getAll">
-            <el-button slot="append" icon="el-icon-search" @click="getUserList"></el-button>
+        <el-col :span="4">
+          <el-input placeholder="查询姓名" v-model="queryInfo.name" clearable>
           </el-input>
         </el-col>
+        <el-col :span="4">
+          <el-select v-model="queryInfo.rights" placeholder="查询权限">
+            <el-option
+                v-for="item in optionRights"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="queryInfo.role" placeholder="查询职务">
+            <el-option
+                v-for="item in optionRoles"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4">
+          <el-select v-model="queryInfo.status" placeholder="查询任职情况">
+            <el-option
+                v-for="item in optionStatus"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="warning" @click="reset">重置条件</el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="primary" @click="getUserList">查询</el-button>
+        </el-col>
+
 
       </el-row>
       <!-- 用户列表区域 -->
       <el-table :data="tableData" border stripe>
-        <el-table-column type="index" align="center" label="#"></el-table-column>
-        <el-table-column label="用户名" align="center" prop="name"></el-table-column>
+        <el-table-column label="姓名" align="center" prop="name"></el-table-column>
         <el-table-column label="角色" align="center" prop="role" :formatter="formatterRole"></el-table-column>
         <el-table-column label="权限" align="center" prop="rights" :formatter="formatterRights"></el-table-column>
         <el-table-column label="就职情况" align="center" prop="status" :formatter="formatterStatus"></el-table-column>
@@ -36,7 +71,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="queryInfo.pagenum"
-          :page-sizes="[1, 6, 10]"
+          :page-sizes="[1, 2, 5, 10, 20]"
           :page-size="queryInfo.pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
@@ -44,14 +79,11 @@
 
       <!-- 修改用户的对话框 -->
       <el-dialog
-          title="修改用户"
+          title="修改用户档案"
           :visible.sync="editDialogVisible"
-          width="50%" @close="editDialogClosed">
+          width="26%" @close="editDialogClosed" style="text-align: center">
         <!-- 对话框主体区 -->
         <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="auto">
-          <el-form-item label="用户名" prop="name">
-            <el-input v-model="editForm.name" disabled></el-input>
-          </el-form-item>
           <el-form-item label="角色" prop="role">
             <template>
               <el-select v-model="editForm.role" placeholder="请选择角色">
@@ -78,7 +110,7 @@
           </el-form-item>
           <el-form-item label="就职情况" prop="status">
             <template>
-              <el-select v-model="editForm.status" placeholder="请选择就职情况" disabled>
+              <el-select v-model="editForm.status" placeholder="请选择就职情况">
                 <el-option
                     v-for="item in optionStatus"
                     :key="item.value"
@@ -103,7 +135,7 @@
           width="30%" @close="showDialogClosed">
         <el-descriptions column="1">
           <el-descriptions-item label="用户名">{{ showForm.name }}</el-descriptions-item>
-          <el-descriptions-item label="性别">{{ showForm.sex }}</el-descriptions-item>
+          <el-descriptions-item label="性别">{{ ['女', '男'][showForm.sex] }}</el-descriptions-item>
           <el-descriptions-item label="联系地址">{{ showForm.address }}</el-descriptions-item>
           <el-descriptions-item label="手机号">{{ showForm.phone }}</el-descriptions-item>
           <el-descriptions-item label="邮箱">{{ showForm.email }}</el-descriptions-item>
@@ -125,9 +157,9 @@ export default {
       cb(new Error('请输入合法的邮箱'))
     }
     // 验证手机号规则
-    let checkPhonenum = (rule, value, cb) => {
-      const rePhonenum = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-      if (rePhonenum.test(value)) {
+    let checkPhone = (rule, value, cb) => {
+      const phoneValid = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+      if (phoneValid.test(value)) {
         return cb
       }
       cb(new Error('请输入合法的手机号'))
@@ -184,11 +216,24 @@ export default {
       // showHover: false,
       // 获取用户列表的参数对象
       queryInfo: {
-        query: '',
+        name: '',
+        rights: '',
+        role: '',
+        status: '',
         // 当前的页数
         pagenum: 1,
         // 当前每页多少条数据
-        pagesize: 10
+        pagesize: 5
+      },
+      queryInfoDefault: {
+        name: '',
+        rights: '',
+        role: '',
+        status: '',
+        // 当前的页数
+        pagenum: 1,
+        // 当前每页多少条数据
+        pagesize: 5
       },
       // 总共多少条数据
       total: 0,
@@ -216,7 +261,7 @@ export default {
         ],
         phone: [
           {required: true, message: '请输入手机号', trigger: 'blur'},
-          {validator: checkPhonenum, trigger: 'blur'}
+          {validator: checkPhone, trigger: 'blur'}
         ],
         email: [
           {required: true, message: '请输入邮箱', trigger: 'blur'},
@@ -265,9 +310,17 @@ export default {
   },
 
   mounted() {
-    this.getAll()
+    this.getUserList()
   },
   methods: {
+    reset() {
+      this.queryInfo.role = ''
+      this.queryInfo.rights = ''
+      this.queryInfo.status = ''
+      this.queryInfo.name = ''
+      this.queryInfo.pagenum = 1
+      this.getUserList();
+    },
     getAll() {
       const this_vue = this;
       this.$axios({
@@ -280,11 +333,7 @@ export default {
       }).then(function (response) {
         this_vue.tableData = response.data.recordList;
         this_vue.total = response.data.count;
-        console.log(response.data)
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+      })
     },
 
     getUserList() {
@@ -295,15 +344,15 @@ export default {
         params: {
           'current': this.queryInfo.pagenum,
           'size': this.queryInfo.pagesize,
-          'name': this.queryInfo.query,
+          'name': this.queryInfo.name,
+          'rights': this.queryInfo.rights,
+          'role': this.queryInfo.role,
+          'status': this.queryInfo.status
         }
       }).then(function (response) {
         this_vue.tableData = response.data.recordList;
-        console.log(response.data)
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
+        this_vue.total = response.data.count;
+      })
     },
 
     formatterStatus(row, column) {
@@ -376,10 +425,7 @@ export default {
                 type: 'success'
               });
             }
-          }).catch(function (error) {
-            console.log(error);
-          });
-
+          })
         } else {
           this_vue.$message({
             message: "表单填写不合法",
