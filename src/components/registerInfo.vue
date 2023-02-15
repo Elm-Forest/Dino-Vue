@@ -8,9 +8,13 @@
           <el-input prefix-icon="el-icon-user-solid" v-model="loginForm.name" placeholder="姓名"
                     clearable></el-input>
         </el-form-item>
-        <el-form-item prop="sex">
-          <el-input prefix-icon="el-icon-data-board" v-model="loginForm.sex" placeholder="性别"
-                    clearable></el-input>
+        <el-form-item>
+          <el-form-item prop="sex">
+            <el-select v-model="loginForm.sex" placeholder="性别" >
+              <el-option key=1 label="男" value=1></el-option>
+              <el-option key=0 label="女" value=0></el-option>
+            </el-select>
+          </el-form-item>
         </el-form-item>
         <el-form-item prop="phone">
           <el-input prefix-icon="el-icon-phone" v-model="loginForm.phone" placeholder="联系方式"
@@ -49,7 +53,7 @@ export default {
         url: '/user/userinfo',
         params: {
           'name': this.loginForm.name,
-          'sex': [{'女': 0, '男': 1}][0].sex,
+          'sex': sex,
           'phone': this.loginForm.phone,
           'address': this.loginForm.address,
         }
@@ -75,7 +79,7 @@ export default {
                 type: 'success'
               });
             }
-          }else{
+          } else {
             if (response.flag) {
               this_vue.$message({
                 message: "提交成功！您尚未加入企业，请先加入企业！",
@@ -120,8 +124,8 @@ export default {
 
 #form {
   line-height: 60px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 55px;
+  padding-right: 55px;
   text-align: center;
 }
 </style>
