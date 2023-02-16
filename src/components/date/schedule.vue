@@ -23,7 +23,7 @@
       <el-col :span="23">
         <div v-if="scheduleListSelect && scheduleListSelect.length">
           <el-timeline v-for="item in scheduleListSelect">
-            <el-timeline-item :timestamp="item.beginTime + ' 至 ' + item.endTime" placement="top">
+            <el-timeline-item :timestamp="new Date(item.beginTime).toLocaleDateString() + ' 至 ' + new Date(item.endTime).toLocaleDateString()" placement="top">
               <el-card>
                 <div class="scheduleTitle">{{ item.scheduleTitle }}</div>
                 <div class="scheduleContent">
@@ -54,12 +54,12 @@
 
         <el-form-item label="起止时间">
           <el-col :span="5">
-            <el-date-picker type="date" placeholder="选择日期" v-model="editSchedule.beginTime"
+            <el-date-picker type="date" placeholder="选择日期" v-model="editSchedule.beginTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
           </el-col>
           <el-col style="margin-left: 4%" :span="1">-</el-col>
           <el-col :span="5">
-            <el-date-picker type="date" placeholder="选择日期" v-model="editSchedule.endTime"
+            <el-date-picker type="date" placeholder="选择日期" v-model="editSchedule.endTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
           </el-col>
         </el-form-item>
@@ -86,12 +86,12 @@
 
         <el-form-item label="起止时间">
           <el-col :span="5">
-            <el-date-picker type="date" placeholder="选择日期" v-model="addSchedule.beginTime"
+            <el-date-picker type="date" placeholder="选择日期" v-model="addSchedule.beginTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
           </el-col>
           <el-col style="margin-left: 4%" :span="1">-</el-col>
           <el-col :span="5">
-            <el-date-picker type="date" placeholder="选择日期" v-model="addSchedule.endTime"
+            <el-date-picker type="date" placeholder="选择日期" v-model="addSchedule.endTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
           </el-col>
         </el-form-item>
@@ -147,12 +147,19 @@ export default {
           this.scheduleListSelect = this.getScheduleByDayStr(newVal)
         }
       }
+    },
+    scheduleList: {
+      handler(newVal) {
+        if(this.day_select == null) this.day_select = new Date()
+        this.scheduleListSelect = this.getScheduleByDayStr(this.day_select)
+      }
     }
+
   },
 
   methods: {
     init() {
-      let date = new Date();
+      this.day_select = new Date()
       this.getList()
     },
 
@@ -175,18 +182,27 @@ export default {
 
       return begin.getTime() <= day.getTime() && end.getTime() >= day.getTime()
     },
+
     showEditDialog(item) {
       this.editSchedule = Object.assign({}, item)
-      console.log(this.editSchedule)
+      this.editSchedule.beginTime = this.dateFormatter(this.editSchedule.beginTime)
+      this.editSchedule.endTime = this.dateFormatter(this.editSchedule.endTime)
       this.editVisible = true
     },
+
     showAddDialog(date) {
       this.addVisible = true
-      this.addSchedule.beginTime = date
+      this.addSchedule.beginTime = this.dateFormatter(date)
     },
+
     closeAddDialog() {
       this.addVisible = false
       this.addSchedule = {}
+    },
+
+    closeEditDialog() {
+      this.editVisible = false
+      this.editSchedule = {}
     },
 
     getList() {
@@ -195,14 +211,13 @@ export default {
         method: 'get',
         url: '/schedule/list'
       }).then(function (response) {
-        console.log(response)
         if (response.flag) {
-          this_vue.scheduleList = response.data
-          for (let i = 0; i < this_vue.scheduleList.length; i++) {
-            this_vue.scheduleList[i].beginTime = this_vue.dateFormatter(this_vue.scheduleList[i].beginTime)
-            this_vue.scheduleList[i].endTime = this_vue.dateFormatter(this_vue.scheduleList[i].endTime)
+          let list = response.data
+          for (let i = 0; i < list.length; i++) {
+            list.beginTime = this_vue.dateFormatter(list.beginTime)
+            list.endTime = this_vue.dateFormatter(list.endTime)
           }
-          this.scheduleListSelect = this.getScheduleByDayStr(new Date())
+          this_vue.scheduleList = list
         }
       })
     },
@@ -229,9 +244,9 @@ export default {
             type: 'warning'
           });
         }
-        this.closeAddDialog()
-        this.getList()
+        this_vue.getList()
       })
+      this.closeAddDialog()
     },
 
     edit() {
@@ -258,12 +273,11 @@ export default {
             type: 'warning'
           });
         }
-        this.closeAddDialog()
-        this.getList()
+        this_vue.getList()
       })
-      this_vue.editVisible = false
-      this.getList()
+      this.editVisible = false
     },
+
     del() {
       let this_vue = this
       this.$axios({
@@ -284,12 +298,11 @@ export default {
             type: 'warning'
           });
         }
-        this.closeAddDialog()
-        this.getList()
+        this_vue.getList()
       })
-      this_vue.editVisible = false
-      this.getList()
+      this.closeEditDialog()
     },
+
     dateFormatter(dates) {
       let date = new Date(dates);
       let strDate = date.getFullYear() + "-";
