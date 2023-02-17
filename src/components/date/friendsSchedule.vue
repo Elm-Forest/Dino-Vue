@@ -2,8 +2,8 @@
   <el-row :gutter="30">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/'+this.$store.state.rights+'/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>考勤管理平台</el-breadcrumb-item>
-      <el-breadcrumb-item>签到/签退</el-breadcrumb-item>
+      <el-breadcrumb-item>日程管理</el-breadcrumb-item>
+      <el-breadcrumb-item>联系人日程</el-breadcrumb-item>
     </el-breadcrumb>
     <el-col :span="10">
       <div class="grid-content bg-purple">
