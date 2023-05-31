@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import {ADMIN, NORMAL, SUPER} from "@/utils/const";
+
 export default {
   name: 'Login',
   data() {
@@ -109,7 +111,7 @@ export default {
                   } else {
                     if (response.data.status === 1) {
                       if (response.data.rights === 1) {
-                        this_vue.$store.commit('SET_ROOT_PATH', 'normal')
+                        this_vue.$store.commit('SET_ROOT_PATH', NORMAL)
                         this_vue.$router.push('/normal');
                         this_vue.$message({
                           message: '欢迎您',
@@ -117,7 +119,7 @@ export default {
                         });
                       }
                       if (response.data.rights === 2) {
-                        this_vue.$store.commit('SET_ROOT_PATH', 'admin')
+                        this_vue.$store.commit('SET_ROOT_PATH', ADMIN)
                         this_vue.$router.push('/admin');
                         this_vue.$message({
                           message: '欢迎您，部门管理员',
@@ -125,7 +127,7 @@ export default {
                         });
                       }
                       if (response.data.rights === 3) {
-                        this_vue.$store.commit('SET_ROOT_PATH', 'super')
+                        this_vue.$store.commit('SET_ROOT_PATH', SUPER)
                         this_vue.$router.push('/super');
                         this_vue.$message({
                           message: '欢迎您，企业负责人',
@@ -147,7 +149,6 @@ export default {
                     }
                   }
                 }).catch(function (error) {
-                  console.log(localStorage.getItem('token'))
                   console.log(error);
                 });
 

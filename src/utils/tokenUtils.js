@@ -1,11 +1,13 @@
+const token_key='token';
+
 function getToken() {
-    return localStorage.getItem('token');
+    return localStorage.getItem(token_key);
 }
 
 function setToken(token) {
-    localStorage.setItem('token', token);
+    localStorage.setItem(token_key, token);
 }
 
 function removeToken() {
-    localStorage.removeItem('token')
+    localStorage.removeItem(token_key)
 }
