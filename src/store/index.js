@@ -16,7 +16,8 @@ export default new Vuex.Store({
             },
             description: "",
             file: ""
-        }
+        },
+        userId: '',
     },
     getters: {},
     mutations: {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
         },
         SET_ROOT_PATH(state, item) {
             state.rights = item
+        },
+        SET_USER_ID(state, item) {
+            state.userId = item
         }
     },
     actions: {},

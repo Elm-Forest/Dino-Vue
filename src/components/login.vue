@@ -102,6 +102,7 @@ export default {
                   method: 'get',
                   url: '/user/userinfo',
                 }).then(function (e) {
+                  this_vue.$store.commit('SET_USER_ID', e.data.id)
                   if (e.data.name === null || e.data.name === '') {
                     this_vue.$router.push('/registerInfo');
                     this_vue.$message({

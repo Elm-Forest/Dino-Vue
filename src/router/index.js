@@ -34,7 +34,7 @@ import socket from '@/components/test/socket.vue'
 import superAdmin from "@/components/superAdmin.vue";
 import account from "@/components/user/account.vue";
 import wangeditorTest from "@/components/test/wangeditorTest.vue";
-import chatRoom from "@/components/test/chatRoom.vue";
+import chatRoom from "@/components/chat/chatRoom.vue";
 
 Vue.use(Router)
 
@@ -126,6 +126,7 @@ const routes = [
             {path: '/super/friendsSchedule', component: friendsSchedule},
             {path: '/super/deptSchedule', component: deptSchedule},
             {path: '/super/offer', component: adminOffer},
+            {path: '/super/chat', component: chatRoom},
         ]
     },
     {

@@ -89,11 +89,11 @@
           <el-submenu index="3">
             <template slot="title">
               <i class="el-icon-chat-dot-round"></i>
-              <span>站内消息</span>
+              <span>企业消息</span>
             </template>
-            <el-menu-item index="#" @click="$alert('尚未开发')">
+            <el-menu-item index="/super/chat">
               <i class="el-icon-s-grid"></i>
-              <span>私信列表</span>
+              <span>私信</span>
             </el-menu-item>
           </el-submenu>
           <!-- 3.考勤管理平台 -->

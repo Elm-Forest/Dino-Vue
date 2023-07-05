@@ -146,7 +146,6 @@ export default {
         _this.editForm.description = res.data.emailContent
         _this.editForm.file = res.data.attachmentPath
         _this.$store.commit('SET_EDIT', _this.editForm);
-        console.log(_this.$store.state.editForm)
         _this.$router.push("/" + _this.$store.state.rights + "/add");
       })
     },
