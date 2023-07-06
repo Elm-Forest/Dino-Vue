@@ -3,7 +3,7 @@ import {requestUrl} from './back-end.js';
 
 function initWebSocket(url = null) {
     if (url == null) {
-        url = '/websocket'
+        url = '/connection/wait'
     }
     const wsUrl = 'ws://' + requestUrl + url;
     this.socket = new WebSocket(wsUrl, [localStorage.getItem('token')])

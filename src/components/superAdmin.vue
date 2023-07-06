@@ -3,15 +3,21 @@
     <!-- 头部 -->
     <el-header>
       <div class="head_img">
-        <el-avatar :src="headImg.dept" class="el-dropdown-link" id="deptImg" alt="" :size="30"
-                   @mouseover="showInfo" @mouseleave="hideInfo"></el-avatar>
+        <el-avatar :src="headImg.dept" class="el-dropdown-link" id="deptImg" alt="" :size="30"></el-avatar>
       </div>
       <span id="title" style="position: absolute;display: block;margin-left: 20px;">{{ name.dept }} | {{ role }}</span>
       <span id="title" style="position: absolute;display: block;right: 100px">欢迎您，{{ name.user }}</span>
       <el-dropdown style="position: absolute;display: block;right: 90px;top:20px">
-        <div class="el-icon-message-solid" style="color:#FFFFFF;font-size:20px;"></div>
+        <div class="el-icon-message-solid" style="color:#FFFFFF;font-size:20px;"
+             @mouseenter="getNotifications"></div>
+        <div class="notification-dot" v-if="ableNotificationDot"></div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="null">站内消息(尚未开发)</el-dropdown-item>
+          <el-dropdown-item v-for="message in message_lists"
+                            @click.native="redirectToRoute(message.id);">
+            {{
+              message.suName != '' && message.suName != null && message.suName != undefined ? "您收到了来自" + message.suName + "的新消息" : "暂无消息"
+            }}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <div class="head_img">
@@ -30,7 +36,7 @@
       <!-- 侧边栏 -->
       <el-aside width="240px">
         <!-- 侧边栏菜单区域 -->
-        <el-menu background-color="#fafafa" router="true" unique-opened="true">
+        <el-menu background-color="#fafafa" :router="true" :unique-opened="true">
           <el-menu-item index="/super/home">
             <i class="el-icon-house"></i>
             <span>首页</span>
@@ -92,7 +98,7 @@
               <span>企业消息</span>
             </template>
             <el-menu-item index="/super/chat">
-              <i class="el-icon-s-grid"></i>
+              <i class="el-icon-chat-line-round"></i>
               <span>私信</span>
             </el-menu-item>
           </el-submenu>
@@ -189,6 +195,7 @@ export default {
   data() {
     return {
       socket: null,
+      ableNotificationDot: false,
       headImg: {
         user: user_img,
         dept: dept_img
@@ -198,32 +205,65 @@ export default {
         user: '路人甲',
         dept: 'OA办公自动化'
       },
-      role: '未指定部门'
+      role: '未指定部门',
+      message_lists: [{}],
     }
   },
   created() {
-    // this.socket = this.$websocket.initWebSocket();
-    // this.socket.onmessage = this.webSocketOnMessage;
+    this.socket = this.$websocket.initWebSocket("/connection/wait");
+    this.socket.onmessage = this.webSocketOnMessage;
     this.getUserHeadImg();
     this.getBaseInfo();
+    this.getNotifications();
   },
-  mounted: {},
   methods: {
-    webSocketOnOpen() {
-      this.$message({
-        message: "成功与服务器建立websocket连接",
-        type: 'success'
-      })
-    },
     webSocketOnMessage(e) {
-      this.$message({
-        message: "来自服务器的消息：" + e,
-        type: 'success'
-      })
+      this.showNotificationDot();
+    },
+    hideNotificationDot() {
+      this.ableNotificationDot = false; // 点击后隐藏红点
+    },
+    showNotificationDot() {
+      this.ableNotificationDot = true; // 显示红点的函数
     },
     userinfo() {
       this.$router.push('/super/userinfo');
     },
+    redirectToRoute(id) {
+      this.marked_read(id);
+    },
+    getNotifications() {
+      const this_vue = this;
+      this.$axios({
+        method: 'get',
+        url: '/message/chat/notification',
+      }).then(function (response) {
+        if (response.data.length !== 0) {
+          this_vue.showNotificationDot();
+          this_vue.message_lists = response.data
+        } else {
+          this_vue.message_lists = [{}]
+          this_vue.hideNotificationDot();
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    marked_read(id) {
+      const this_vue = this;
+      this.$axios({
+        method: 'delete',
+        url: '/message/chat/notification/delete',
+        params: {
+          id: id,
+        }
+      }).then(_ => {
+        this_vue.getNotifications();
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
     getUserHeadImg() {
       const this_vue = this;
       this.$axios({
@@ -290,7 +330,8 @@ export default {
       })
     }
   }
-};
+}
+;
 </script>
 
 <style scoped>
@@ -372,7 +413,6 @@ export default {
 }
 
 
-
 .box2 {
   position: absolute;
   bottom: -60px;
@@ -390,6 +430,15 @@ p {
   font-size: 12px;
 }
 
+.notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+}
 
 
 .head_img {

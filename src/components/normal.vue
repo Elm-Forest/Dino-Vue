@@ -26,8 +26,8 @@
       <el-aside width="240px">
         <el-menu
             background-color="#fafafa"
-            router="true"
-            unique-opened="true"
+            :router="true"
+            :unique-opened="true"
         >
           <el-menu-item index="/normal/home">
             <i class="el-icon-house"></i>
