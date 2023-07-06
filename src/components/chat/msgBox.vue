@@ -1,9 +1,13 @@
 <template>
 
   <div class="msg-wrapper" v-bind:class="{ self: isself }">
-    <span class="uname">{{uname}}</span>
-    <span>：</span>
-    <div class="content">{{content}}</div>
+    <div class="uname">
+      <el-avatar :src="headImg" class="el-dropdown-link" id="headImg" alt=""></el-avatar>
+    </div>
+
+    <div class="content_box">
+      <div class="content">{{ content }}</div>
+    </div>
 
   </div>
 
@@ -15,7 +19,8 @@ export default {
   props: {
     uname: String,
     content: String,
-    isself: Boolean
+    isself: Boolean,
+    headImg: String
   },
   data() {
     return {
@@ -28,9 +33,7 @@ export default {
 
   },
 
-  methods: {
-
-  }
+  methods: {}
 
 }
 </script>
@@ -40,21 +43,24 @@ export default {
 
 .msg-wrapper {
   display: flex;
-  width: 100%;
   flex-direction: row;
   padding: 10px;
 }
 
+.content_box{
+  padding: 10px 10px 15px;
+}
+
 .content {
-  border: 1px solid #555;
-  border-radius: 2px;
-  padding: 3px;
+  padding: 7px;
+
+  border-radius: 8px;
+  background-color: #e8e8e8;
 }
 
 .self {
   flex-direction: row-reverse;
 }
-
 
 
 </style>

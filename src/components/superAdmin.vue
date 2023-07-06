@@ -202,8 +202,8 @@ export default {
     }
   },
   created() {
-    this.socket = this.$websocket.initWebSocket();
-    this.socket.onmessage = this.webSocketOnMessage;
+    // this.socket = this.$websocket.initWebSocket();
+    // this.socket.onmessage = this.webSocketOnMessage;
     this.getUserHeadImg();
     this.getBaseInfo();
   },

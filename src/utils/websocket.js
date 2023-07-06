@@ -1,12 +1,15 @@
 import ElementUI from 'element-ui';
 import {requestUrl} from './back-end.js';
 
-function initWebSocket() {
-    const wsUrl = 'ws://' + requestUrl + "/websocket";
+function initWebSocket(url = null) {
+    if (url == null) {
+        url = '/websocket'
+    }
+    const wsUrl = 'ws://' + requestUrl + url;
     this.socket = new WebSocket(wsUrl, [localStorage.getItem('token')])
     this.socket.onopen = function () {
         ElementUI.Notification({
-            title: '来自websocket服务日志',
+            title: 'Message From Server',
             message: '成功与服务器建立websocket连接',
             type: 'success',
             duration: 3000,

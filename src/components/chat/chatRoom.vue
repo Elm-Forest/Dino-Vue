@@ -1,39 +1,49 @@
 <template>
-  <div class="outer-wrapper">
-    <div class="wrapper">
-
-      <div class="left_wrapper">
-        <ul class="contact_list">
-          <li v-for="contact in contactList" :key="contact.id" class="contact_item">
-            <div class="contact_avatar">
-<!--              <img src="#" alt="Avatar">-->
-            </div>
-            <span class="contact_name">{{ contact.name }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="divider"></div>
-      <div class="right_wrapper">
-        <h3 style="text-align: center">
-          {{ targetName }}
-        </h3>
-        <div class="message-panel">
-          <msg-box v-for="(item, index) of msgList" :key="index+Math.random()" :uname="item.name" :content="item.msg"
-                   :isself="item.isSelf"></msg-box>
+  <div>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/'+this.$store.state.rights+'/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>企业消息</el-breadcrumb-item>
+      <el-breadcrumb-item>私信</el-breadcrumb-item>
+    </el-breadcrumb>
+    <div class="outer-wrapper">
+      <div class="wrapper">
+        <div class="left_wrapper">
+          <ul class="contact_list">
+            <li v-for="contact in contactList" :key="contact.id" class="contact_item"
+                @click="handleContactClick(contact.id)">
+              <div class="contact_avatar">
+                <el-avatar :src="contact.headImg" class="el-dropdown-link" id="headImg" alt=""></el-avatar>
+              </div>
+              <span class="contact_name">{{ contact.name }}</span>
+            </li>
+          </ul>
         </div>
-        <div class="input-area">
-          <el-input
-              class="input"
-              type="textarea"
-              :rows="5"
-              placeholder=""
-              v-model="msg">
-          </el-input>
-          <el-button class="send-btn" @click="sendMsg">发送</el-button>
+        <div class="divider"></div>
+        <div class="right_wrapper">
+          <h3 style="text-align: center">
+            {{ targetName }}
+          </h3>
+          <div class="message-panel">
+            <msg-box v-for="(item, index) of msgList" :key="index+Math.random()" :uname="item.name" :content="item.msg"
+                     :isself="item.isSelf" :headImg="(function() {
+                       return item.isSelf?selfUrl:targetUrl
+                     })()"></msg-box>
+          </div>
+          <div class="input-area">
+            <el-input
+                class="input"
+                type="textarea"
+                :rows="5"
+                placeholder=""
+                v-model="msg">
+            </el-input>
+            <el-button class="send-btn" @click="sendMsg" type="info" :disabled="button_disable">发送</el-button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -46,12 +56,15 @@ export default {
     return {
       content: 'hh',
       selfName: '',
-      targetName: 'xxx',
+      selfUrl: '',
+      targetName: '选择联系人',
       targetId: '',
+      targetUrl: '',
       msg: '',
       msgList: [],
-      contactList: [{name: '图灵'}, {name: '图灵'}, {name: '图灵'}, {name: '图灵'}, {name: '图灵'}, {name: '图灵'}, {name: '图灵'}, {name: '图灵'}, {name: '图灵'}, {name: '图灵'}],
-      socket: null
+      contactList: [],
+      socket: null,
+      button_disable: true
     }
   },
   components: {
@@ -59,45 +72,76 @@ export default {
     headMenu,
   },
   mounted() {
-    this.socket = this.$websocket.initWebSocket();
+    this.socket = this.$websocket.initWebSocket('/connection/chat');
     this.socket.onmessage = this.webSocketOnMessage;
-    const this_vue = this;
+    this.getConnectorLists();
+    this.selectSelfInfo();
     //_this.$store.state.user_id
-    this.$axios({
-      method: 'GET',
-      url: '/message/chat/lists',
-    }).then(res => {
-      let lists = res.data
-      for (let index in lists) {
-        let value = lists[index]
-        if (index === '0') {
-          if (value.isSelf) {
-            this_vue.selfName = value.sname
-            this_vue.targetName = value.aname
-            this_vue.targetId = value.auId
-          } else {
-            this_vue.selfName = value.aname
-            this_vue.targetName = value.sname
-            this_vue.targetId = value.suId
-          }
-        }
-        this_vue.msgList.push({
-          name: value.isSelf ? value.sname : value.aname,
-          msg: value.content,
-          isSelf: value.isSelf
-        })
-
-      }
-
-      this_vue.$nextTick(() => {
-        const messagePanel = document.querySelector('.message-panel');
-        messagePanel.scrollTop = messagePanel.scrollHeight;
-      });
-    })
-
   },
   methods: {
-    handleSelect(key, keyPath) {
+    handleContactClick(id) {
+      this.msgList = [];
+      this.msg = null;
+      this.targetId = id;
+      this.setConnector();
+      this.selectChatInfo();
+      this.button_disable=false;
+    },
+    getConnectorLists() {
+      const this_vue = this;
+      this.$axios({
+        method: 'GET',
+        url: '/message/chat/connector/lists',
+      }).then(res => {
+        this_vue.contactList = res.data;
+      })
+    },
+    setConnector() {
+      const this_vue = this;
+      this.$axios({
+        method: 'GET',
+        url: '/message/chat/connector/info',
+        params: {
+          id: this_vue.targetId,
+        }
+      }).then(res => {
+        this_vue.targetName = res.data.name;
+        this_vue.targetUrl = res.data.headImg;
+      })
+    },
+    selectSelfInfo() {
+      const this_vue = this;
+      this.$axios({
+        method: 'GET',
+        url: '/user/userinfo',
+      }).then(res => {
+        this_vue.selfName = res.data.name;
+        this_vue.selfUrl = res.data.headImg;
+      })
+    },
+    selectChatInfo() {
+      const this_vue = this;
+      this.$axios({
+        method: 'GET',
+        url: '/message/chat/lists',
+        params: {
+          connectorId: this_vue.targetId,
+        }
+      }).then(res => {
+        let lists = res.data
+        for (let index in lists) {
+          let value = lists[index]
+          this_vue.msgList.push({
+            name: value.sname,
+            msg: value.content,
+            isSelf: value.isSelf
+          })
+        }
+        this_vue.$nextTick(() => {
+          const messagePanel = document.querySelector('.message-panel');
+          messagePanel.scrollTop = messagePanel.scrollHeight;
+        });
+      })
     },
     sendMsg() {
       const this_vue = this;
@@ -150,14 +194,14 @@ export default {
   position: absolute;
   background-color: #fff;
   opacity: 0.85;
-  height: 750px;
+  height: 600px;
   border-radius: 4px;
   border: 1px #ebebeb solid;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
   margin: 0 auto;
-  top: 2%;
-  left: 5%;
-  right: 5%;
+  top: 7%;
+  left: 2%;
+  right: 2%;
   display: flex;
   padding-top: 3px;
 }
@@ -217,7 +261,7 @@ export default {
 
 .message-panel {
   left: 10px;
-  height: 450px;
+  height: 300px;
   border-top: 1px #ebebeb solid;
   border-bottom: 1px #ebebeb solid;
   overflow-y: scroll; /* 修改为overflow-y */
