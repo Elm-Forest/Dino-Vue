@@ -101,6 +101,10 @@
               <i class="el-icon-chat-line-round"></i>
               <span>私信</span>
             </el-menu-item>
+            <el-menu-item index="/super/gpt">
+              <i class="el-icon-chat-line-round"></i>
+              <span>ChatGPT</span>
+            </el-menu-item>
           </el-submenu>
           <!-- 3.考勤管理平台 -->
           <el-submenu index="4">

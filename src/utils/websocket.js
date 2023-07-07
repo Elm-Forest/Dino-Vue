@@ -57,5 +57,5 @@ function webSocketSend(agentData) {
 }
 
 export default {
-    initWebSocket, close
+    initWebSocket, close, closeWebsocket,webSocketOnError
 }

@@ -5,3 +5,5 @@ export const right_list = ['企业员工', '部门管理员', '企业负责人']
 export const NORMAL='normal';
 export const ADMIN='admin';
 export const SUPER='super';
+
+export const GPT_ID='-10101010';

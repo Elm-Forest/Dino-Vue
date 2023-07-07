@@ -35,12 +35,14 @@ import superAdmin from "@/components/superAdmin.vue";
 import account from "@/components/user/account.vue";
 import wangeditorTest from "@/components/test/wangeditorTest.vue";
 import chatRoom from "@/components/chat/chatRoom.vue";
+import gpt from "@/components/gpt/gpt.vue";
 
 Vue.use(Router)
 
 const routes = [
     {path: '/socket', component: socket},
     {path: '/chat', component: chatRoom},
+    {path: '/gpt', component: gpt},
     {path: '/edit', component: wangeditorTest},
     {path: '/', redirect: '/login'},
     {path: '/login', name: '登录', component: login},
@@ -127,6 +129,7 @@ const routes = [
             {path: '/super/deptSchedule', component: deptSchedule},
             {path: '/super/offer', component: adminOffer},
             {path: '/super/chat', component: chatRoom},
+            {path: '/super/gpt', component: gpt},
         ]
     },
     {

@@ -17,6 +17,7 @@
     "core-js": "^3.27.2",
     "element-ui": "^2.15.12",
     "json-bigint": "^1.0.0",
+    "markdown-it": "^13.0.1",
     "pinia": "^2.0.29",
     "vue": "^2.7.14",
     "vue-router": "^3.6.5",
