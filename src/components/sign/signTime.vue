@@ -5,90 +5,37 @@
       <el-breadcrumb-item>考勤管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>考勤时间管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <!-- 主体区 -->
-    <el-form
-        :model="timeForm"
-        label-position="right"
-        label-width="140px">
-      <!-- 日期 -->
-      <el-form-item
-          label="考勤起止日期">
-        <el-date-picker
-            v-model="timeForm.date"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="~"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            size="small">
-        </el-date-picker>
-      </el-form-item>
-      <!-- 上班时间 -->
-      <el-form-item
-          label="上班打卡时间">
-        <el-time-select
-            placeholder="起始时间"
-            v-model="timeForm.startTime1"
-            :picker-options="{
-                    start: '08:30',
-                    step: '00:15',
-                    end: '18:30'
-                }">
-        </el-time-select>
-        <el-time-select
-            placeholder="结束时间"
-            v-model="timeForm.endTime1"
-            :picker-options="{
-                    start: '08:30',
-                    step: '00:15',
-                    end: '18:30',
-                    minTime: timeForm.startTime1
-                }">
-        </el-time-select>
-      </el-form-item>
-      <!-- 下班时间 -->
-      <el-form-item
-          label="下班打卡时间">
-        <el-time-select
-            placeholder="起始时间"
-            v-model="timeForm.startTime2"
-            :picker-options="{
-                    start: '08:30',
-                    step: '00:15',
-                    end: '18:30'
-                }">
-        </el-time-select>
-        <el-time-select
-            placeholder="结束时间"
-            v-model="timeForm.endTime2"
-            :picker-options="{
-                    start: '08:30',
-                    step: '00:15',
-                    end: '18:30',
-                    minTime: timeForm.startTime2
-                }">
-        </el-time-select>
-      </el-form-item>
-    </el-form>
-    <!-- 底部区 -->
-    <div
-        slot="footer"
-        class="dialog-footer">
-      <el-button
-          @click="handleClose"
-          size="small">
-        重置
-      </el-button>
-      <el-button
-          type="primary"
-          @click="submitForm"
-          size="small">
-        确定
-      </el-button>
-    </div>
+    <el-card style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1)">
+      设置上下班打卡时间
+      <el-row style="margin-top: 10%" type="flex" justify="center">
+        <div>
+
+
+        </div>
+
+      </el-row>
+
+      <el-row>
+        <!-- 日期 -->
+        <el-form-item
+            label="考勤起止日期">
+          <el-date-picker
+              v-model="timeForm.date"
+              type="daterange"
+              align="right"
+              unlink-panels
+              range-separator="~"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              size="small">
+          </el-date-picker>
+        </el-form-item>
+      </el-row>
+
+    </el-card>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -96,11 +43,12 @@ export default {
     return {
       //考勤时间表单
       timeForm: {
-        date: '',
-        startTime1: '',
-        endTime1: '',
-        startTime2: '',
-        endTime2: '',
+        startTime: '',
+        backTime: ''
+      },
+      date: {
+        beginTime: '',
+        endTime: ''
       }
     }
   },
@@ -134,17 +82,17 @@ export default {
       this.handleClose();
     },
     setAttendance() {
+      let this_vue = this
       //管理员设置上下班时间
       this.$axios({
         method: 'put',
-        url: '/check/set_attendance',
+        url: '/check/admin/attendance',
         params: {
-          'startTime': 'Mon Aug 22 08:30:00 CST 2022',
+          'startTime': '',
           'backTime': 'Mon Aug 22 17:30:00 CST 2022'
         },
       }).then(function (response) {
         setToken(response.data.data);
-        console.log(JSON.stringify(response.data));
       }).catch(function (error) {
         console.log(localStorage.getItem('token'))
         console.log(error);

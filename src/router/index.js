@@ -36,6 +36,7 @@ import account from "@/components/user/account.vue";
 import wangeditorTest from "@/components/test/wangeditorTest.vue";
 import chatRoom from "@/components/chat/chatRoom.vue";
 import gpt from "@/components/gpt/gpt.vue";
+import checkList from "@/components/sign/checkList";
 
 Vue.use(Router)
 
@@ -65,6 +66,7 @@ const routes = [
             {path: '/normal/recycle', component: recycle},
             {path: '/normal/record', component: record},
             {path: '/normal/signIn', component: signIn},
+            {path: '/normal/checkList', component: checkList},
             {path: '/normal/addSign', component: addSign},
             {path: '/normal/fjx', name: 'fjx', component: fjx},
             {path: '/normal/sjx', name: 'sjx', component: sjx},

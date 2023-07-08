@@ -89,9 +89,13 @@
               <i class="el-icon-check"></i>
               <span>签到/签退</span>
             </el-menu-item>
+            <el-menu-item index="/normal/checkList">
+              <i class="el-icon-date"></i>
+              <span>考勤记录</span>
+            </el-menu-item>
             <el-menu-item index="/normal/addSign">
               <i class="el-icon-circle-check"></i>
-              <span>补签申请</span>
+              <span>补签/请假</span>
             </el-menu-item>
           </el-submenu>
 
