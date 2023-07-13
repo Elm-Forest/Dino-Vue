@@ -164,13 +164,6 @@ export default {
           this_vue.email = response.data.email;
         }
       })
-      this.$axios({
-        method: 'get',
-        url: '/user/user'
-      }).then(function (response) {
-        this_vue.role = this_vue.roles[response.data.role - 1];
-        this_vue.rights = this_vue.right[response.data.rights - 1];
-      })
     },
     updatePassword() {
       const this_vue = this;

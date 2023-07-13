@@ -420,9 +420,9 @@ export default {
       this.showDialogVisible = true
     },
     // // 监听查看名片对话框关闭事件
-    // showDialogClosed(){
-    //     this.$refs.editFormRef.resetFields()
-    // }
+    showDialogClosed() {
+      this.showDialogVisible = false
+    }
   }
 }
 </script>

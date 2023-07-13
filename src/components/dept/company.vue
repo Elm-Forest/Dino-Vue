@@ -12,7 +12,7 @@
         </el-avatar>
         <el-form id="form" style="text-align: center;">
           <div class="text item">
-            <el-descriptions title="企业信息" column="1">
+            <el-descriptions title="企业信息" :column="1">
               <el-descriptions-item label="企业名称">{{ name }}</el-descriptions-item>
               <el-descriptions-item label="联系方式">{{ phone }}</el-descriptions-item>
               <el-descriptions-item label="企业地址">{{ address }}</el-descriptions-item>

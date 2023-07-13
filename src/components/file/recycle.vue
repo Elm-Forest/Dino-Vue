@@ -90,7 +90,7 @@ export default {
     return {
       file,
       folder,
-      tableData4: '',
+      tableData4: [],
       dialogVisible: false,
       delForm: {
         docId: 0,

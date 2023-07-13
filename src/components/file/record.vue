@@ -108,7 +108,7 @@ export default {
     return {
       folder,
       file,
-      tableData4: '',
+      tableData4: [],
       form: {
         current: 1,
         size: 5,

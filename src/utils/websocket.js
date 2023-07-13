@@ -7,14 +7,6 @@ function initWebSocket(url = null) {
     }
     const wsUrl = 'ws://' + requestUrl + url;
     this.socket = new WebSocket(wsUrl, [localStorage.getItem('token')])
-    this.socket.onopen = function () {
-        ElementUI.Notification({
-            title: 'Message From Server',
-            message: '成功与服务器建立websocket连接',
-            type: 'success',
-            duration: 3000,
-        });
-    }
     this.socket.onerror = webSocketOnError;
     this.socket.onclose = closeWebsocket;
     return this.socket;
@@ -57,5 +49,5 @@ function webSocketSend(agentData) {
 }
 
 export default {
-    initWebSocket, close, closeWebsocket,webSocketOnError
+    initWebSocket, close, closeWebsocket, webSocketOnError
 }

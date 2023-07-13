@@ -142,8 +142,7 @@
                            :formatter="transform"></el-table-column>
           <el-table-column prop="modifyName" align="center" label="最近修改者" width="150"></el-table-column>
           <el-table-column prop="size" align="center" label="大小" width="100"
-                           :formatter="transformSize"
-                           :cell-class-name="tableCellClassName"></el-table-column>
+                           :formatter="transformSize"></el-table-column>
           <el-table-column prop="role" align="center" label="部门">
             <template slot-scope="scope">
               <el-tag size="small">{{
