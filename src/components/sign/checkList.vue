@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <!-- list -->
     <el-table
-        :data="tableData"
+        :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
         stripe
         v-loading="loading"
         class="personalTable">
@@ -38,7 +38,7 @@
         @current-change="handleCurrentChange"
         :current-page="currentPage"
         :page-sizes="[5, 10, 20, 50]"
-        :page-size="10"
+        :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
     </el-pagination>
@@ -52,6 +52,7 @@ export default {
       //分页数据
       currentPage: 1,
       total: 1,
+      pageSize: 10,
       loading: false,
       //表格数据
       tableData: [],
@@ -86,7 +87,7 @@ export default {
                 }
             )
           }
-
+          this_vue.total = this_vue.checkData.length
         } else {
           this_vue.$message({
             message: response.message,
@@ -100,11 +101,13 @@ export default {
 
     //每页的个数发生变化
     handleSizeChange(item) {
-      console.log(item);
+      console.log(item)
+      this.pageSize = item
+      this.currentPage = 1
     },
     //跳转到某页
     handleCurrentChange(item) {
-      console.log(item);
+      this.currentPage = item
     },
 
 

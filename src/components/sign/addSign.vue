@@ -22,6 +22,13 @@
           @click="changeNoAdd">
         请假申请
       </el-button>
+      <el-button
+          type="primary"
+          size="small"
+          :disable="!isAdd"
+          @click="test">
+        测试缺勤
+      </el-button>
     </div>
 
     <!-- 主体区 -->
@@ -199,8 +206,13 @@ export default {
     changeNoAdd() {
       this.isAdd = false
     },
-
-
+    test() {
+      this.$axios({
+        method: 'get',
+        url: '/check/test',
+      }).then(function (response) {
+      })
+    }
   }
 }
 </script>

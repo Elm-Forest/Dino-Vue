@@ -114,7 +114,7 @@
             </template>
             <el-menu-item index="/super/searchSign">
               <i class="el-icon-search"></i>
-              <span>考勤信息查询</span>
+              <span>员工考勤记录</span>
             </el-menu-item>
             <el-menu-item index="/super/signTime">
               <i class="el-icon-setting"></i>
