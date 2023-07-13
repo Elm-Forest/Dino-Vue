@@ -168,7 +168,7 @@ export default {
       this.response = e.data;
       this.msgList.push({
         name: this.targetName,
-        msg: JSON.parse(this.response).data,
+        msg: JSON.parse(this.response).data.content,
         isSelf: false
       })
       this.$nextTick(() => {

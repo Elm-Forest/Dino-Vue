@@ -9,6 +9,10 @@
       <div class="wrapper">
         <div class="left_wrapper">
           <ul class="contact_list">
+            <li class="create_session"
+                @click="createSession">
+              <span class="contact_name">+&nbsp;&nbsp;New&nbsp;Chat</span>
+            </li>
             <li v-for="session in sessionList" :key="session.id" class="contact_item"
                 @click="handleContactClick(session.sessionId,session.title)">
               <span class="contact_name">{{ session.title === null ? '无标题' : session.title }}</span>
@@ -18,7 +22,7 @@
         <div class="divider"></div>
         <div class="right_wrapper">
           <h3 style="text-align: center">
-            {{  title === null ? '无标题' : title }}
+            {{ title === null ? '无标题' : title }}
           </h3>
           <div class="message-panel">
             <md-msg-box v-for="(item, index) of msgList" :key="index+Math.random()" :uname="item.name"
@@ -68,7 +72,9 @@ export default {
       button_disable: true,
       response: '',
       sessionId: '',
-      index_gpt: 0
+      index_gpt: 0,
+      content_listener: false,
+      title_listener: false
     }
   },
   components: {
@@ -113,16 +119,28 @@ export default {
           url: '/socket/gpt/start'
         }).then(res => {
           this_vue.sessionId = res;
+          this_vue.sessionList.unshift({
+            "sessionId": this_vue.sessionId,
+            "title": "New Chat"
+          })
+          this_vue.handleContactClick(this_vue.sessionId, 'New Chat');
+          this_vue.msgList = [];
+          this_vue.msg = null;
+          this_vue.title = 'New Chat';
+          this_vue.button_disable = false;
         })
       })
     },
-    handleContactClick(id,title) {
+    handleContactClick(id, title) {
       this.msgList = [];
       this.msg = null;
       this.title = title;
-      this.sessionId = id;
-      this.selectChatInfo();
-      this.recoverSession()
+      const this_vue = this;
+      this.removeSession().then(_ => {
+        this_vue.sessionId = id;
+        this_vue.selectChatInfo();
+        this_vue.recoverSession()
+      })
       this.button_disable = false;
     },
     getSessionLists() {
@@ -191,29 +209,46 @@ export default {
       });
     },
     webSocketOnMessage(e) {
-      const data = JSON.parse(e.data).content;
-      if (this.index_gpt == 0) {
-        this.msgList.push({
-          name: this.GptName,
-          msg: ' ',
-          isSelf: false
-        })
-        this.$nextTick(() => {
-          const messagePanel = document.querySelector('.message-panel');
-          messagePanel.scrollTop = messagePanel.scrollHeight;
-        });
+      if (this.title_listener) {
+        if (e.data === '[DONE]') {
+          this.title_listener = false;
+        } else {
+          this.sessionList[0].title = e.data;
+          this.title = e.data;
+        }
       }
-      this.index_gpt = this.index_gpt + 1
+      if (this.content_listener) {
+        const data = JSON.parse(e.data).content;
+        if (this.index_gpt === 0 || this.index_gpt === '0') {
+          this.msgList.push({
+            name: this.GptName,
+            msg: ' ',
+            isSelf: false
+          })
+          this.$nextTick(() => {
+            const messagePanel = document.querySelector('.message-panel');
+            messagePanel.scrollTop = messagePanel.scrollHeight;
+          });
+        }
+        this.index_gpt = this.index_gpt + 1
 
-      if (data !== '[DONE]' && data !== '' && data !== undefined) {
-        const msg_val = this.msgList[this.msgList.length - 1]
-        this.msgList[this.msgList.length - 1].msg = msg_val.msg + JSON.parse(e.data).content;
+        if (data !== '[DONE]' && data !== '' && data !== undefined) {
+          const msg_val = this.msgList[this.msgList.length - 1]
+          this.msgList[this.msgList.length - 1].msg = msg_val.msg + JSON.parse(e.data).content;
+        }
+        if (data === '[DONE]') {
+          this.content_listener = false;
+          this.index_gpt = 0;
+        }
       }
-      if (data === '[DONE]') {
-        this.index_gpt = 0;
+      if (e.data === '[START_CONTENT]') {
+        this.content_listener = true;
       }
-
-    }, initWebSocket(url = null) {
+      if (e.data === '[START_TITLE]') {
+        this.title_listener = true;
+      }
+    },
+    initWebSocket(url = null) {
       const wsUrl = 'ws://' + requestUrl + url;
       this.socket = new WebSocket(wsUrl, [localStorage.getItem('token')])
       this.socket.onerror = this.$websocket.webSocketOnError;
@@ -280,6 +315,7 @@ export default {
   padding: 20px;
   border-bottom: 1px solid #ebebeb;
   text-align: center;
+  align-items: center;
   margin-top: 0; /* 添加这行代码 */
 }
 
@@ -288,6 +324,23 @@ export default {
   cursor: pointer;
 }
 
+.create_session {
+  padding: 10px;
+  border-bottom: 1px solid #ebebeb;
+  background-color: #2f2f2f;
+  font-size: 15px;
+  color: #f6f6f6;
+  font-family: Chinese Quote, -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  text-align: center;
+  align-items: center;
+  margin: 5px 10px;
+  border-radius: 12px;
+}
+
+.create_session:hover {
+  cursor: pointer;
+  background-color: #8f8e8e;
+}
 
 .input-area {
   border-radius: 4px;
@@ -320,11 +373,6 @@ export default {
   border-radius: 4px;
   outline: none;
   padding: 5px;
-}
-
-.contact_item {
-  align-items: center;
-  text-align: center;
 }
 
 .contact_name {
