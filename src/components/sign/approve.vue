@@ -146,8 +146,12 @@ export default {
         if (response.flag) {
           this_vue.tableData = response.data
           for (let i = 0; i < this_vue.tableData.length; i++) {
-            this_vue.tableData[i].applyStartTime = this_vue.tableData[i].applyStartTime.toString().substring(0, 10)
-            this_vue.tableData[i].applyEndTime = this_vue.tableData[i].applyEndTime.toString().substring(0, 10)
+            let startObject = new Date(this_vue.tableData[i].applyStartTime);
+            let dateStart = startObject.getFullYear() + "-" + (startObject.getMonth() + 1).toString().padStart(2, '0') + "-" + startObject.getDate().toString().padStart(2, '0')
+            let endObject = new Date(this_vue.tableData[i].applyEndTime);
+            let dateEnd = endObject.getFullYear() + "-" + (endObject.getMonth() + 1).toString().padStart(2, '0') + "-" + endObject.getDate().toString().padStart(2, '0')
+            this_vue.tableData[i].applyStartTime = dateStart
+            this_vue.tableData[i].applyEndTime = dateEnd
           }
           this_vue.total = this_vue.tableData.length
         } else {

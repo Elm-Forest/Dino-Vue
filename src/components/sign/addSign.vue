@@ -48,14 +48,15 @@
             align="right"
             unlink-panels
             range-separator="~"
-
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             size="small">
         </el-date-picker>
       </el-form-item>
       <el-form-item
-          prop="desc"
+          prop="decs"
           label="补签备注">
         <el-input
             type="textarea"
@@ -87,12 +88,13 @@
             range-separator="~"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
             size="small">
         </el-date-picker>
       </el-form-item>
       <el-form-item
-          prop="desc"
+          prop="decs"
           label="请假备注">
         <el-input
             type="textarea"
@@ -164,6 +166,22 @@ export default {
         beginTime = this_vue.addSignForm.date[0]
         endTime = this_vue.addSignForm.date[1]
       }
+      if (type === 0 && endTime > new Date()) {
+        this_vue.$message({
+          message: "补签日期不能设置在今日之后",
+          type: 'warning'
+        });
+        this_vue.handleClose();
+        return;
+      }
+      if (type === 1 && endTime < new Date()) {
+        this_vue.$message({
+          message: "请假日期不能设置在今日之前",
+          type: 'warning'
+        });
+        this_vue.handleClose();
+        return;
+      }
 
       this.$refs.addSignFormRef.validate((valid) => {
         if (valid) {
@@ -197,6 +215,7 @@ export default {
             type: 'warning'
           });
         }
+        this_vue.handleClose();
       })
 
     },
