@@ -10,10 +10,10 @@
         <div class="">
           <el-input
               placeholder="请输入姓名"
-              suffix-icon="el-icon-search"
+              clearable
               v-model="userName"
               size="small"
-              @change="searchUserName">
+              @change="searchCheck">
           </el-input>
         </div>
       </el-col>
@@ -29,7 +29,7 @@
               end-placeholder="结束日期"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
-              @change="searchUserDate"
+              @change="searchCheck"
               size="small"
               :picker-options="pickerOptions">
           </el-date-picker>
@@ -44,8 +44,6 @@
         stripe
         style="width: 100%"
         class="dataTable"
-        @filter-change="handleFilterChange"
-        @selection-change="handleSelectionChange"
         :default-sort="{prop: 'time', order: 'descending'}"
     >
       <el-table-column
@@ -233,7 +231,6 @@ export default {
         label: '请假'
       }],
 
-      //====================================
       //用户名
       userName: '',
       //日期
@@ -267,19 +264,6 @@ export default {
           }
         }]
       },
-
-      //信息被选中的列表
-      selectionItem: [],
-
-      //出勤详情的名字
-      userAttendanceName: '',
-      //个人出勤详情对话框
-      displayDialogVisible: false,
-      //展示个人出勤详情的当前页
-      displaycurrentPage: 1,
-      displayPageSize: 10,
-      //个人出勤详情的数据
-      displayTableData: [{}],
     }
   },
   mounted() {
@@ -393,8 +377,7 @@ export default {
       })
       this_vue.editHandleClose();
     },
-    deleteCheck(item){
-      console.log(item)
+    deleteCheck(item) {
       let this_vue = this
       this.$axios({
         method: 'post',
@@ -418,95 +401,71 @@ export default {
       })
     },
 
+    searchCheck() {
+      let flag = 1
+      if (this.userDateRange === undefined || this.userDateRange === null || this.userDateRange.length === 0) {
+        flag = 0
+        if (this.userName === undefined || this.userName === null || this.userName === "") {
+          console.log("条件为空")
+          this.init();
+          return;
+        }
+      }
 
-    //输入框内输入姓名，1.回车 2.点击右侧的搜索图标
-    // 可以获得输入框输入的内容。将值传给后台，调用接口即可。
-    searchUserName(item) {
-      console.log(item);
-      console.log('筛选姓名');
-    },
-    //日历选择器上选择好日期，即可获得此时的输入内容
-    searchUserDate(item) {
-      console.log(item);
-      console.log('筛选日期');
+      let this_vue = this
+      this.tableData = []
+      this.loading = true
+      this.loading = true
+
+      this.$axios({
+        method: 'post',
+        url: '/check/admin/getCheck',
+        params: {
+          'userName': this_vue.userName,
+          'startTime': flag === 0 ? "" : this_vue.userDateRange[0],
+          'endTime': flag === 0 ? "" : this_vue.userDateRange[1]
+        }
+      }).then(function (response) {
+        if (response.flag) {
+          this_vue.checkData = response.data
+          for (let i = 0; i < this_vue.checkData.length; i++) {
+            let checkDataNow = this_vue.checkData[i].time
+            let type = this_vue.checkData[i].type
+            let dateObject = new Date(checkDataNow);
+            let date = dateObject.getFullYear() + "-" + (dateObject.getMonth() + 1).toString().padStart(2, '0') + "-" + dateObject.getDate().toString().padStart(2, '0')
+            let time = dateObject.getHours().toString().padStart(2, '0') + ':' + dateObject.getMinutes().toString().padStart(2, '0') + ':' + dateObject.getSeconds().toString().padStart(2, '0')
+            this_vue.tableData.push(
+                {
+                  checkId: this_vue.checkData[i].checkId,
+                  name: this_vue.checkData[i].name,
+                  date: date,
+                  time: time,
+                  type: type
+                }
+            )
+          }
+          this_vue.total = this_vue.tableData.length
+        } else {
+          this_vue.$message({
+            message: response.message,
+            type: 'warning'
+          });
+        }
+        this_vue.loading = false
+      })
+
     },
 
-    //处理筛选条件变化，向后台发送数据，重新获取信息就可以
-    handleFilterChange(filters) {
-      console.log(filters);
-      console.log('筛选条件变化');
-    },
-    //处理复选框状态修改
-    handleSelectionChange(item) {
-      console.log(item);
-      this.selectionItem = item
 
-    },
-
-
-
-
-    //当打卡时间变化时，触发的事件
-    handlePatchTime(item) {
-      console.log(item);
-    },
-    //只有状态为异常时，复选框才可以勾选
-    selectedRow(row, index) {
-      // console.log(index);
-      return (row.status === '异常');
-    },
-    //展示个人的出勤详情
-    openDisplayInfo(item) {
-      this.userAttendanceName = item.user_name;
-      this.displayDialogVisible = true;
-    },
-    //关闭个人出勤详情页面
-    displayHandleClose() {
-      this.userAttendanceName = '';
-      this.displaycurrentPage = 1;
-      this.displayDialogVisible = false;
-    },
-
-    //每页的个数发生变化
     handleSizeChange(item) {
       console.log(item)
       this.pageSize = item
       this.currentPage = 1
     },
-    //跳转到某页
+
     handleCurrentChange(item) {
       this.currentPage = item
     },
-
-    showAll() {
-      //管理员查询所有用户考勤情况
-      this.$axios({
-        method: 'get',
-        url: '/check/statistics',
-      }).then(function (response) {
-        setToken(response.data.data);
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
-    },
-    showOne() {
-      //管理员根据userId查询考勤情况
-      this.$axios({
-        method: 'get',
-        url: '/check/statistics',
-        params: {
-          'userId': '1'
-        },
-      }).then(function (response) {
-        setToken(response.data.data);
-        console.log(JSON.stringify(response.data));
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
-    }
   }
 }
 </script>
