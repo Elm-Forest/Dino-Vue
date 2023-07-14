@@ -22,8 +22,6 @@ import cgx from '../components/message/cgx.vue'
 import ljx from '../components/message/ljx.vue'
 import add from '../components/message/add.vue'
 import bindMailbox from '../components/message/bindMailbox.vue'
-import schedule from '../components/date/schedule.vue'
-import friendsSchedule from '../components/date/friendsSchedule.vue'
 import deptSchedule from '../components/date/deptSchedule.vue'
 import deptRegister from "@/components/deptRegister";
 import requestOffer from "@/components/requestOffer";
@@ -37,6 +35,7 @@ import wangeditorTest from "@/components/test/wangeditorTest.vue";
 import chatRoom from "@/components/chat/chatRoom.vue";
 import gpt from "@/components/gpt/gpt.vue";
 import checkList from "@/components/sign/checkList";
+import schedule from "@/components/date/schedule.vue";
 
 Vue.use(Router)
 
@@ -75,8 +74,6 @@ const routes = [
             {path: '/normal/add', component: add},
             {path: '/normal/bindMailbox', component: bindMailbox},
             {path: '/normal/schedule', component: schedule},
-            {path: '/normal/schedule', component: schedule},
-            {path: '/normal/friendsSchedule', component: friendsSchedule},
             {path: '/normal/deptSchedule', component: deptSchedule},
         ]
     },
@@ -98,7 +95,6 @@ const routes = [
             {path: '/admin/admUser', component: admUser},
             {path: '/admin/company', component: company},
             {path: '/admin/schedule', component: schedule},
-            {path: '/admin/friendsSchedule', component: friendsSchedule},
             {path: '/admin/deptSchedule', component: deptSchedule},
             {path: '/admin/offer', component: adminOffer},
         ]
@@ -127,7 +123,6 @@ const routes = [
             {path: '/super/admUser', component: admUser},
             {path: '/super/company', component: company},
             {path: '/super/schedule', component: schedule},
-            {path: '/super/friendsSchedule', component: friendsSchedule},
             {path: '/super/deptSchedule', component: deptSchedule},
             {path: '/super/offer', component: adminOffer},
             {path: '/super/chat', component: chatRoom},

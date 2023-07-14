@@ -6,7 +6,7 @@
     <div id="goto">
       <div>
         <h3>已有账号？</h3>
-        <h5>立即登录账号，开始便捷办公之旅</h5>
+        <h5>立即登录账号，开始高效办公之旅</h5>
       </div>
       <el-button round id="myButton" @click="login">去登录</el-button>
     </div>
@@ -54,7 +54,7 @@
       <div id="date">{{ date }}</div>
     </div>
     <!-- 版权区域 -->
-    <div id="copyright">Copyright © 2023 AutoOffice</div>
+    <div id="copyright">Copyright © 2023 DINO</div>
   </div>
 </template>
 <script>

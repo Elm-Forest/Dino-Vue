@@ -5,8 +5,8 @@
     <div id="circle"></div>
     <div id="goto">
       <div>
-        <h3>AutoOffice办公助手</h3>
-        <h5>企业级OA框架解决方案</h5>
+        <h3>DINO办公助手</h3>
+        <h5>DINO从没灭绝，DINO才刚刚开始</h5>
       </div>
       <el-button round id="myButton" @click="toRegister">去注册</el-button>
     </div>
@@ -34,7 +34,7 @@
       <div id="date">{{ date }}</div>
     </div>
     <!-- 版权区域 -->
-    <div id="copyright">Copyright © 2023 AutoOffice</div>
+    <div id="copyright">Copyright © 2023 DINO</div>
     <router-view></router-view>
   </div>
 </template>
