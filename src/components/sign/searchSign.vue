@@ -303,7 +303,6 @@ export default {
       let this_vue = this
       this_vue.tableData = []
       this_vue.loading = true
-      this_vue.loading = true
       this.$axios({
         method: 'get',
         url: '/check/admin',

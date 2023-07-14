@@ -5,34 +5,126 @@
       <el-breadcrumb-item>考勤管理平台</el-breadcrumb-item>
       <el-breadcrumb-item>考勤时间管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-card style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1)">
-      设置上下班打卡时间
-      <el-row style="margin-top: 10%" type="flex" justify="center">
-        <div>
+    <div>
+      <el-button type="primary" size="small" class="add_button" @click="openAddDialog">添加考勤规则</el-button>
+      <el-table
+          :data="tableData"
+          stripe
+          v-loading="loading"
+          class="personalTable">
+        <el-table-column
+            prop="des"
+            label="描述"
+            align="center">
+        </el-table-column>
+        <el-table-column
+            prop="start"
+            label="起始时间"
+            align="center">
+        </el-table-column>
+        <el-table-column
+            prop="end"
+            label="终止时间"
+            align="center">
+        </el-table-column>
+        <el-table-column
+            label="操作"
+            align="center"
+            fixed="right">
+          <template slot-scope="scope">
+            <el-button-group>
+              <el-button
+                  icon="el-icon-edit"
+                  size="small"
+                  @click="openEditDialog(scope.row)">
+              </el-button>
+              <template>
+                <el-popconfirm
+                    confirm-button-text='好的'
+                    cancel-button-text='不用了'
+                    icon="el-icon-info"
+                    icon-color="red"
+                    title="确定删除考勤规则吗？"
+                    @confirm="deleteCheck(scope.row)"
+                >
+                  <el-button slot="reference" icon="el-icon-delete" type="small"></el-button>
+                </el-popconfirm>
+              </template>
 
+            </el-button-group>
+          </template>
+        </el-table-column>
+      </el-table>
 
-        </div>
+      <!-- 添加话框 -->
+      <el-dialog
+          title="添加考勤规则"
+          :visible.sync="addDialogVisible"
+          width="50%"
+          :before-close="addHandleClose">
+        <el-time-picker
+            is-range
+            v-model="addRuleTime"
+            format="HH:mm:ss"
+            range-separator="至"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            placeholder="选择时间范围">
+        </el-time-picker>
+        <span slot="footer">
+                <el-button @click="addHandleClose">取 消</el-button>
+                <el-button type="primary" @click="addRule">确 定</el-button>
+        </span>
+      </el-dialog>
 
-      </el-row>
+      <!-- 编辑话框 -->
+      <el-dialog
+          title="修改考勤规则"
+          :visible.sync="editDialogVisible"
+          width="50%"
+          :before-close="editHandleClose">
+        <el-row
+            :gutter="10"
+            class='statusEdit'>
+          <el-col :span="4" :offset="3">
+            <div>
+              描述
+            </div>
+          </el-col>
+          <el-col :span="16">
+            <div class="">
+              {{ editDes }}
+            </div>
+          </el-col>
+        </el-row>
 
-      <el-row>
-        <!-- 日期 -->
-        <el-form-item
-            label="考勤起止日期">
-          <el-date-picker
-              v-model="timeForm.date"
-              type="daterange"
-              align="right"
-              unlink-panels
-              range-separator="~"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              size="small">
-          </el-date-picker>
-        </el-form-item>
-      </el-row>
+        <el-row
+            :gutter="10"
+            class='statusEdit'>
+          <el-col :span="4" :offset="3">
+            <div>
+              考勤时间
+            </div>
+          </el-col>
+          <el-col :span="16">
+            <el-time-picker
+                is-range
+                v-model="editRuleTime"
+                format="HH:mm:ss"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                placeholder="选择时间范围">
+            </el-time-picker>
+          </el-col>
+        </el-row>
 
-    </el-card>
+        <span slot="footer" class="dialog-footer">
+                <el-button @click="editHandleClose">取 消</el-button>
+                <el-button type="primary" @click="submitEditDialog">确 定</el-button>
+            </span>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -41,68 +133,174 @@
 export default {
   data() {
     return {
-      //考勤时间表单
-      timeForm: {
-        startTime: '',
-        backTime: ''
-      },
-      date: {
-        beginTime: '',
-        endTime: ''
-      }
+      loading: false,
+      checkRuleData: [],
+      tableData: [],
+      editDialogVisible: false,
+      addDialogVisible: false,
+
+      //add
+      addRuleTime: [],
+
+      //edit
+      editId: '',
+      editDes: '',
+      editRuleTime: []
     }
   },
+  mounted() {
+    this.init()
+  },
   methods: {
-    //清空考勤时间表单数据
-    handleClose() {
-      this.timeForm = {
-        date: '',
-        startTime1: '',
-        endTime1: '',
-        startTime2: '',
-        endTime2: '',
-      };
-    },
-    open() {
-      this.$alert('设置成功', '考勤时间管理', {
-        confirmButtonText: '确定',
-        callback: action => {
-          this.$message({
-            type: 'info',
-            message: `action: ${action}`
+    init() {
+      let this_vue = this
+      this_vue.tableData = []
+      this_vue.loading = true
+      this.$axios({
+        method: 'get',
+        url: '/check/admin/rule',
+      }).then(function (response) {
+        if (response.flag) {
+          this_vue.checkRuleData = response.data
+          for (let i = 0; i < this_vue.checkRuleData.length; i++) {
+            let startObj = new Date(this_vue.checkRuleData[i].startTime);
+            let endObj = new Date(this_vue.checkRuleData[i].endTime);
+            let start = startObj.getHours().toString().padStart(2, '0') + ':' + startObj.getMinutes().toString().padStart(2, '0') + ':' + startObj.getSeconds().toString().padStart(2, '0')
+            let end = endObj.getHours().toString().padStart(2, '0') + ':' + endObj.getMinutes().toString().padStart(2, '0') + ':' + endObj.getSeconds().toString().padStart(2, '0')
+            this_vue.tableData.push(
+                {
+                  "id": this_vue.checkRuleData[i].id,
+                  "des": "第" + (i + 1) + "次打卡",
+                  "start": start,
+                  "end": end
+                }
+            )
+          }
+        } else {
+          this_vue.$message({
+            message: response.message,
+            type: 'warning'
           });
         }
-      });
+        this_vue.loading = false
+      })
     },
-    //提交考勤时间表单
-    submitForm() {
-      console.log("提交成功");
-      this.open();
-      this.setAttendance();
-      this.handleClose();
+
+    openAddDialog(item) {
+      this.addRuleTime = [new Date(), new Date()]
+      this.addDialogVisible = true;
     },
-    setAttendance() {
+    addHandleClose() {
+      this.addDialogVisible = false;
+    },
+    addRule() {
       let this_vue = this
-      //管理员设置上下班时间
+      let start = this_vue.addRuleTime[0].getHours().toString().padStart(2, '0') + ':' + this_vue.addRuleTime[0].getMinutes().toString().padStart(2, '0') + ':' + this_vue.addRuleTime[0].getSeconds().toString().padStart(2, '0')
+      let end = this_vue.addRuleTime[1].getHours().toString().padStart(2, '0') + ':' + this_vue.addRuleTime[1].getMinutes().toString().padStart(2, '0') + ':' + this_vue.addRuleTime[1].getSeconds().toString().padStart(2, '0')
+      this.$axios({
+        method: 'post',
+        url: '/check/admin/rule',
+        params: {
+          'startTime': start,
+          'endTime': end
+        }
+      }).then(function (response) {
+        if (response.flag) {
+          this_vue.$message({
+            message: "添加成功",
+            type: 'success'
+          });
+        } else {
+          this_vue.$message({
+            message: response.message,
+            type: 'warning'
+          });
+        }
+        this_vue.init();
+      })
+      this_vue.addHandleClose();
+    },
+
+    openEditDialog(item) {
+      this.editDialogVisible = true;
+      this.editId = item.id;
+      this.editDes = item.des;
+
+      let currentDate = new Date().toISOString().slice(0, 10);
+
+      let start = `${currentDate}T${item.start}`;
+      let end = `${currentDate}T${item.end}`;
+
+      this.editRuleTime = [new Date(start), new Date(end)]
+      console.log(this.editRuleTime)
+    },
+    editHandleClose() {
+      this.editDialogVisible = false;
+      this.editId = "";
+      this.editDes = "";
+      this.editRuleTime = []
+    },
+
+    submitEditDialog() {
+      let this_vue = this
+      let start = this_vue.editRuleTime[0].getHours().toString().padStart(2, '0') + ':' + this_vue.editRuleTime[0].getMinutes().toString().padStart(2, '0') + ':' + this_vue.editRuleTime[0].getSeconds().toString().padStart(2, '0')
+      let end = this_vue.editRuleTime[1].getHours().toString().padStart(2, '0') + ':' + this_vue.editRuleTime[1].getMinutes().toString().padStart(2, '0') + ':' + this_vue.editRuleTime[1].getSeconds().toString().padStart(2, '0')
       this.$axios({
         method: 'put',
-        url: '/check/admin/attendance',
+        url: '/check/admin/rule',
         params: {
-          'startTime': '',
-          'backTime': 'Mon Aug 22 17:30:00 CST 2022'
-        },
+          'id': this_vue.editId,
+          'startTime': start,
+          'endTime': end
+        }
       }).then(function (response) {
-        setToken(response.data.data);
-      }).catch(function (error) {
-        console.log(localStorage.getItem('token'))
-        console.log(error);
-      });
-    }
+        if (response.flag) {
+          this_vue.$message({
+            message: "修改成功",
+            type: 'success'
+          });
+        } else {
+          this_vue.$message({
+            message: response.message,
+            type: 'warning'
+          });
+        }
+        this_vue.init();
+      })
+      this_vue.editHandleClose();
+    },
+    deleteCheck(item) {
+      let this_vue = this
+      this.$axios({
+        method: 'delete',
+        url: '/check/admin/rule',
+        params: {
+          'id': item.id,
+        }
+      }).then(function (response) {
+        if (response.flag) {
+          this_vue.$message({
+            message: "删除成功",
+            type: 'success'
+          });
+        } else {
+          this_vue.$message({
+            message: response.message,
+            type: 'warning'
+          });
+        }
+        this_vue.init();
+      })
+    },
   }
 }
 </script>
 
 <style lang="css">
+.add_button {
+  margin-bottom: 10px;
+}
+
 .el-breadcrumb {
   margin-bottom: 30px;
 }
@@ -126,9 +324,8 @@ export default {
 .inputForm {
   width: 220px;
 }
-
-.dialog-footer {
-  float: left;
-  padding-left: 43px;
+.statusEdit {
+  padding-bottom: 20px;
 }
+
 </style>
