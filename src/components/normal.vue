@@ -109,10 +109,6 @@
               <i class="el-icon-user"></i>
               <span>我的日程</span>
             </el-menu-item>
-            <el-menu-item index="/normal/friendsSchedule">
-              <i class="el-icon-user-solid"></i>
-              <span>联系人日程</span>
-            </el-menu-item>
             <el-menu-item index="/normal/deptSchedule">
               <i class="el-icon-more"></i>
               <span>部门日程</span>

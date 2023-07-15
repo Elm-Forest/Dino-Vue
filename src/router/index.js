@@ -34,6 +34,7 @@ import chatRoom from "@/components/chat/chatRoom.vue";
 import gpt from "@/components/gpt/gpt.vue";
 import checkList from "@/components/sign/checkList";
 import schedule from "@/components/date/schedule.vue";
+import userDeptSchedule from "@/components/date/userDeptSchedule";
 
 Vue.use(Router)
 
@@ -68,7 +69,7 @@ const routes = [
             {path: '/normal/add', component: add},
             {path: '/normal/bindMailbox', component: bindMailbox},
             {path: '/normal/schedule', component: schedule},
-            {path: '/normal/deptSchedule', component: deptSchedule},
+            {path: '/normal/deptSchedule', component: userDeptSchedule},
         ]
     },
     //部门管理员
