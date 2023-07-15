@@ -28,10 +28,8 @@ import requestOffer from "@/components/requestOffer";
 import userinfo from "@/components/user/userinfo";
 import adminOffer from "@/components/dept/adminOffer";
 import registerInfo from "@/components/registerInfo";
-import socket from '@/components/test/socket.vue'
 import superAdmin from "@/components/superAdmin.vue";
 import account from "@/components/user/account.vue";
-import wangeditorTest from "@/components/test/wangeditorTest.vue";
 import chatRoom from "@/components/chat/chatRoom.vue";
 import gpt from "@/components/gpt/gpt.vue";
 import checkList from "@/components/sign/checkList";
@@ -40,10 +38,6 @@ import schedule from "@/components/date/schedule.vue";
 Vue.use(Router)
 
 const routes = [
-    {path: '/socket', component: socket},
-    {path: '/chat', component: chatRoom},
-    {path: '/gpt', component: gpt},
-    {path: '/edit', component: wangeditorTest},
     {path: '/', redirect: '/login'},
     {path: '/login', name: '登录', component: login},
     {path: '/register', component: register},

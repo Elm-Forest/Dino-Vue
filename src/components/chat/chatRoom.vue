@@ -76,7 +76,9 @@ export default {
     this.socket.onmessage = this.webSocketOnMessage;
     this.getConnectorLists();
     this.selectSelfInfo();
-    //_this.$store.state.user_id
+    if (this.$route.query.suId !== undefined) {
+      this.handleContactClick(this.$route.query.suId)
+    }
   },
   methods: {
     handleContactClick(id) {
@@ -85,7 +87,7 @@ export default {
       this.targetId = id;
       this.setConnector();
       this.selectChatInfo();
-      this.button_disable=false;
+      this.button_disable = false;
     },
     getConnectorLists() {
       const this_vue = this;

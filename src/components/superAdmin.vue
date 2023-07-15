@@ -13,9 +13,9 @@
         <div class="notification-dot" v-if="ableNotificationDot"></div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item v-for="message in message_lists"
-                            @click.native="redirectToRoute(message.id);">
+                            @click.native="redirectToRoute(message.id,message.suId);">
             {{
-              message.suName != '' && message.suName != null && message.suName != undefined ? "您收到了来自" + message.suName + "的新消息" : "暂无消息"
+              message.suName !== '' && message.suName !== null && message.suName !== undefined ? "您收到了来自" + message.suName + "的新消息" : "暂无消息"
             }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -229,8 +229,15 @@ export default {
     userinfo() {
       this.$router.push('/super/userinfo');
     },
-    redirectToRoute(id) {
-      this.marked_read(id);
+    redirectToRoute(id, suId) {
+      if (id !== null && id !== '' && id !== undefined) {
+        this.marked_read(id);
+        this.$router.push({
+          path: '/super/chat', query: {
+            suId: suId
+          }
+        });
+      }
     },
     getNotifications() {
       const this_vue = this;
