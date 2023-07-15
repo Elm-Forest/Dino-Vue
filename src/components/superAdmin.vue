@@ -194,7 +194,7 @@ import {dept_list} from '@/utils/const'
 export default {
   data() {
     return {
-      socket: null,
+      socket_notifications: null,
       ableNotificationDot: false,
       headImg: {
         user: user_img,
@@ -210,14 +210,15 @@ export default {
     }
   },
   created() {
-    this.socket = this.$websocket.initWebSocket("/connection/wait");
-    this.socket.onmessage = this.webSocketOnMessage;
+    this.socket_notifications = this.$websocket.initWebSocket("/connection/wait");
+    this.socket_notifications.onmessage = this.webSocketOnMessage;
     this.getUserHeadImg();
     this.getBaseInfo();
     this.getNotifications();
   },
   methods: {
-    webSocketOnMessage(e) {
+    webSocketOnMessage() {
+      console.log(6666)
       this.showNotificationDot();
     },
     hideNotificationDot() {
