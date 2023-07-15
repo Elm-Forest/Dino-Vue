@@ -21,9 +21,11 @@
         </div>
       </el-col>
       <el-col :span="23">
-        <div v-if="scheduleListSelect && scheduleListSelect.length">
+        <div v-if="scheduleListSelect && scheduleListSelect.length" v-loading="loading">
           <el-timeline v-for="item in scheduleListSelect">
-            <el-timeline-item :timestamp="new Date(item.beginTime).toLocaleDateString() + ' 至 ' + new Date(item.endTime).toLocaleDateString()" placement="top">
+            <el-timeline-item
+                :timestamp="new Date(item.startTime).toLocaleDateString() + ' 至 ' + new Date(item.endTime).toLocaleDateString()"
+                placement="top">
               <el-card>
                 <div class="scheduleTitle">{{ item.scheduleTitle }}</div>
                 <div class="scheduleContent">
@@ -54,7 +56,7 @@
 
         <el-form-item label="起止时间">
           <el-col :span="5">
-            <el-date-picker type="date" placeholder="选择日期" v-model="editSchedule.beginTime" value-format="yyyy-MM-dd"
+            <el-date-picker type="date" placeholder="选择日期" v-model="editSchedule.startTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
           </el-col>
           <el-col style="margin-left: 4%" :span="1">-</el-col>
@@ -86,7 +88,7 @@
 
         <el-form-item label="起止时间">
           <el-col :span="5">
-            <el-date-picker type="date" placeholder="选择日期" v-model="addSchedule.beginTime" value-format="yyyy-MM-dd"
+            <el-date-picker type="date" placeholder="选择日期" v-model="addSchedule.startTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
           </el-col>
           <el-col style="margin-left: 4%" :span="1">-</el-col>
@@ -113,12 +115,13 @@ export default {
   components: {},
   data() {
     return {
+      loading: false,
       editSchedule: {
         id: null,
         user_id: null,
         scheduleTitle: null,
         scheduleContent: null,
-        beginTime: null,
+        startTime: null,
         endTime: null
       },
       addSchedule: {
@@ -126,7 +129,7 @@ export default {
         user_id: null,
         scheduleTitle: null,
         scheduleContent: null,
-        beginTime: null,
+        startTime: null,
         endTime: null
       },
       scheduleList: [],
@@ -150,7 +153,7 @@ export default {
     },
     scheduleList: {
       handler(newVal) {
-        if(this.day_select == null) this.day_select = new Date()
+        if (this.day_select == null) this.day_select = new Date()
         this.scheduleListSelect = this.getScheduleByDayStr(this.day_select)
       }
     }
@@ -166,7 +169,7 @@ export default {
     getScheduleByDayStr(date) {
       let list = []
       for (let i = 0; i < this.scheduleList.length; i++) {
-        let begin = this.scheduleList[i].beginTime
+        let begin = this.scheduleList[i].startTime
         let end = this.scheduleList[i].endTime
         if (this.middleDayStr(begin, end, date)) {
           list.push(this.scheduleList[i])
@@ -185,14 +188,14 @@ export default {
 
     showEditDialog(item) {
       this.editSchedule = Object.assign({}, item)
-      this.editSchedule.beginTime = this.dateFormatter(this.editSchedule.beginTime)
+      this.editSchedule.startTime = this.dateFormatter(this.editSchedule.startTime)
       this.editSchedule.endTime = this.dateFormatter(this.editSchedule.endTime)
       this.editVisible = true
     },
 
     showAddDialog(date) {
       this.addVisible = true
-      this.addSchedule.beginTime = this.dateFormatter(date)
+      this.addSchedule.startTime = this.dateFormatter(date)
     },
 
     closeAddDialog() {
@@ -207,6 +210,7 @@ export default {
 
     getList() {
       let this_vue = this
+      this_vue.loading = true
       this.$axios({
         method: 'get',
         url: '/schedule/list'
@@ -214,22 +218,30 @@ export default {
         if (response.flag) {
           let list = response.data
           for (let i = 0; i < list.length; i++) {
-            list.beginTime = this_vue.dateFormatter(list.beginTime)
-            list.endTime = this_vue.dateFormatter(list.endTime)
+            list[i].startTime = this_vue.dateFormatter(list[i].startTime)
+            list[i].endTime = this_vue.dateFormatter(list[i].endTime)
           }
           this_vue.scheduleList = list
+          this_vue.loading = false
         }
       })
     },
     add() {
       let this_vue = this
+      if(new Date(this_vue.addSchedule.endTime) < new Date()) {
+        this_vue.$message({
+          message: "终止日期不能小于今天哦",
+          type: 'warning'
+        });
+        return;
+      }
       this.$axios({
         method: 'post',
         url: '/schedule',
         params: {
           'scheduleTitle': this.addSchedule.scheduleTitle,
           'scheduleContent': this.addSchedule.scheduleContent,
-          'beginTime': this.addSchedule.beginTime,
+          'startTime': this.addSchedule.startTime,
           'endTime': this.addSchedule.endTime
         }
       }).then(function (response) {
@@ -258,7 +270,7 @@ export default {
           'scheduleId': this.editSchedule.id,
           'scheduleTitle': this.editSchedule.scheduleTitle,
           'scheduleContent': this.editSchedule.scheduleContent,
-          'beginTime': this.editSchedule.beginTime,
+          'startTime': this.editSchedule.startTime,
           'endTime': this.editSchedule.endTime
         }
       }).then(function (response) {
