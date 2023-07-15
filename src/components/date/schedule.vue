@@ -267,7 +267,7 @@ export default {
         method: 'put',
         url: '/schedule',
         params: {
-          'scheduleId': this.editSchedule.id,
+          'id': this.editSchedule.id,
           'scheduleTitle': this.editSchedule.scheduleTitle,
           'scheduleContent': this.editSchedule.scheduleContent,
           'startTime': this.editSchedule.startTime,
