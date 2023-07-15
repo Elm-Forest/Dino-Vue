@@ -166,7 +166,8 @@ export default {
         beginTime = this_vue.addSignForm.date[0]
         endTime = this_vue.addSignForm.date[1]
       }
-      if (type === 0 && endTime > new Date()) {
+
+      if (type === 0 && new Date(endTime) > new Date()) {
         this_vue.$message({
           message: "补签日期不能设置在今日之后",
           type: 'warning'
@@ -174,7 +175,7 @@ export default {
         this_vue.handleClose();
         return;
       }
-      if (type === 1 && endTime < new Date()) {
+      if (type === 1 && new Date(beginTime) < new Date()) {
         this_vue.$message({
           message: "请假日期不能设置在今日之前",
           type: 'warning'
