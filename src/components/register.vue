@@ -1,67 +1,116 @@
 <template>
-  <div>
-    <img id="register" src="../assets/images/background.png" alt="">
-    <!-- 跳转登录区域 -->
-    <div id="circle"></div>
-    <div id="goto">
-      <div>
-        <h3>已有账号？</h3>
-        <h5>立即登录账号，开始高效办公之旅</h5>
+  <el-container class="home-container">
+    <el-header id="header">
+      <span id="logo" style="position: absolute;display: block;margin-left: 33px;">D</span>
+      <div class="logo_box" style="margin-left: 63px;">
+        <img class="logo" :src="logo" alt="Logo"/>
       </div>
-      <el-button round id="myButton" @click="login">去登录</el-button>
-    </div>
-    <!-- 注册框区域 -->
-    <div id="login">
-      <el-card class="box-card">
-        <h1 id="login-title">注册</h1>
-        <el-form id="form" ref="registerFormRef" :model="registerForm" :rules="rules">
-          <el-form-item prop="username">
-            <el-input prefix-icon="el-icon-user-solid" v-model="registerForm.username" placeholder="请输入用户名"
-                      name="username" clearable></el-input>
-          </el-form-item>
-          <el-form-item prop="email">
-            <el-input prefix-icon="el-icon-message" v-model="registerForm.email" placeholder="请输入邮箱"
-                      clearable></el-input>
-          </el-form-item>
-          <el-form-item prop="code">
-            <el-col :span="14" style="margin-right: 12px">
-              <el-input
-                  prefix-icon="el-icon-edit" v-model="registerForm.code" placeholder="请输入验证码"
-                  clearable></el-input>
-            </el-col>
-            <el-col :span="6">
-              <el-button
-                  type="primary"
-                  @click="send"
-                  :disabled="disable">
-                {{ buttonName }}
-              </el-button>
-            </el-col>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-                prefix-icon="el-icon-lock" placeholder="请输入密码" v-model="registerForm.password"
-                show-password></el-input>
-          </el-form-item>
-          <el-button style="position:absolute;top: 300px;left: 137px;" type="primary" @click='register'>立即注册
-          </el-button>
-        </el-form>
-      </el-card>
-    </div>
-    <!-- 时间区域 -->
-    <div id="clock">
-      <div id="time">{{ time }}</div>
-      <div id="date">{{ date }}</div>
-    </div>
-    <!-- 版权区域 -->
-    <div id="copyright">Copyright © 2023 DINO</div>
-  </div>
+      <span id="logo" style="position: absolute;display: block;margin-left: 86px;">NO</span>
+    </el-header>
+    <el-container>
+      <el-aside width="35%">
+        <el-main>
+          <el-form class="login-container" ref="registerFormRef" :model="registerForm" :rules="rules">
+            <el-form-item>
+              <div class="heading-container">
+                <div class="bx--row">
+                  <div class="bx--col">
+                    <div class="heading">创建免费 DINO 帐户</div>
+                  </div>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item prop="username">
+              <div class="bx--form-item bx--text-input-wrapper">
+                <label for="username" class="bx--label">用户名</label>
+                <input id="username" type="text" class="bx--text-input"
+                       v-model="registerForm.username"
+                       name="username" value="" placeholder="username"/>
+              </div>
+            </el-form-item>
+            <el-form-item prop="email">
+              <div class="bx--form-item bx--text-input-wrapper">
+                <label for="email" class="bx--label">邮箱</label>
+                <input id="email" type="text" class="bx--text-input"
+                       v-model="registerForm.email"
+                       name="email" value="" placeholder="email"/>
+              </div>
+            </el-form-item>
+            <el-form-item prop="code">
+              <div class="bx--form-item bx--text-input-wrapper">
+                <label for="code" class="bx--label">验证码</label>
+                <input id="code" type="text" class="bx--text-input"
+                       v-model="registerForm.code"
+                       name="code" value="" placeholder="code"/>
+                <el-button
+                    id="send-button"
+                    class="send-button bx--btn--tertiary"
+                    type="primary"
+                    @click="send"
+                    :disabled="disable">
+                  {{ buttonName }}
+                </el-button>
+              </div>
+            </el-form-item>
+            <el-form-item prop="password">
+              <div class="bx--form-item bx--text-input-wrapper password">
+                <label for="password" class="bx--label">密码 </label>
+                <input id="password" type="password" class="bx--text-input"
+                       v-model="registerForm.password"
+                       name="password" value="" placeholder="password"/>
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <div class="bx--row">
+                <div class="bx--col">
+                  <div class="button-container">
+                    <el-button id="continue-button" tabindex="0"
+                               class="submit-button bx--btn bx--btn--primary"
+                               @click="register">创建账户
+                      <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                           fill="currentColor" aria-hidden="true" width="16" height="15" viewBox="0 0 16 16"
+                           class="bx--btn__icon">
+                        <path d="M9.3 3.7L13.1 7.5 1 7.5 1 8.5 13.1 8.5 9.3 12.3 10 13 15 8 10 3z"></path>
+                      </svg>
+                    </el-button>
+                  </div>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <div class="bx--row">
+                <div class="bx--col"><p class="help-link">
+                  已有DINO帐户？
+                  <a @click="login">返回登录</a>
+                </p>
+                </div>
+              </div>
+            </el-form-item>
+          </el-form>
+        </el-main>
+      </el-aside>
+      <el-aside width="65%">
+        <el-main class="back_logo_main">
+          <div class="back_logo_box">
+            <img :src="backlog" alt="图案" style="width: 100%; height: 100%; object-fit: contain;" class="back_logo">
+          </div>
+        </el-main>
+      </el-aside>
+    </el-container>
+  </el-container>
 </template>
+
 <script>
+import logo from '../../public/logo.svg'
+import illustration from '../assets/images/illustration-final.svg'
+
+
 export default {
   name: 'Register',
   data() {
     return {
+      logo: logo,
+      backlog: illustration,
       // 注册表单的数据绑定对象
       registerForm: {
         username: '',
@@ -123,13 +172,6 @@ export default {
       count: 60,
       disable: false,
     }
-  },
-  // 时间更新
-  mounted() {
-    this.sendFormRules = this.rules
-    this.$nextTick(() => {
-      setInterval(this.update_clock, 1000);
-    })
   },
   methods: {
     block() {
@@ -209,132 +251,236 @@ export default {
     },
     login() {
       this.$router.push({path: '/login'})
-    },
-    update_clock: function () {
-      let d = new Date();
-      let year = d.getFullYear();
-      if (year < 10) {
-        year = "0" + year;
-      }
-      let month = d.getMonth() + 1 + "";
-      if (month < 10) {
-        month = "0" + month;
-      }
-      let day = d.getDate() + "";
-      if (day < 10) {
-        day = "0" + day;
-      }
-      let hour = d.getHours() + "";
-      if (hour < 10) {
-        hour = "0" + hour;
-      }
-      let minute = d.getMinutes() + "";
-      if (minute < 10) {
-        minute = "0" + minute;
-      }
-      let second = d.getSeconds() + "";
-      if (second < 10) {
-        second = "0" + second;
-      }
-      this.time = hour + ":" + minute + ":" + second;
-      this.date = year + "/" + month + "/" + day;
     }
   }
 }
 </script>
 
 <style scoped>
-#register {
-  position: fixed;
-  height: 100%;
+
+#header {
+  border-bottom: 2px solid #e7e4e4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 1px rgba(157, 150, 150, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+#logo {
+  padding: 0 15px;
+  color: #084f4f;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.logo_box {
+  background-color: white;
+  padding: 5px 5px 0;
+}
+
+.logo {
+  width: 32px;
+  height: 30px;
+
+}
+
+.back_logo_main {
+  background-color: rgb(245, 242, 242);
   width: 100%;
-  top: 0;
-  left: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#circle {
-  width: 600px;
-  height: 600px;
-  background: rgb(230, 162, 173);
-  border-radius: 0 0 0 600px;
-  position: absolute;
-  right: 0;
+.back_logo_box {
+  margin-top: -30px;
+  margin-right: 70px;
+  width: 85%;
+  background-repeat: no-repeat;
+  background-position-x: left;
+  background-position-y: bottom;
 }
 
-#goto {
-  color: aliceblue;
-  position: absolute;
-  top: 10%;
-  right: 20%;
+.back_logo {
+
+}
+
+.bx--text-input {
+  font-size: 1px;
+  font-weight: 400;
+  line-height: 1.28572;
+  letter-spacing: .16px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 10px;
+  border: none;
+  border-bottom: 1px solid #8d8d8d;
+  background-color: #f4f4f4;
+  color: #161616;
+  transition: background-color 70ms cubic-bezier(.2, 0, .38, .9), outline 70ms cubic-bezier(.2, 0, .38, .9);
+}
+
+#code {
+  display: inline-block;
+  max-width: 280px;
+  margin-right: 12px
+}
+
+.bx--text-input:active, .bx--text-input:focus {
+  outline: 2px solid #0f62fe;
+  outline-offset: -2px;
+}
+
+.heading-container {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.heading-container .heading {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: #161616;
+}
+
+.bx--label {
+  display: block;
+
+  margin-bottom: 0.5rem;
+  font-size: 1px;
+  color: #525252;
+  line-height: 1rem;
+  vertical-align: initial;
+}
+
+.login-container {
+  height: 100%;
+  padding-top: 1.5rem;
+  max-width: 500px;
+  min-height: 610px;
+  padding-right: 2rem;
+  padding-left: 3rem;
+}
+
+a {
+  color: #0f62fe;
+  cursor: pointer;
+}
+
+.bx--btn--primary:hover {
+  color: #fff;
+}
+
+.bx--btn--primary:hover {
+  background-color: #0353e9;
+}
+
+.login-form form .bx--btn {
+  width: 100%;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  /* border-radius: 0; */
+  font-family: inherit;
+}
+
+
+.bx--btn {
+  width: 100%;
+  max-width: 100%;
+}
+
+.bx--btn {
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.28572;
+  letter-spacing: .16px;
+  position: relative;
+  display: inline-flex;
+  min-height: 3rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(0.875rem - 3px) 63px calc(0.875rem - 3px) 15px;
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+  text-align: left;
+  text-decoration: none;
+  transition: background 70ms cubic-bezier(0, 0, .38, .9), box-shadow 70ms cubic-bezier(0, 0, .38, .9), border-color 70ms cubic-bezier(0, 0, .38, .9), outline 70ms cubic-bezier(0, 0, .38, .9);
+  vertical-align: top;
+}
+
+#send-button {
   text-align: center;
-  line-height: 2.5;
+  align-items: center;
+
+  width: 100%;
+  max-width: 30%;
+
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: .16px;
+  position: relative;
+  display: inline-block;
+  min-height: 2rem;
+  flex-shrink: 0;
+  justify-content: space-between;
+
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+
+
+
+
+  transition: background 70ms cubic-bezier(0, 0, .38, .9), box-shadow 70ms cubic-bezier(0, 0, .38, .9), border-color 70ms cubic-bezier(0, 0, .38, .9), outline 70ms cubic-bezier(0, 0, .38, .9);
+  vertical-align: top;
 }
 
-#myButton {
-  background-color: rgba(255, 255, 255, 0.4);
-  width: 100px;
-  color: aliceblue;
+.bx--btn--primary {
+  border: 1px solid transparent;
+  background-color: #0f62fe;
+  color: #fff;
 }
 
-#login {
-  position: absolute;
-  top: 32%;
-  right: 55%;
-}
-
-#login-title {
+.bx--btn--tertiary {
   text-align: center;
-  margin-bottom: 0;
-  margin-top: 0;
+  align-content: center;
+  border: 1px solid #0f62fe;
+  background-color: transparent;
+  color: #0f62fe;
 }
 
-.el-card {
-  width: 373px;
-  height: 350px;
-  /* 设置为透明 */
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 15px;
-}
-
-#form {
-  line-height: 60px;
-  padding-left: 15px;
-  padding-right: 15px;
-  text-align: center;
-}
-
-#sendBtn {
+.bx--btn .bx--btn__icon {
   position: absolute;
-  left: 0;
+  right: 1rem;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
 }
 
-.code .el-form-item__error {
-  position: absolute;
-  left: 20px;
-}
+.login-container .help-link {
+  font-size: 1px;
+  font-weight: 400;
+  line-height: 1.42857;
+  letter-spacing: .16px;
 
-#clock {
-  color: aliceblue;
-  position: absolute;
-  top: 77%;
-  right: 5%;
-  text-align: right;
 }
-
-#time {
-  font-size: 80px;
-}
-
-#date {
-  font-size: 35px;
-}
-
-#copyright {
-  color: aliceblue;
-  position: absolute;
-  top: 95%;
-  left: 45%;
-}
-
 </style>
-

@@ -218,7 +218,6 @@ export default {
   },
   methods: {
     webSocketOnMessage() {
-      console.log(6666)
       this.showNotificationDot();
     },
     hideNotificationDot() {

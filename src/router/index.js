@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import login from '../components/login.vue'
-import register from '../components/register.vue'
 import retrievePassword from '../components/retrievePassword.vue'
 import normal from '../components/normal.vue'
 import admin from '../components/admin.vue'
@@ -35,13 +33,15 @@ import gpt from "@/components/gpt/gpt.vue";
 import checkList from "@/components/sign/checkList";
 import schedule from "@/components/date/schedule.vue";
 import userDeptSchedule from "@/components/date/userDeptSchedule";
+import newLogin from "@/components/login.vue";
+import newRegister from "@/components/register.vue";
 
 Vue.use(Router)
 
 const routes = [
     {path: '/', redirect: '/login'},
-    {path: '/login', name: '登录', component: login},
-    {path: '/register', component: register},
+    {path: '/login', name: '登录', component: newLogin},
+    {path: '/register', name: '注册', component: newRegister},
     {path: '/retrievePassword', component: retrievePassword},
     {path: '/dept', component: deptRegister},
     {path: '/offer', component: requestOffer},

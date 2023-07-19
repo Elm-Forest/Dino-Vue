@@ -74,7 +74,7 @@
           </el-form>
         </div>
         <el-dialog
-            title="上传文件"
+
             :visible.sync="dialogVisible"
             width="35%"
             style="text-align: center"
@@ -89,7 +89,7 @@
               multiple>
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip">只能单个上传文件，且不超过100mb</div>
+            <div class="el-upload__tip" slot="tip" style="margin-bottom: 10px">只能单个上传文件，且不超过100mb</div>
           </el-upload>
           <el-button type="primary" @click="upload">上传</el-button>
 

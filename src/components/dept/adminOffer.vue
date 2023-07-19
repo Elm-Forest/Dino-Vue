@@ -165,7 +165,6 @@
 </template>
 
 <script>
-import JSONbig from "json-bigint";
 
 export default {
   data() {
@@ -178,9 +177,9 @@ export default {
       cb(new Error('请输入合法的邮箱'))
     };
     // 验证手机号规则
-    const checkPhonenum = (rule, value, cb) => {
-      const rePhonenum = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
-      if (rePhonenum.test(value)) {
+    const checkPhone = (rule, value, cb) => {
+      const valid = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/
+      if (valid.test(value)) {
         return cb
       }
       cb(new Error('请输入合法的手机号'))
@@ -277,7 +276,7 @@ export default {
         ],
         phone: [
           {required: true, message: '请输入手机号', trigger: 'blur'},
-          {validator: checkPhonenum, trigger: 'blur'}
+          {validator: checkPhone, trigger: 'blur'}
         ],
         email: [
           {required: true, message: '请输入邮箱', trigger: 'blur'},
@@ -352,7 +351,7 @@ export default {
       })
     },
     offerPass() {
-      var this_vue = this;
+      const this_vue = this;
       this.$axios({
         method: 'post',
         url: '/employee/entry',

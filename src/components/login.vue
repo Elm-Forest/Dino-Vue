@@ -1,57 +1,114 @@
 <template>
-  <div>
-    <img id="login-container" src="../assets/images/background.png" alt="">
-    <!-- 跳转注册区域 -->
-    <div id="circle"></div>
-    <div id="goto">
-      <div>
-        <h3>DINO办公助手</h3>
-        <h5>DINO从没灭绝，DINO才刚刚开始</h5>
+  <el-container class="home-container">
+    <el-header id="header">
+      <span id="logo" style="position: absolute;display: block;margin-left: 33px;">D</span>
+      <div class="logo_box" style="margin-left: 63px;">
+        <img class="logo" :src="logo" alt="Logo"/>
       </div>
-      <el-button round id="myButton" @click="toRegister">去注册</el-button>
-    </div>
-    <!-- 登录框区域 -->
-    <div id="loginBox">
-      <el-card class="box-card">
-        <h1 id="login-title">登录</h1>
-        <el-form id="form" ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
-          <el-form-item prop="username">
-            <el-input prefix-icon="el-icon-user-solid" v-model="loginForm.username" placeholder="请输入用户名"
-                      clearable></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input prefix-icon="el-icon-lock" v-model="loginForm.password" placeholder="请输入密码"
-                      show-password></el-input>
-          </el-form-item>
-          <el-link id="forgetPWD" @click="retrievePWD">忘记密码</el-link>
-          <el-button type="primary" @click="login">立即登录</el-button>
-        </el-form>
-      </el-card>
-    </div>
-    <!-- 时间区域 -->
-    <div id="clock">
-      <div id="time">{{ time }}</div>
-      <div id="date">{{ date }}</div>
-    </div>
-    <!-- 版权区域 -->
-    <div id="copyright">Copyright © 2023 DINO</div>
-    <router-view></router-view>
-  </div>
+      <span id="logo" style="position: absolute;display: block;margin-left: 86px;">NO</span>
+    </el-header>
+    <el-container>
+
+      <el-aside width="60%" class="back_side">
+        <el-main class="back_logo_main">
+          <div class="back_logo_box">
+            <img :src="backlog" alt="图案" style="width: 100%; height: 100%; object-fit: contain;" class="back_logo">
+          </div>
+        </el-main>
+      </el-aside>
+      <el-aside width="40%">
+        <el-main>
+          <el-form class="login-container" ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
+            <el-form-item>
+              <div class="heading-container">
+                <div class="bx--row">
+                  <div class="bx--col">
+                    <div class="heading">登录 DINO</div>
+                  </div>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item prop="username">
+              <div class="bx--form-item bx--text-input-wrapper">
+                <label for="username" class="bx--label">用户名 / 邮箱 </label>
+                <input id="username" type="text" class="bx--text-input"
+                       v-model="loginForm.username"
+                       name="username" value="" placeholder="username / email"/>
+              </div>
+            </el-form-item>
+            <el-form-item prop="password">
+              <div class="bx--form-item bx--text-input-wrapper password">
+                <label for="password" class="bx--label">密码 </label>
+                <input id="password" type="password" class="bx--text-input"
+                       v-model="loginForm.password"
+                       name="password" value="" placeholder="password"/>
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <div class="bx--row">
+                <div class="bx--col">
+                  <div class="button-container">
+                    <el-button id="continue-button" tabindex="0"
+                               class="submit-button bx--btn bx--btn--primary"
+                               @click="login">登录
+                      <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                           fill="currentColor" aria-hidden="true" width="16" height="15" viewBox="0 0 16 16"
+                           class="bx--btn__icon">
+                        <path d="M9.3 3.7L13.1 7.5 1 7.5 1 8.5 13.1 8.5 9.3 12.3 10 13 15 8 10 3z"></path>
+                      </svg>
+                    </el-button>
+                  </div>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <div class="bottom-link-container">
+                <div class="register-text">
+                  <label class="bx--label">没有帐户？ </label>
+                  <div>
+                    <a tabindex="0" class="bx--btn bx--btn--tertiary" @click="toRegister">
+                      加入 DINO
+                      <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"
+                           fill="currentColor" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16"
+                           class="bx--btn__icon">
+                        <path d="M9.3 3.7L13.1 7.5 1 7.5 1 8.5 13.1 8.5 9.3 12.3 10 13 15 8 10 3z"></path>
+                      </svg>
+                    </a></div>
+                </div>
+              </div>
+            </el-form-item>
+            <el-form-item>
+              <div class="bx--row">
+                <div class="bx--col"><p class="help-link">
+                  忘记密码？
+                  <a @click="retrievePWD">找回密码</a>
+                </p>
+                </div>
+              </div>
+            </el-form-item>
+          </el-form>
+        </el-main>
+      </el-aside>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
+import logo from '../../public/logo.svg'
+import background from '../assets/images/reg.svg'
 import {ADMIN, NORMAL, SUPER} from "@/utils/const";
+
 
 export default {
   name: 'Login',
   data() {
     return {
-      // 登录表单的数据绑定对象
+      logo: logo,
+      backlog: background,
       loginForm: {
         username: '',
         password: ''
       },
-      // 登录表单验证规则
       loginFormRules: {
         username: [
           {required: true, message: '请输入用户名', trigger: 'blur'},
@@ -65,12 +122,6 @@ export default {
       time: '',
       date: ''
     }
-  },
-  // 时间更新
-  mounted() {
-    this.$nextTick(() => {
-      setInterval(this.update_clock, 1000);
-    })
   },
   methods: {
     // 登录预验证
@@ -176,132 +227,231 @@ export default {
     // 跳转忘记密码
     retrievePWD() {
       this.$router.push({path: '/retrievePassword'})
-    },
-    // 时间设置
-    update_clock: function () {
-      let d = new Date();
-      let year = d.getFullYear();
-      if (year < 10) {
-        year = "0" + year;
-      }
-      let month = d.getMonth() + 1 + "";
-      if (month < 10) {
-        month = "0" + month;
-      }
-      let day = d.getDate() + "";
-      if (day < 10) {
-        day = "0" + day;
-      }
-      let hour = d.getHours() + "";
-      if (hour < 10) {
-        hour = "0" + hour;
-      }
-      let minute = d.getMinutes() + "";
-      if (minute < 10) {
-        minute = "0" + minute;
-      }
-      let second = d.getSeconds() + "";
-      if (second < 10) {
-        second = "0" + second;
-      }
-      this.time = hour + ":" + minute + ":" + second;
-      this.date = year + "/" + month + "/" + day;
     }
   }
 }
 </script>
 
 <style scoped>
-#login-container {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
+
+#header {
+  border-bottom: 2px solid #e7e4e4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 1px rgba(157, 150, 150, 0.1);
 }
 
-#circle {
-  width: 600px;
-  height: 600px;
-  background: rgb(6, 169, 214);
-  border-radius: 0 0 600px 0;
-  position: absolute;
-  left: 0;
+* {
+  box-sizing: border-box;
 }
 
-#goto {
-  color: aliceblue;
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  text-align: center;
-  line-height: 2.5;
+
+#logo {
+  padding: 0 15px;
+  color: #084f4f;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 4px;
 }
 
-#myButton {
-  background-color: rgba(255, 255, 255, 0.4);
-  width: 100px;
-  color: aliceblue;
+* {
+  box-sizing: border-box;
 }
 
-#loginBox {
-  position: absolute;
-  top: 40%;
-  left: 55%;
+.logo_box {
+  background-color: white;
+  padding: 5px 5px 0;
 }
 
-#login-title {
-  text-align: center;
-  margin-bottom: 0;
-  margin-top: 0;
-}
-
-.el-card {
-  width: 373px;
-  height: 260px;
-  /* 设置为透明 */
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 15px;
-}
-
-#form {
-  line-height: 60px;
-  padding-left: 15px;
-  padding-right: 15px;
-  text-align: center;
-}
-
-#forgetPWD {
-  float: left;
-  color: black;
-  position: absolute;
-  left: 10%;
-  top: 72%;
+.logo {
+  width: 32px;
   height: 30px;
+
 }
 
-#clock {
-  color: aliceblue;
-  position: absolute;
-  top: 77%;
-  left: 5%;
+.back_side {
+  background-color: rgb(245, 242, 242);
+}
+
+.back_logo_main {
+  background-color: rgb(245, 242, 242);
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.back_logo_box {
+  margin-top: 5px;
+  margin-right: 70px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position-x: left;
+  background-position-y: bottom;
+}
+
+.back_logo {
+
+}
+
+.bx--text-input {
+  font-size: 1px;
+  font-weight: 400;
+  line-height: 1.28572;
+  letter-spacing: .16px;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 10px;
+  border: none;
+  border-bottom: 1px solid #8d8d8d;
+  background-color: #f4f4f4;
+  color: #161616;
+  transition: background-color 70ms cubic-bezier(.2, 0, .38, .9), outline 70ms cubic-bezier(.2, 0, .38, .9);
+}
+
+.bx--text-input:active, .bx--text-input:focus {
+  outline: 2px solid #0f62fe;
+  outline-offset: -2px;
+}
+
+.heading-container {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.heading-container .heading {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0;
+  color: #161616;
+}
+
+.bx--label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  font-size: 1px;
+  color: #525252;
+  line-height: 1rem;
+  vertical-align: initial;
+}
+
+.login-container {
+  height: 100%;
+  padding-top: 1.5rem;
+  max-width: 500px;
+  min-height: 610px;
+  padding-right: 2rem;
+  padding-left: 3rem;
+}
+
+a {
+  color: #0f62fe;
+  cursor: pointer;
+}
+
+.bx--btn--primary:hover {
+  color: #fff;
+}
+
+.bx--btn--primary:hover {
+  background-color: #0353e9;
+}
+
+.bx--btn--tertiary {
+  border: 1px solid #0f62fe;
+  background-color: transparent;
+  color: #0f62fe;
+}
+
+.login-form form .bx--btn {
+  width: 100%;
+  max-width: 100%;
+}
+
+button, input, select, textarea {
+  /* border-radius: 0; */
+  font-family: inherit;
+}
+
+.bx--btn--primary {
+  border: 1px solid transparent;
+  background-color: #0f62fe;
+  color: #fff;
+}
+
+
+.bx--btn {
+  width: 100%;
+  max-width: 100%;
+}
+
+.bx--btn {
+
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.28572;
+  letter-spacing: .16px;
+  position: relative;
+  display: inline-flex;
+  min-height: 3rem;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(0.875rem - 3px) 63px calc(0.875rem - 3px) 15px;
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
   text-align: left;
+  text-decoration: none;
+  transition: background 70ms cubic-bezier(0, 0, .38, .9), box-shadow 70ms cubic-bezier(0, 0, .38, .9), border-color 70ms cubic-bezier(0, 0, .38, .9), outline 70ms cubic-bezier(0, 0, .38, .9);
+  vertical-align: top;
 }
 
-#time {
-  font-size: 80px;
+#continue-button {
+//margin-top: 15px;
 }
 
-#date {
-  font-size: 35px;
+.bx--btn--tertiary:hover {
+  background-color: #0353e9;
 }
 
-#copyright {
-  color: aliceblue;
+.register-text {
+//padding-top: 30px; margin-bottom: 0.5rem; font-size: 1px; color: #525252; line-height: 1rem; vertical-align: initial;
+}
+
+.bx--btn .bx--btn__icon {
   position: absolute;
-  top: 95%;
-  left: 45%;
+  right: 1rem;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.password {
+//padding-top: 20px;
+}
+
+.bx--btn--tertiary:hover {
+  color: #fff;
+}
+
+.bottom-link-container {
+  margin: 1rem 0;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.login-container .help-link {
+  font-size: 1px;
+  font-weight: 400;
+  line-height: 1.42857;
+  letter-spacing: .16px;
+
 }
 </style>
-
-
