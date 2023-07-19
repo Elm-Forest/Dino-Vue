@@ -28,13 +28,13 @@
           @click="openAbsent">
         查看缺勤日志
       </el-button>
-      <el-button
-          type="primary"
-          size="small"
-          :disable="!isAdd"
-          @click="test">
-        测试缺勤
-      </el-button>
+<!--      <el-button-->
+<!--          type="primary"-->
+<!--          size="small"-->
+<!--          :disable="!isAdd"-->
+<!--          @click="test">-->
+<!--        测试缺勤-->
+<!--      </el-button>-->
     </div>
 
     <!-- 主体区 -->

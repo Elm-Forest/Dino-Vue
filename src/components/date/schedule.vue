@@ -45,16 +45,16 @@
     <el-dialog
         title="修改日程"
         :visible.sync="editVisible">
-      <el-form :model="editSchedule">
-        <el-form-item label="标题">
+      <el-form :model="editSchedule" :rules="editScheduleRule" ref="editRuleForm">
+        <el-form-item label="标题" prop="scheduleTitle">
           <el-input v-model="editSchedule.scheduleTitle"></el-input>
         </el-form-item>
 
-        <el-form-item label="内容">
+        <el-form-item label="内容" prop="scheduleContent">
           <el-input v-model="editSchedule.scheduleContent"></el-input>
         </el-form-item>
 
-        <el-form-item label="起止时间">
+        <el-form-item label="起止时间" prop="date">
           <el-col :span="5">
             <el-date-picker type="date" placeholder="选择日期" v-model="editSchedule.startTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
@@ -77,16 +77,16 @@
     <el-dialog
         title="添加日程"
         :visible.sync="addVisible">
-      <el-form :model="addSchedule">
-        <el-form-item label="标题">
+      <el-form :model="addSchedule" :rules="addScheduleRule" ref="addRuleForm">
+        <el-form-item label="标题" prop="scheduleTitle">
           <el-input v-model="addSchedule.scheduleTitle"></el-input>
         </el-form-item>
 
-        <el-form-item label="内容">
+        <el-form-item label="内容" prop="scheduleContent">
           <el-input v-model="addSchedule.scheduleContent"></el-input>
         </el-form-item>
 
-        <el-form-item label="起止时间">
+        <el-form-item label="起止时间" prop="date">
           <el-col :span="5">
             <el-date-picker type="date" placeholder="选择日期" v-model="addSchedule.startTime" value-format="yyyy-MM-dd"
                             style="width: 100%;"></el-date-picker>
@@ -136,7 +136,24 @@ export default {
       scheduleListSelect: [],
       day_select: null,
       editVisible: false,
-      addVisible: false
+      addVisible: false,
+
+      editScheduleRule: {
+        scheduleTitle: [
+          {required: true, message: '请输入标题', trigger: 'blur'},
+        ],
+        scheduleContent: [
+          {required: true, message: '请输入内容', trigger: 'blur'},
+        ]
+      },
+      addScheduleRule: {
+        scheduleTitle: [
+          {required: true, message: '请输入标题', trigger: 'blur'},
+        ],
+        scheduleContent: [
+          {required: true, message: '请输入内容', trigger: 'blur'},
+        ]
+      }
     }
   },
   created() {
@@ -201,11 +218,13 @@ export default {
     closeAddDialog() {
       this.addVisible = false
       this.addSchedule = {}
+      this.$refs.addRuleForm.resetFields();
     },
 
     closeEditDialog() {
       this.editVisible = false
       this.editSchedule = {}
+      this.$refs.editRuleForm.resetFields();
     },
 
     getList() {
@@ -228,66 +247,86 @@ export default {
     },
     add() {
       let this_vue = this
-      if(new Date(this_vue.addSchedule.endTime) < new Date()) {
+      if (new Date(this_vue.addSchedule.endTime) < new Date()) {
         this_vue.$message({
           message: "终止日期不能小于今天哦",
           type: 'warning'
         });
         return;
       }
-      this.$axios({
-        method: 'post',
-        url: '/schedule',
-        params: {
-          'scheduleTitle': this.addSchedule.scheduleTitle,
-          'scheduleContent': this.addSchedule.scheduleContent,
-          'startTime': this.addSchedule.startTime,
-          'endTime': this.addSchedule.endTime
-        }
-      }).then(function (response) {
-        if (response.flag) {
-          this_vue.$message({
-            message: response.message,
-            type: 'success'
-          });
+      this.$refs.addRuleForm.validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: 'post',
+            url: '/schedule',
+            params: {
+              'scheduleTitle': this.addSchedule.scheduleTitle,
+              'scheduleContent': this.addSchedule.scheduleContent,
+              'startTime': this.addSchedule.startTime,
+              'endTime': this.addSchedule.endTime
+            }
+          }).then(function (response) {
+            if (response.flag) {
+              this_vue.$message({
+                message: response.message,
+                type: 'success'
+              });
+            } else {
+              this_vue.$message({
+                message: response.message,
+                type: 'warning'
+              });
+            }
+            this_vue.getList()
+          })
+          this.closeAddDialog()
         } else {
           this_vue.$message({
-            message: response.message,
+            message: "表单填写格式有误",
             type: 'warning'
           });
         }
-        this_vue.getList()
-      })
-      this.closeAddDialog()
+      });
+
     },
 
     edit() {
       let this_vue = this
-      this.$axios({
-        method: 'put',
-        url: '/schedule',
-        params: {
-          'id': this.editSchedule.id,
-          'scheduleTitle': this.editSchedule.scheduleTitle,
-          'scheduleContent': this.editSchedule.scheduleContent,
-          'startTime': this.editSchedule.startTime,
-          'endTime': this.editSchedule.endTime
-        }
-      }).then(function (response) {
-        if (response.flag) {
-          this_vue.$message({
-            message: response.message,
-            type: 'success'
-          });
+      this.$refs.editRuleForm.validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: 'put',
+            url: '/schedule',
+            params: {
+              'id': this.editSchedule.id,
+              'scheduleTitle': this.editSchedule.scheduleTitle,
+              'scheduleContent': this.editSchedule.scheduleContent,
+              'startTime': this.editSchedule.startTime,
+              'endTime': this.editSchedule.endTime
+            }
+          }).then(function (response) {
+            if (response.flag) {
+              this_vue.$message({
+                message: response.message,
+                type: 'success'
+              });
+            } else {
+              this_vue.$message({
+                message: response.message,
+                type: 'warning'
+              });
+            }
+            this_vue.getList()
+          })
+          this.editVisible = false
         } else {
           this_vue.$message({
-            message: response.message,
+            message: "表单填写格式有误",
             type: 'warning'
           });
         }
-        this_vue.getList()
       })
-      this.editVisible = false
+
     },
 
     del() {
