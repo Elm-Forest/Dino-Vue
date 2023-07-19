@@ -24,7 +24,7 @@
       <!-- 侧边栏 -->
       <el-aside width="240px">
         <!-- 侧边栏菜单区域 -->
-        <el-menu background-color="#fafafa">
+        <el-menu background-color="#fafafa" :router="true" :unique-opened="true">
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
@@ -85,10 +85,6 @@
               <i class="el-icon-user"></i>
               <span>我的日程</span>
             </el-menu-item>
-            <el-menu-item index="/admin/friendsSchedule">
-              <i class="el-icon-user-solid"></i>
-              <span>联系人日程</span>
-            </el-menu-item>
             <el-menu-item index="/admin/deptSchedule">
               <i class="el-icon-more"></i>
               <span>部门日程</span>
@@ -105,13 +101,13 @@
               <i class="el-icon-user"/>
               <span>成员管理</span>
             </el-menu-item>
-            <el-menu-item index="5-2">
+            <el-menu-item index="/admin/offer">
               <i class="el-icon-office-building"/>
               <span>offer管理</span>
             </el-menu-item>
-            <el-menu-item index="5-3">
+            <el-menu-item index="/admin/company">
               <i class="el-icon-office-building"/>
-              <span>企业名片</span>
+              <span>企业信息管理</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
