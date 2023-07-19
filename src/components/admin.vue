@@ -107,7 +107,7 @@
             </el-menu-item>
             <el-menu-item index="/admin/company">
               <i class="el-icon-office-building"/>
-              <span>企业信息管理</span>
+              <span>企业名片</span>
             </el-menu-item>
           </el-submenu>
         </el-menu>
