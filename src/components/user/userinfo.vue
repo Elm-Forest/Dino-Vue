@@ -56,20 +56,20 @@
     </div>
     <div>
       <el-dialog title="修改信息" :visible.sync="dialogFormVisible" width="35%">
-        <el-form>
-          <el-form-item label="姓名" :label-width="formLabelWidth">
+        <el-form ref="loginFormRef" :rules="loginFormRules">
+          <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
             <el-input v-model="name" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="手机号" :label-width="formLabelWidth">
+          <el-form-item label="手机号" :label-width="formLabelWidth" prop="phone">
             <el-input v-model="phone" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="居住地" :label-width="formLabelWidth">
+          <el-form-item label="通讯地址" :label-width="formLabelWidth" prop="address">
             <el-input v-model="address" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="性别" :label-width="formLabelWidth" value-key="id">
+          <el-form-item label="性别" :label-width="formLabelWidth" value-key="id" prop="sex">
             <el-select v-model="sex" placeholder="性别">
-              <el-option key=1 label="男" value=1></el-option>
-              <el-option key=0 label="女" value=0></el-option>
+              <el-option key=1 label="男" value=男></el-option>
+              <el-option key=0 label="女" value=女></el-option>
             </el-select>
           </el-form-item>
           <el-form-item style="text-align: center">
@@ -87,6 +87,11 @@ import {right_list, role_list} from '@/utils/const'
 export default {
   data() {
     return {
+      sex_dto: ['女', '男'],
+      sex_vo: new Map([
+        ["男", 1],
+        ["女", 0]
+      ]),
       fileList: [],
       files: '',
       dialogImageUrl: '',
@@ -103,7 +108,34 @@ export default {
       role: 'CEO',
       rights: '',
       roles: role_list,
-      right: right_list
+      right: right_list,
+      loginFormRules: {
+        name: [
+          {required: true, message: '请输入您的真实姓名', trigger: 'blur'},
+          {min: 1, max: 10, message: '长度应在 1 到 10 个字符', trigger: 'blur'}
+        ],
+        phone: [
+          {required: true, message: '请填写手机号', trigger: 'blur'},
+          {
+            type: 'string',
+            message: '手机号格式不正确，请填写中国大陆支持的手机号',
+            trigger: 'blur',
+            transform(value) {
+              if (!/^1[3-9]\d{9}$/.test(value)) {
+                return true
+              } else {
+              }
+            }
+          },
+          {min: 11, max: 111, type: 'string', message: '手机号格式不正确，请填写中国大陆支持的手机号', trigger: 'blur'}
+        ],
+        address: [
+          {required: true, message: '请输入您的通讯地址', trigger: 'blur'},
+        ],
+        sex: [
+          {required: true, message: '请选择您的性别', trigger: 'blur'},
+        ],
+      },
     };
   },
   mounted: function () {
@@ -189,8 +221,8 @@ export default {
       }).then(function (response) {
         if (response.flag) {
           this_vue.name = response.data.name;
-          this_vue.sex_show = ['女', '男'][response.data.sex];
-          this_vue.sex = response.data.sex;
+          this_vue.sex_show = this_vue.sex_dto[response.data.sex];
+          this_vue.sex = this_vue.sex_dto[response.data.sex];
           this_vue.address = response.data.address;
           this_vue.phone = response.data.phone;
           this_vue.headImg = response.data.headImg;
@@ -207,34 +239,37 @@ export default {
       })
     },
     post() {
-      console.log(this.sex)
       const this_vue = this;
-      this.$axios({
-        method: 'put',
-        url: '/user/userinfo',
-        params: {
-          'name': this.name,
-          'sex': this.sex,
-          'phone': this.phone,
-          'address': this.address,
-        }
-      }).then(function (response) {
-        this_vue.dialogFormVisible = false;
-        if (response.flag) {
-          this_vue.getUserInfo();
-          this_vue.$message({
-            message: response.message,
-            type: 'success'
+      this.$refs.loginFormRef.validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: 'put',
+            url: '/user/userinfo',
+            params: {
+              'name': this.name,
+              'sex': this.sex_vo.get(this.sex),
+              'phone': this.phone,
+              'address': this.address,
+            }
+          }).then(function (response) {
+            this_vue.dialogFormVisible = false;
+            if (response.flag) {
+              this_vue.getUserInfo();
+              this_vue.$message({
+                message: response.message,
+                type: 'success'
+              });
+            } else {
+              this_vue.$message({
+                message: response.message,
+                type: 'warning'
+              });
+            }
+          }).catch(function (error) {
+            console.log(error);
           });
-        } else {
-          this_vue.$message({
-            message: response.message,
-            type: 'warning'
-          });
         }
-      }).catch(function (error) {
-        console.log(error);
-      });
+      })
     }
   }
 }

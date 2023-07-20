@@ -286,6 +286,7 @@ export default {
   background-color: #fff;
   border: 1px solid #eaeaea;
   opacity: 1;
+  box-shadow: 0 2px 2px rgba(159, 154, 154, 0.1);
 }
 
 .common_div {
