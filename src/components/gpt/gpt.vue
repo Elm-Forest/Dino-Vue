@@ -32,13 +32,17 @@
                      })()"></md-msg-box>
           </div>
           <div class="input-area">
-            <el-input
-                class="input"
-                type="textarea"
-                :rows="5"
-                placeholder=""
-                v-model="msg">
-            </el-input>
+            <el-form ref="msgRef" :rules="msgRules" :model="msgForm">
+              <el-form-item prop="msg">
+                <el-input
+                    class="input"
+                    type="textarea"
+                    :rows="5"
+                    placeholder=""
+                    v-model="msgForm.msg">
+                </el-input>
+              </el-form-item>
+            </el-form>
             <el-button class="send-btn" @click="sendMsg" type="info" :disabled="button_disable">发送</el-button>
           </div>
         </div>
@@ -67,7 +71,9 @@ export default {
       GptName: 'GPT工作助手',
       title: null,
       gptUrl: gpt_helper,
-      msg: '',
+      msgForm: {
+        msg: null,
+      },
       msgList: [],
       sessionList: [],
       socket: null,
@@ -76,7 +82,22 @@ export default {
       sessionId: '',
       index_gpt: 0,
       content_listener: false,
-      title_listener: false
+      title_listener: false,
+      msgRules: {
+        msg: [
+          {required: true, message: '输入不能为空！'},
+          {min: 1, message: '输入不能为空！'},
+          {
+            validator: (rule, value, callback) => {
+              if (value === '' || value === null) {
+                callback('输入不能为空！');
+              } else {
+                callback();
+              }
+            },
+          },
+        ],
+      }
     }
   },
   components: {
@@ -91,6 +112,7 @@ export default {
     this.getSessionLists();
   },
   methods: {
+
     removeSession() {
       const this_vue = this;
       return this.$axios({
@@ -127,7 +149,7 @@ export default {
           })
           this_vue.handleContactClick(this_vue.sessionId, 'New Chat');
           this_vue.msgList = [];
-          this_vue.msg = null;
+          this_vue.msgForm.msg = null;
           this_vue.title = 'New Chat';
           this_vue.button_disable = false;
         })
@@ -135,7 +157,7 @@ export default {
     },
     handleContactClick(id, title) {
       this.msgList = [];
-      this.msg = null;
+      this.msgForm.msg = null;
       this.title = title;
       const this_vue = this;
       this.msg_loading = true;
@@ -194,24 +216,31 @@ export default {
     sendMsg() {
       const this_vue = this;
       this.response = '';
-      this.$axios({
-        method: 'POST',
-        url: '/socket/gpt',
-        params: {
-          sessionId: this_vue.sessionId,
-          message: this_vue.msg
+      this.$refs.msgRef.validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: 'POST',
+            url: '/socket/gpt',
+            params: {
+              sessionId: this_vue.sessionId,
+              message: this_vue.msgForm.msg
+            }
+          }).then()
+          this.msgList.push({
+            name: this.selfName,
+            msg: this.msgForm.msg,
+            isSelf: true
+          })
+          this.msgForm.msg = ''
+          this.$nextTick(() => {
+            const messagePanel = document.querySelector('.message-panel');
+            messagePanel.scrollTop = messagePanel.scrollHeight;
+          });
+          this.$nextTick(()=>{
+            this.$refs.msgRef.resetFields();
+          })
         }
-      }).then()
-      this.msgList.push({
-        name: this.selfName,
-        msg: this.msg,
-        isSelf: true
       })
-      this.msg = ''
-      this.$nextTick(() => {
-        const messagePanel = document.querySelector('.message-panel');
-        messagePanel.scrollTop = messagePanel.scrollHeight;
-      });
     },
     webSocketOnMessage(e) {
       if (this.title_listener) {

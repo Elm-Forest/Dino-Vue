@@ -30,13 +30,17 @@
                      })()"></msg-box>
           </div>
           <div class="input-area">
-            <el-input
-                class="input"
-                type="textarea"
-                :rows="5"
-                placeholder=""
-                v-model="msg">
-            </el-input>
+            <el-form ref="msgRef" :rules="msgRules" :model="msgForm" >
+              <el-form-item prop="msg" :immediate="false">
+                <el-input
+                    class="input"
+                    type="textarea"
+                    :rows="5"
+                    placeholder=""
+                    v-model="msgForm.msg">
+                </el-input>
+              </el-form-item>
+            </el-form>
             <el-button class="send-btn" @click="sendMsg" type="info" :disabled="button_disable">发送</el-button>
           </div>
         </div>
@@ -63,10 +67,18 @@ export default {
       targetId: '',
       targetUrl: '',
       msg: '',
+      msgForm: {
+        msg: null,
+      },
       msgList: [],
       contactList: [],
       socket: null,
-      button_disable: true
+      button_disable: true,
+      msgRules: {
+        msg: [
+          {required: true, message: '发送时消息不能为空'},
+        ]
+      }
     }
   },
   components: {
@@ -85,7 +97,7 @@ export default {
   methods: {
     handleContactClick(id) {
       this.msgList = [];
-      this.msg = null;
+      this.msgForm.msg = null;
       this.targetId = id;
       this.msg_loading = true;
       this.setConnector();
@@ -148,29 +160,38 @@ export default {
           messagePanel.scrollTop = messagePanel.scrollHeight;
           this_vue.msg_loading = false;
         });
-
       })
     },
     sendMsg() {
       const this_vue = this;
-      this.$axios({
-        method: 'POST',
-        url: '/socket/chat',
-        params: {
-          id: this_vue.targetId,
-          message: this_vue.msg
+
+      this.$refs.msgRef.validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: 'POST',
+            url: '/socket/chat',
+            params: {
+              id: this_vue.targetId,
+              message: this_vue.msgForm.msg
+            }
+          }).then()
+          this.msgList.push({
+            name: this.selfName,
+            msg: this.msgForm.msg,
+            isSelf: true
+          })
+          this.msgForm.msg = ''
+
+          this.$nextTick(() => {
+            const messagePanel = document.querySelector('.message-panel');
+            messagePanel.scrollTop = messagePanel.scrollHeight;
+          });
+          this.$nextTick(()=>{
+            this.$refs.msgRef.resetFields();
+          })
         }
-      }).then()
-      this.msgList.push({
-        name: this.selfName,
-        msg: this.msg,
-        isSelf: true
       })
-      this.msg = ''
-      this.$nextTick(() => {
-        const messagePanel = document.querySelector('.message-panel');
-        messagePanel.scrollTop = messagePanel.scrollHeight;
-      });
+
     },
     webSocketOnMessage(e) {
       this.response = e.data;
