@@ -185,7 +185,7 @@ export default {
       absentVisible : false,
       currentPage: 1,
       total: 0,
-      pageSize: 10,
+      pageSize: 5,
       //表格数据
       tableData: [],
       checkData: [],
