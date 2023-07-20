@@ -255,10 +255,6 @@ export default {
   letter-spacing: 4px;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 .logo_box {
   background-color: white;
   padding: 5px 5px 0;
