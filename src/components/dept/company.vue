@@ -5,7 +5,7 @@
       <el-breadcrumb-item>企业信息管理</el-breadcrumb-item>
       <el-breadcrumb-item>企业信息</el-breadcrumb-item>
     </el-breadcrumb>
-    <div id="box">
+    <div id="box" v-loading="loading">
       <el-card class="box-card box-card2">
         <el-avatar :size="60" src="" id="headBox">
           <img src="" alt="" id="headImg1" @click="dialogVisible = true"/>
@@ -81,6 +81,7 @@ export default {
     return {
       fileList: [],
       files: '',
+      loading: true,
       dialogImageUrl: '',
       formLabelWidth: '80px',
       dialogVisible2: false,
@@ -95,8 +96,8 @@ export default {
     };
   },
   mounted: function () {
-    this.getDeptInfo();
     this.getHeadImg();
+    this.getDeptInfo();
   },
   created() {
 
@@ -184,6 +185,7 @@ export default {
           this_vue.headImg = response.data.headImg;
           this_vue.describe = response.data.describe;
           this_vue.deptId = response.data.deptId;
+          this_vue.loading = false;
         }
       }).catch(function (error) {
         console.log(error);

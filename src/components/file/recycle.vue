@@ -8,26 +8,26 @@
     <el-card class="box-card">
       <div class="oa_main">
         <!--search-->
-<!--        <div class="oa_search">-->
-<!--          <el-form :inline="true" :model="form" class="demo-form-inline">-->
-<!--            <el-form-item label="文档名称">-->
-<!--              <el-input v-model="form.name" placeholder="请输入文档名称" size="small"></el-input>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item label="上传时间">-->
-<!--              <el-date-picker-->
-<!--                  v-model="form.time"-->
-<!--                  type="daterange"-->
-<!--                  range-separator="至"-->
-<!--                  start-placeholder="开始日期"-->
-<!--                  end-placeholder="结束日期"-->
-<!--                  size="small">-->
-<!--              </el-date-picker>-->
-<!--            </el-form-item>-->
-<!--            <el-form-item>-->
-<!--              <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small">查询</el-button>-->
-<!--            </el-form-item>-->
-<!--          </el-form>-->
-<!--        </div>-->
+        <!--        <div class="oa_search">-->
+        <!--          <el-form :inline="true" :model="form" class="demo-form-inline">-->
+        <!--            <el-form-item label="文档名称">-->
+        <!--              <el-input v-model="form.name" placeholder="请输入文档名称" size="small"></el-input>-->
+        <!--            </el-form-item>-->
+        <!--            <el-form-item label="上传时间">-->
+        <!--              <el-date-picker-->
+        <!--                  v-model="form.time"-->
+        <!--                  type="daterange"-->
+        <!--                  range-separator="至"-->
+        <!--                  start-placeholder="开始日期"-->
+        <!--                  end-placeholder="结束日期"-->
+        <!--                  size="small">-->
+        <!--              </el-date-picker>-->
+        <!--            </el-form-item>-->
+        <!--            <el-form-item>-->
+        <!--              <el-button type="primary" icon="el-icon-search" @click="onSubmit" size="small">查询</el-button>-->
+        <!--            </el-form-item>-->
+        <!--          </el-form>-->
+        <!--        </div>-->
         <el-dialog
             title="警告！"
             :visible.sync="dialogVisible"
@@ -46,7 +46,7 @@
           </el-form>
         </el-dialog>
         <!--list-->
-        <el-table :data="tableData4" stripe style="width: 100%">
+        <el-table :data="tableData4" stripe style="width: 100%" v-loading="loading">
           <el-table-column prop="type" align="center" label="类型" width="150"
                            :formatter="formatStateType">
             <template slot-scope="scope">
@@ -90,6 +90,7 @@ export default {
     return {
       file,
       folder,
+      loading: true,
       tableData4: [],
       dialogVisible: false,
       delForm: {
@@ -180,6 +181,8 @@ export default {
         url: '/doc/rec',
       }).then(res => {
         this_vue.tableData4 = res.data;
+        const len = this_vue.tableData4.length
+        console.log(len)
         for (const i in this_vue.tableData4) {
           if (this_vue.tableData4[i].type === 2) {
             this_vue.tableData4[i].size = "计算中"
@@ -202,8 +205,13 @@ export default {
               }
               this_vue.tableData4[i].size = size + ext;
             })
+
+          }
+          if (this_vue.loading && (i === len - 1 || i === len - 1 + '')) {
+            this_vue.loading = false;
           }
         }
+
         this_vue.form.current_count = this_vue.form.size;
         this_vue.form.total = res.data.count;
       })

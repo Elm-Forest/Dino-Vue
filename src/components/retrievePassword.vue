@@ -17,6 +17,13 @@
         <!-- 忘记密码主题框 -->
         <div class="container">
           <!-- 步骤条 -->
+          <div class="heading-container">
+            <div class="bx--row">
+              <div class="bx--col">
+                <div class="heading">找回密码</div>
+              </div>
+            </div>
+          </div>
           <el-steps :active="active" :space="200" finish-status="success" align-center>
             <el-step title="输入邮箱" icon="el-icon-edit"></el-step>
             <el-step title="输入验证码" icon="el-icon-s-promotion"></el-step>
@@ -275,7 +282,7 @@ export default {
   font-size: 80px;
   color: #999;
   text-align: center;
-  height: 170px;
+  height: 130px;
   line-height: 170%;
 }
 
@@ -303,6 +310,18 @@ export default {
   margin-top: 3%;
   text-align: center;
 }
+.heading-container {
+  padding-bottom: 1rem;
+  margin-bottom: 33px;
+  border-bottom: 1px solid #e0e0e0;
+}
 
+.heading-container .heading {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 1px;
+  color: #161616;
+}
 </style>
 

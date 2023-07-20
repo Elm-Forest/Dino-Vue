@@ -52,7 +52,7 @@
 
       </el-row>
       <!-- 用户列表区域 -->
-      <el-table :data="tableData" border stripe>
+      <el-table :data="tableData" v-loading="loading" border stripe>
         <el-table-column label="姓名" align="center" prop="name"></el-table-column>
         <el-table-column label="角色" align="center" prop="role" :formatter="formatterRole"></el-table-column>
         <el-table-column label="权限" align="center" prop="rights" :formatter="formatterRights"></el-table-column>
@@ -81,7 +81,7 @@
       <el-dialog
           title="修改用户档案"
           :visible.sync="editDialogVisible"
-          width="26%" @close="editDialogClosed" style="text-align: center">
+          width="25%" @close="editDialogClosed">
         <!-- 对话框主体区 -->
         <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="auto">
           <el-form-item label="角色" prop="role">
@@ -120,12 +120,16 @@
               </el-select>
             </template>
           </el-form-item>
+          <el-form-item>
+            <el-button @click="editDialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="editUserInfo">确 定</el-button>
+                    <span slot="footer" class="dialog-footer" style="text-align: center;align-items: center">
+
+                </span>
+          </el-form-item>
         </el-form>
         <!-- 底部区 -->
-        <span slot="footer" class="dialog-footer">
-                    <el-button @click="editDialogVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="editUserInfo">确 定</el-button>
-                </span>
+
       </el-dialog>
 
       <!-- 查看名片的对话框 -->
@@ -166,6 +170,7 @@ export default {
     }
     return {
       // 角色选项
+      loading: true,
       optionRoles: [{
         value: 1,
         label: '客服'
@@ -352,6 +357,7 @@ export default {
       }).then(function (response) {
         this_vue.tableData = response.data.recordList;
         this_vue.total = response.data.count;
+        this_vue.loading = false;
       })
     },
 

@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-row type="flex" justify="center" style="margin-top: 10%">
       <el-col :span="12">
-        <el-card>
+        <el-card v-loading="loading">
           <div slot="header">{{ title }}</div>
           <el-form ref="form" :model="mailAccountForm" label-width="80px" style="margin-top: 5%">
             <el-form-item label="邮箱" style="width: 88%">
@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       title: '加载中...',
+      loading: true,
       mailAccountForm: {
         email: '',
         password: '',
@@ -54,6 +55,7 @@ export default {
       }
     }).then(() => {
       this.title = "设置邮箱账户"
+      this.loading = false;
     })
   },
   methods: {

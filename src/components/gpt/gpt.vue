@@ -6,7 +6,7 @@
       <el-breadcrumb-item>GPT工作助手</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="outer-wrapper">
-      <div class="wrapper">
+      <div class="wrapper" v-loading="loading">
         <div class="left_wrapper">
           <ul class="contact_list">
             <li class="create_session"
@@ -24,7 +24,7 @@
           <h3 style="text-align: center">
             {{ title === null ? '无标题' : title }}
           </h3>
-          <div class="message-panel">
+          <div class="message-panel" v-loading="msg_loading">
             <md-msg-box v-for="(item, index) of msgList" :key="index+Math.random()" :uname="item.name"
                         :content="item.msg"
                         :isself="item.isSelf" :headImg="(function() {
@@ -62,6 +62,8 @@ export default {
       content: 'hh',
       selfName: '',
       selfUrl: '',
+      loading: true,
+      msg_loading: false,
       GptName: 'GPT工作助手',
       title: null,
       gptUrl: gpt_helper,
@@ -136,10 +138,11 @@ export default {
       this.msg = null;
       this.title = title;
       const this_vue = this;
+      this.msg_loading = true;
       this.removeSession().then(_ => {
         this_vue.sessionId = id;
-        this_vue.selectChatInfo();
         this_vue.recoverSession()
+        this_vue.selectChatInfo();
       })
       this.button_disable = false;
     },
@@ -150,6 +153,7 @@ export default {
         url: '/message/gpt/lists',
       }).then(res => {
         this_vue.sessionList = res.data;
+        this_vue.loading = false;
       })
     },
     selectSelfInfo() {
@@ -184,6 +188,7 @@ export default {
           const messagePanel = document.querySelector('.message-panel');
           messagePanel.scrollTop = messagePanel.scrollHeight;
         });
+        this_vue.msg_loading = false;
       })
     },
     sendMsg() {
@@ -357,13 +362,12 @@ export default {
 }
 
 .message-panel {
-  left: 10px;
   height: 300px;
   border-top: 1px #ebebeb solid;
   border-bottom: 1px #ebebeb solid;
   overflow-y: scroll; /* 修改为overflow-y */
   overflow-x: hidden;
-  padding: 10px;
+
 }
 
 .input {

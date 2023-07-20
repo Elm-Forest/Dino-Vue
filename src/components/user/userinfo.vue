@@ -5,7 +5,7 @@
       <el-breadcrumb-item>个人管理</el-breadcrumb-item>
       <el-breadcrumb-item>个人信息</el-breadcrumb-item>
     </el-breadcrumb>
-    <div id="box">
+    <div id="box" v-loading="loading">
       <el-card class="box-card box-card2">
         <el-avatar :size="60" src="" id="headBox">
           <img src="" alt="" id="headImg1" @click="dialogVisible = true"/>
@@ -13,10 +13,10 @@
         <el-form id="form" style="text-align: center;">
           <div class="text item">
             <el-descriptions title="个人资料" :column="1">
-              <el-descriptions-item label="姓名">{{ name }}</el-descriptions-item>
-              <el-descriptions-item label="手机号">{{ phone }}</el-descriptions-item>
-              <el-descriptions-item label="居住地">{{ address }}</el-descriptions-item>
-              <el-descriptions-item label="性别">{{ sex_show }}</el-descriptions-item>
+              <el-descriptions-item label="姓名">{{ infoForm.name }}</el-descriptions-item>
+              <el-descriptions-item label="手机号">{{ infoForm.phone }}</el-descriptions-item>
+              <el-descriptions-item label="居住地">{{ infoForm.address }}</el-descriptions-item>
+              <el-descriptions-item label="性别">{{ infoForm.sex }}</el-descriptions-item>
               <el-descriptions-item label="职务">
                 <el-tag size="small">{{ role }}</el-tag>
               </el-descriptions-item>
@@ -56,18 +56,18 @@
     </div>
     <div>
       <el-dialog title="修改信息" :visible.sync="dialogFormVisible" width="35%">
-        <el-form ref="loginFormRef" :rules="loginFormRules">
+        <el-form ref="loginFormRef" :rules="loginFormRules" :model="infoForm">
           <el-form-item label="姓名" :label-width="formLabelWidth" prop="name">
-            <el-input v-model="name" autocomplete="off"></el-input>
+            <el-input v-model="infoForm.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="手机号" :label-width="formLabelWidth" prop="phone">
-            <el-input v-model="phone" autocomplete="off"></el-input>
+            <el-input v-model="infoForm.phone" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="通讯地址" :label-width="formLabelWidth" prop="address">
-            <el-input v-model="address" autocomplete="off"></el-input>
+            <el-input v-model="infoForm.address" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="性别" :label-width="formLabelWidth" value-key="id" prop="sex">
-            <el-select v-model="sex" placeholder="性别">
+            <el-select v-model="infoForm.sex" placeholder="性别">
               <el-option key=1 label="男" value=男></el-option>
               <el-option key=0 label="女" value=女></el-option>
             </el-select>
@@ -92,6 +92,7 @@ export default {
         ["男", 1],
         ["女", 0]
       ]),
+      loading: true,
       fileList: [],
       files: '',
       dialogImageUrl: '',
@@ -101,7 +102,6 @@ export default {
       dialogFormVisible: false,
       name: '',
       sex: '',
-      sex_show: '',
       address: '',
       phone: '',
       headImg: '',
@@ -109,6 +109,12 @@ export default {
       rights: '',
       roles: role_list,
       right: right_list,
+      infoForm: {
+        name: '',
+        sex: '',
+        address: '',
+        phone: '',
+      },
       loginFormRules: {
         name: [
           {required: true, message: '请输入您的真实姓名', trigger: 'blur'},
@@ -139,8 +145,8 @@ export default {
     };
   },
   mounted: function () {
-    this.getUserInfo();
     this.getUserHeadImg();
+    this.getUserInfo();
   },
   created() {
   },
@@ -220,12 +226,12 @@ export default {
         url: '/user/userinfo'
       }).then(function (response) {
         if (response.flag) {
-          this_vue.name = response.data.name;
-          this_vue.sex_show = this_vue.sex_dto[response.data.sex];
-          this_vue.sex = this_vue.sex_dto[response.data.sex];
-          this_vue.address = response.data.address;
-          this_vue.phone = response.data.phone;
-          this_vue.headImg = response.data.headImg;
+          this_vue.infoForm.name = response.data.name;
+          this_vue.infoForm.sex = this_vue.sex_dto[response.data.sex];
+          this_vue.infoForm.address = response.data.address;
+          this_vue.infoForm.phone = response.data.phone;
+          this_vue.infoForm.headImg = response.data.headImg;
+          this_vue.loading = false;
         }
       }).catch(function (error) {
         console.log(error);
@@ -246,10 +252,10 @@ export default {
             method: 'put',
             url: '/user/userinfo',
             params: {
-              'name': this.name,
-              'sex': this.sex_vo.get(this.sex),
-              'phone': this.phone,
-              'address': this.address,
+              'name': this.infoForm.name,
+              'sex': this.sex_vo.get(this.infoForm.sex),
+              'phone': this.infoForm.phone,
+              'address': this.infoForm.address,
             }
           }).then(function (response) {
             this_vue.dialogFormVisible = false;

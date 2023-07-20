@@ -15,7 +15,7 @@
         </el-col>
       </el-row>
       <!-- 用户列表区域 -->
-      <el-table :data="tableData" border stripe>
+      <el-table :data="tableData" v-loading="loading" border stripe>
         <template slot="empty">
           <el-empty :image-size="100" :description="emptyDesc"></el-empty>
         </template>
@@ -185,6 +185,7 @@ export default {
       cb(new Error('请输入合法的手机号'))
     };
     return {
+      loading: true,
       emptyDesc: '加载中...',
       // 角色选项
       optionRoles: [{
@@ -348,6 +349,7 @@ export default {
           this_vue.emptyDesc = "空空如也"
         }
         this_vue.tableData = response.data.recordList;
+        this_vue.loading = false;
       })
     },
     offerPass() {

@@ -39,10 +39,12 @@
               </el-dropdown>
             </el-form-item>
             <el-form-item label="修改者">
-              <el-input v-model="form.modifyName" placeholder="请输入修改人姓名" size="small" style="width: 150px"></el-input>
+              <el-input v-model="form.modifyName" placeholder="请输入修改人姓名" size="small"
+                        style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item label="文档名称">
-              <el-input v-model="form.documentName" placeholder="请输入文档名称" size="small" style="width: 150px"></el-input>
+              <el-input v-model="form.documentName" placeholder="请输入文档名称" size="small"
+                        style="width: 150px"></el-input>
             </el-form-item>
             <el-form-item label="操作时间">
               <el-date-picker
@@ -61,7 +63,7 @@
             </el-form-item>
           </el-form>
         </div>
-        <el-table :data="tableData4" stripe style="width: 100%">
+        <el-table :data="tableData4" stripe style="width: 100%" v-loading="loading">
           <el-table-column prop="operationTime" align="center" label="操作时间" width="150"
                            :formatter="transform"></el-table-column>
           <el-table-column prop="type" align="center" label="类型" width="150"
@@ -108,6 +110,7 @@ export default {
     return {
       folder,
       file,
+      loading: true,
       tableData4: [],
       form: {
         current: 1,
@@ -196,6 +199,9 @@ export default {
         this_vue.form.current_count = this_vue.form.size;
         this_vue.tableData4 = response.data.recordList;
         this_vue.form.total = response.data.count;
+        if (this_vue.loading){
+          this_vue.loading = false;
+        }
       })
     },
     getType(num) {

@@ -1,6 +1,6 @@
 <!-- 发送邮件 -->
 <template>
-  <div class='box'>
+  <div class='box' v-loading="loading">
     <div class="sBox" v-if="show">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/'+this.$store.state.rights+'/home' }">首页</el-breadcrumb-item>
@@ -65,6 +65,7 @@ export default {
   data() {
     return {
       editor: null,
+      loading: true,
       html: '<p>hello world</p>',
       toolbarConfig: {},
       editorConfig: {placeholder: '请输入内容...'},
@@ -106,6 +107,7 @@ export default {
         }
       }).then(function (response) {
         this_vue.contacts = JSON.parse(JSON.stringify(response.data).replace(/name/g, "value"));
+        this_vue.loading = false;
       })
     },
     createStateFilter(queryString) {

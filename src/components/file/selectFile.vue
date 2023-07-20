@@ -89,7 +89,7 @@
               multiple>
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-            <div class="el-upload__tip" slot="tip" style="margin-bottom: 10px">只能单个上传文件，且不超过100mb</div>
+            <div class="el-upload__tip" slot="tip" style="margin-bottom: 10px">只能上传单个文件，且不超过100mb</div>
           </el-upload>
           <el-button type="primary" @click="upload">上传</el-button>
 
@@ -127,7 +127,7 @@
           </el-form>
         </el-dialog>
         <!-- 列表区域 -->
-        <el-table :data="tableData4" style="width: 100%">
+        <el-table :data="tableData4" style="width: 100%" v-loading="loading">
           <el-table-column prop="type" align="center" label="类型" width="100">
             <template slot-scope="scope">
               <img alt="" style="width: 25px;height: 25px" :src="((ty)=>{
@@ -183,11 +183,12 @@
         <el-dialog
             title="重命名"
             :visible.sync="modifyDialogVisible"
-            width="50%">
+            width="25%"
+            style="text-align: center">
           <!-- 对话框主体区 -->
-          <el-form ref="modifyFormRef" label-width="auto">
-            <el-form-item label="文件名" prop="modifyName">
-              <el-input v-model="rename"></el-input>
+          <el-form ref="modifyFormRef" label-width="auto" :model="renameForm" :rules="renameFormValid">
+            <el-form-item label="文件名" prop="name">
+              <el-input v-model="renameForm.name"></el-input>
             </el-form-item>
           </el-form>
           <!-- 底部区 -->
@@ -228,6 +229,7 @@ export default {
           value: file
         }
       ],
+      loading: true,
       current: 1,
       size: 10,
       total: 50,
@@ -246,7 +248,14 @@ export default {
       tableData4: [],
       newFolderName: '',
       type: '1',
-      rename: '',
+      renameForm: {
+        name: ''
+      },
+      renameFormValid: {
+        name: [
+          {required: true, message: '请输入文件名称'},
+        ],
+      },
       name: '',
       form: {
         current: 1,
@@ -340,6 +349,9 @@ export default {
               this_vue.tableData4[i].size = size + ext;
             })
           }
+        }
+        if (this_vue.loading) {
+          this_vue.loading = false;
         }
       })
       this.backButton = this.path === '/home/';
@@ -498,11 +510,16 @@ export default {
     },
     reName() {
       const this_vue = this;
+      this.$refs.modifyFormRef.validate((valid) => {
+        if (valid) {
+          console.log()
+        }
+      })
       this.$axios({
         method: 'put',
         url: '/doc/name',
         params: {
-          'rename': this.rename,
+          'rename': this.renameForm.name,
           'type': this.type,
           'docId': this.docId
         }

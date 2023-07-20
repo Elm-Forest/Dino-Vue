@@ -112,7 +112,7 @@ export default {
     };
   },
   created() {
-    this.listLoading = false;
+    this.listLoading = true;
   },
   mounted() {
     const this_vue = this;
@@ -156,6 +156,7 @@ export default {
         _this.list2 = this.contentList.filter((ele, i) => {
           return i < 5;
         });
+        _this.listLoading = false;
       })
     },
     changepage(index) {

@@ -44,12 +44,12 @@
           <!-- 1.文档管理平台 -->
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-document"></i>
+              <i class="el-icon-upload"></i>
               <span>企业云盘</span>
             </template>
             <el-menu-item index="/super/selectFile">
               <i class="el-icon-folder-opened"></i>
-              <span>管理文件</span>
+              <span>文件管理</span>
             </el-menu-item>
             <el-menu-item index="/super/recycle">
               <i class="el-icon-delete"></i>
@@ -57,7 +57,7 @@
             </el-menu-item>
             <el-menu-item index="/super/record">
               <i class="el-icon-s-order"></i>
-              <span>文件操作日志</span>
+              <span>操作日志</span>
             </el-menu-item>
           </el-submenu>
           <!-- 2.消息管理平台 -->
@@ -67,15 +67,15 @@
               <span>企业邮箱</span>
             </template>
             <el-menu-item index="/super/add">
-              <i class="el-icon-right"></i>
+              <i class="el-icon-s-promotion"></i>
               <span>发邮件</span>
             </el-menu-item>
             <el-menu-item index="/super/fjx">
-              <i class="el-icon-edit-outline"></i>
+              <i class="el-icon-takeaway-box"></i>
               <span>发件箱</span>
             </el-menu-item>
             <el-menu-item index="/super/sjx">
-              <i class="el-icon-chat-dot-square"></i>
+              <i class="el-icon-reading"></i>
               <span>收件箱</span>
             </el-menu-item>
             <el-menu-item index="/super/cgx">
@@ -99,11 +99,11 @@
             </template>
             <el-menu-item index="/super/chat">
               <i class="el-icon-chat-line-round"></i>
-              <span>私信</span>
+              <span>企业私信</span>
             </el-menu-item>
             <el-menu-item index="/super/gpt">
-              <i class="el-icon-chat-line-round"></i>
-              <span>ChatGPT</span>
+              <i class="el-icon-cpu"></i>
+              <span>GPT助理</span>
             </el-menu-item>
           </el-submenu>
           <!-- 3.考勤管理平台 -->
@@ -118,10 +118,10 @@
             </el-menu-item>
             <el-menu-item index="/super/signTime">
               <i class="el-icon-setting"></i>
-              <span>考勤时间管理</span>
+              <span>考勤规则管理</span>
             </el-menu-item>
             <el-menu-item index="/super/approve">
-              <i class="el-icon-chat-dot-square"></i>
+              <i class="el-icon-s-check"></i>
               <span>员工申请审批</span>
             </el-menu-item>
           </el-submenu>
@@ -133,11 +133,11 @@
               <span>日程管理</span>
             </template>
             <el-menu-item index="/super/schedule">
-              <i class="el-icon-user"></i>
+              <i class="el-icon-s-order"></i>
               <span>我的日程</span>
             </el-menu-item>
             <el-menu-item index="/super/deptSchedule">
-              <i class="el-icon-more"></i>
+              <i class="el-icon-s-claim"></i>
               <span>部门日程</span>
             </el-menu-item>
           </el-submenu>
@@ -145,7 +145,7 @@
           <!-- 5.企业管理平台 -->
           <el-submenu index="6">
             <template slot="title">
-              <i class="el-icon-s-grid"></i>
+              <i class="el-icon-office-building"></i>
               <span>企业管理</span>
             </template>
             <el-menu-item index="/super/admUser">
@@ -153,22 +153,22 @@
               <span>成员管理</span>
             </el-menu-item>
             <el-menu-item index="/super/offer">
-              <i class="el-icon-office-building"/>
-              <span>offer管理</span>
+              <i class="el-icon-check"/>
+              <span>OFFER管理</span>
             </el-menu-item>
             <el-menu-item index="/super/company">
-              <i class="el-icon-office-building"/>
+              <i class="el-icon-edit-outline"/>
               <span>企业信息管理</span>
             </el-menu-item>
           </el-submenu>
 
           <el-submenu index="7">
             <template slot="title">
-              <i class="el-icon-user"></i>
+              <i class="el-icon-setting"></i>
               <span>个人管理</span>
             </template>
             <el-menu-item index="/super/userinfo">
-              <i class="el-icon-s-custom"/>
+              <i class="el-icon-user"/>
               <span>个人信息管理</span>
             </el-menu-item>
             <el-menu-item index="/super/account">

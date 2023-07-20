@@ -6,7 +6,7 @@
       <el-breadcrumb-item>私信</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="outer-wrapper">
-      <div class="wrapper">
+      <div class="wrapper" v-loading="loading">
         <div class="left_wrapper">
           <ul class="contact_list">
             <li v-for="contact in contactList" :key="contact.id" class="contact_item"
@@ -23,7 +23,7 @@
           <h3 style="text-align: center">
             {{ targetName }}
           </h3>
-          <div class="message-panel">
+          <div class="message-panel" v-loading="msg_loading">
             <msg-box v-for="(item, index) of msgList" :key="index+Math.random()" :uname="item.name" :content="item.msg"
                      :isself="item.isSelf" :headImg="(function() {
                        return item.isSelf?selfUrl:targetUrl
@@ -55,6 +55,8 @@ export default {
   data() {
     return {
       content: 'hh',
+      loading: true,
+      msg_loading: false,
       selfName: '',
       selfUrl: '',
       targetName: '选择联系人',
@@ -74,17 +76,18 @@ export default {
   mounted() {
     this.socket = this.$websocket.initWebSocket('/connection/chat');
     this.socket.onmessage = this.webSocketOnMessage;
-    this.getConnectorLists();
-    this.selectSelfInfo();
     if (this.$route.query.suId !== undefined) {
       this.handleContactClick(this.$route.query.suId)
     }
+    this.selectSelfInfo();
+    this.getConnectorLists();
   },
   methods: {
     handleContactClick(id) {
       this.msgList = [];
       this.msg = null;
       this.targetId = id;
+      this.msg_loading = true;
       this.setConnector();
       this.selectChatInfo();
       this.button_disable = false;
@@ -96,6 +99,7 @@ export default {
         url: '/message/chat/connector/lists',
       }).then(res => {
         this_vue.contactList = res.data;
+        this_vue.loading = false;
       })
     },
     setConnector() {
@@ -142,7 +146,9 @@ export default {
         this_vue.$nextTick(() => {
           const messagePanel = document.querySelector('.message-panel');
           messagePanel.scrollTop = messagePanel.scrollHeight;
+          this_vue.msg_loading = false;
         });
+
       })
     },
     sendMsg() {
@@ -262,13 +268,11 @@ export default {
 }
 
 .message-panel {
-  left: 10px;
   height: 300px;
   border-top: 1px #ebebeb solid;
   border-bottom: 1px #ebebeb solid;
   overflow-y: scroll; /* 修改为overflow-y */
   overflow-x: hidden;
-  padding: 10px;
 }
 
 .input {

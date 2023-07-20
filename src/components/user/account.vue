@@ -5,7 +5,7 @@
       <el-breadcrumb-item>个人管理</el-breadcrumb-item>
       <el-breadcrumb-item>账号管理</el-breadcrumb-item>
     </el-breadcrumb>
-    <div id="box">
+    <div id="box" v-loading="loading">
       <el-card class="box-card box-card2">
         <div slot="header">账号信息</div>
         <el-form id="form" style="">
@@ -78,6 +78,7 @@ export default {
       defaultPwd: '************',
       fileList: [],
       files: '',
+      loading: true,
       dialogImageUrl: '',
       formLabelWidth: '80px',
       dialogVisible2: false,
@@ -162,6 +163,7 @@ export default {
           this_vue.regTime = response.data.regTime.replace(/T|\.\d+\+\d{2}:\d{2}/g, ' ');
           this_vue.lastTime = response.data.lastTime.replace(/T|\.\d+\+\d{2}:\d{2}/g, ' ');
           this_vue.email = response.data.email;
+          this_vue.loading = false;
         }
       })
     },
