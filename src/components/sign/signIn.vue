@@ -151,7 +151,7 @@ export default {
 }
 
 .transition-container {
-  margin-top: 200px;
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;

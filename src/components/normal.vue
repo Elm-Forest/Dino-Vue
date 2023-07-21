@@ -79,8 +79,22 @@
               <span>邮箱账户</span>
             </el-menu-item>
           </el-submenu>
-          <!-- 3.考勤管理平台 -->
           <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-chat-dot-round"></i>
+              <span>企业消息</span>
+            </template>
+            <el-menu-item index="/normal/chat">
+              <i class="el-icon-chat-line-round"></i>
+              <span>企业私信</span>
+            </el-menu-item>
+            <el-menu-item index="/normal/gpt">
+              <i class="el-icon-cpu"></i>
+              <span>GPT助理</span>
+            </el-menu-item>
+          </el-submenu>
+          <!-- 3.考勤管理平台 -->
+          <el-submenu index="4">
             <template slot="title">
               <i class="el-icon-circle-check"></i>
               <span>考勤</span>
@@ -100,7 +114,7 @@
           </el-submenu>
 
           <!-- 4.日程管理平台 -->
-          <el-submenu index="4">
+          <el-submenu index="5">
             <template slot="title">
               <i class="el-icon-date"></i>
               <span>日程</span>
@@ -114,7 +128,7 @@
               <span>部门日程</span>
             </el-menu-item>
           </el-submenu>
-          <el-submenu index="5">
+          <el-submenu index="6">
             <template slot="title">
               <i class="el-icon-user"></i>
               <span>个人管理</span>

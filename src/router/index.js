@@ -70,6 +70,8 @@ const routes = [
             {path: '/normal/bindMailbox', component: bindMailbox},
             {path: '/normal/schedule', component: schedule},
             {path: '/normal/deptSchedule', component: userDeptSchedule},
+            {path: '/normal/chat', component: chatRoom},
+            {path: '/normal/gpt', component: gpt},
         ]
     },
     //部门管理员
@@ -92,6 +94,8 @@ const routes = [
             {path: '/admin/schedule', component: schedule},
             {path: '/admin/deptSchedule', component: deptSchedule},
             {path: '/admin/offer', component: adminOffer},
+            {path: '/admin/chat', component: chatRoom},
+            {path: '/admin/gpt', component: gpt},
         ]
     },
     //超级管理员
